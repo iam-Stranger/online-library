@@ -1,4 +1,4 @@
-package entity;
+package by.loiko.library.entity;
 
 import java.util.Objects;
 
@@ -7,7 +7,7 @@ import java.util.Objects;
  Date: 14.12.2017
  ***/
 public class User extends Entity {
-    private long userId;
+    private long id;
     private String login;
     private String password;
     private String email;
@@ -19,8 +19,8 @@ public class User extends Entity {
     public User() {
     }
 
-    public User(long userId, String login, String password, String email, String firstName, String lastName, int roleId, boolean enabled) {
-        this.userId = userId;
+    public User(long id, String login, String password, String email, String firstName, String lastName, int roleId, boolean enabled) {
+        this.id = id;
         this.login = login;
         this.password = password;
         this.email = email;
@@ -30,12 +30,12 @@ public class User extends Entity {
         this.enabled = enabled;
     }
 
-    public long getUserId() {
-        return userId;
+    public long getId() {
+        return id;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getLogin() {
@@ -99,7 +99,7 @@ public class User extends Entity {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return userId == user.userId &&
+        return id == user.id &&
                 roleId == user.roleId &&
                 enabled == user.enabled &&
                 Objects.equals(login, user.login) &&
@@ -112,13 +112,13 @@ public class User extends Entity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(userId, login, password, email, firstName, lastName, roleId, enabled);
+        return Objects.hash(id, login, password, email, firstName, lastName, roleId, enabled);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +

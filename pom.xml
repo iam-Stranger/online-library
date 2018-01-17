@@ -20,9 +20,9 @@
 
     <modules>
         <module>entity</module>
-        <module>web</module>
         <module>dao</module>
         <module>service</module>
+        <module>web</module>
     </modules>
 
     <build>

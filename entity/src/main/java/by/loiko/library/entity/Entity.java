@@ -1,4 +1,4 @@
-package entity;
+package by.loiko.library.entity;
 
 /***
  Author: Aliaksei Loika
