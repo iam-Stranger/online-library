@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <head>
-    <title>Start page</title>
+    <title>Start</title>
 </head>
 <body>
 <c:redirect url="controller?command=go_to_page"/>

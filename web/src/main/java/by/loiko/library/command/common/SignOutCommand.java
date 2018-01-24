@@ -8,15 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 
 /***
  Author: Aliaksei Loika
- Date: 14.01.2018
+ Date: 12.01.2018
  ***/
-public class WrongCommand implements Command {
+public class SignOutCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
 
-        router.setPagePath(PageConstant.ERROR_PAGE);
-        request.setAttribute("message", "Wrong command");
+        //request.getSession().removeAttribute("user");
+
+        request.getSession().invalidate();
+
+        router.setPagePath(PageConstant.INDEX_PAGE);
 
         return router;
     }

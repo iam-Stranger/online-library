@@ -32,16 +32,16 @@ public class UserReceiverImpl implements UserReceiver {
     @Override
     public User findUser(String login, String password) throws ReceiverException {
 
-        if (login.equals("") || password.equals("")) {
+        if ("".equals(login) || "".equals(password) || login == null || password == null) {
             throw new ReceiverException("login or password is empty");
         }
 
         User user;
         try {
             UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
-            user = userDAO.findUser(login, password);
+            user = userDAO.findUserByLoginAndPassword(login, password);
         } catch (DAOException e) {
-            throw new ReceiverException("findUser command wasn't executed: ", e);
+            throw new ReceiverException("findUserByLoginAndPassword command wasn't executed: ", e);
         }
 
         if (user == null) {

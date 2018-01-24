@@ -1,5 +1,7 @@
 package by.loiko.library.controller;
 
+import by.loiko.library.command.PageConstant;
+
 /***
  Author: Aliaksei Loika
  Date: 29.12.2017
@@ -9,7 +11,7 @@ public class Router {
         FORWARD, REDIRECT
     }
 
-    private String pagePath;
+    private String pagePath = PageConstant.INDEX_PAGE;
     private RouteType routeType;
 
     public Router() {

@@ -7,6 +7,7 @@
 </head>
 <body>
 
+<jsp:include page="${pageContext.request.contextPath}/jsp/include/common_imports.jspf"/>
 
     <h1>
         Your error : <c:out value="${message}"/>

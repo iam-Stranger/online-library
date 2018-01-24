@@ -19,12 +19,16 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
 
     @Override
-    public void init() throws ServletException {
-        super.init();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Router router;
 
         Command command = CommandProvider.getInstance().getCommand(request);
@@ -32,6 +36,7 @@ public class Controller extends HttpServlet {
         router = command.execute(request);
         switch (router.getRouteType()) {
             case FORWARD:
+                //
                 request.getRequestDispatcher(router.getPagePath()).forward(request, response);
                 break;
             case REDIRECT:
@@ -41,8 +46,4 @@ public class Controller extends HttpServlet {
 
     }
 
-    @Override
-    public void destroy() {
-        super.destroy();
-    }
 }

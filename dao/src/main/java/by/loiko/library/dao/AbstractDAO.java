@@ -18,7 +18,7 @@ public interface AbstractDAO<T extends Entity> {
 
     ArrayList<T> findAll() throws DAOException;
 
-    T findEntityById() throws DAOException;
+    T findEntityById(long id) throws DAOException;
 
     void deleteEntityById(long id) throws DAOException;
 

@@ -5,14 +5,11 @@ import by.loiko.library.entity.User;
 import by.loiko.library.exception.DAOException;
 import by.loiko.library.pool.ConnectionPool;
 import by.loiko.library.pool.ProxyConnection;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 /***
  Author: Aliaksei Loika
@@ -28,12 +25,12 @@ public class MySQLUserDAO implements UserDAO {
     @Override
     public ArrayList<User> findAll() throws DAOException {
         ArrayList<User> userList = new ArrayList<>(); // ??????
-        ProxyConnection connection = null;
+        ProxyConnection proxyConnection = null;
         PreparedStatement statement = null;
 
         try {
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.prepareStatement(FIND_ALL_USERS);
+            proxyConnection = ConnectionPool.getInstance().getConnection();
+            statement = proxyConnection.prepareStatement(FIND_ALL_USERS);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 userList.add(buildUser(resultSet));
@@ -42,14 +39,14 @@ public class MySQLUserDAO implements UserDAO {
             throw new DAOException("Error in findAll method ", e);
         } finally {
             close(statement);
-            releaseConnection(connection);
+            releaseConnection(proxyConnection);
         }
 
         return userList;
     }
 
     @Override
-    public User findEntityById() throws DAOException {
+    public User findEntityById(long id) throws DAOException {
         return null;
     }
 
@@ -59,14 +56,14 @@ public class MySQLUserDAO implements UserDAO {
     }
 
     @Override
-    public User findUser(String login, String password) throws DAOException {
+    public User findUserByLoginAndPassword(String login, String password) throws DAOException {
         User user = null;
-        ProxyConnection connection = null;
+        ProxyConnection proxyConnection = null;
         PreparedStatement statement = null;
 
         try {
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.prepareStatement(FIND_USER_BY_LOGIN_AND_PASSWORD);
+            proxyConnection = ConnectionPool.getInstance().getConnection();
+            statement = proxyConnection.prepareStatement(FIND_USER_BY_LOGIN_AND_PASSWORD);
             statement.setString(1, login);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
@@ -76,10 +73,10 @@ public class MySQLUserDAO implements UserDAO {
             }
 
         } catch (SQLException e) {
-            throw new DAOException("Error in findUser method: ", e);
+            throw new DAOException("Error in findUserByLoginAndPassword method: ", e);
         } finally {
             close(statement);
-            releaseConnection(connection);
+            releaseConnection(proxyConnection);
         }
 
         return user;
@@ -93,9 +90,9 @@ public class MySQLUserDAO implements UserDAO {
     private User buildUser(ResultSet resultSet) throws SQLException {
         User user = new User();
 
-        user.setId(resultSet.getInt("id"));
+        user.setId(resultSet.getLong("id"));
         user.setLogin(resultSet.getString("login"));
-        user.setPassword(resultSet.getString("password"));  // ????
+        // user.setPassword(resultSet.getString("password"));  // Hmmm..
         user.setEmail(resultSet.getString("email"));
         user.setFirstName(resultSet.getString("firstname"));
         user.setLastName(resultSet.getString("lastname"));
