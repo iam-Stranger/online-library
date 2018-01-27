@@ -33,7 +33,7 @@ public class SignInCommand implements Command {
             HttpSession session = request.getSession();
             session.setAttribute(USER_PARAM, user);
 
-            request.setAttribute(USER_PARAM, user);
+            //request.setAttribute(USER_PARAM, user);
             router.setPagePath(PAGE);
         } catch (ReceiverException e) {
             // go to error page

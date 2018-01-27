@@ -36,7 +36,7 @@ public class Controller extends HttpServlet {
         router = command.execute(request);
         switch (router.getRouteType()) {
             case FORWARD:
-                //
+                //request.getSession().setAttribute("url", request.getHeader("referer"));
                 request.getRequestDispatcher(router.getPagePath()).forward(request, response);
                 break;
             case REDIRECT:

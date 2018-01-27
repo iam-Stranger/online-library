@@ -1,34 +1,37 @@
-package by.loiko.library.command.user;
+package by.loiko.library.command.admin;
 
 import by.loiko.library.command.Command;
 import by.loiko.library.command.PageConstant;
 import by.loiko.library.controller.Router;
-import by.loiko.library.entity.Book;
+import by.loiko.library.entity.User;
 import by.loiko.library.exception.ReceiverException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 
 /***
  Author: Aliaksei Loika
- Date: 23.01.2018
+ Date: 25.01.2018
  ***/
-public class ShowBasketCommand implements Command {
-    private static final String BOOK_ID_ARRAY_PARAM = "items";
-    private static final String BOOK_LIST_PARAM = "book_list";
+public class EditUserInfoCommand implements Command {
+    private static final String USER_ID_PARAM = "id";
+    private static final String USER_PARAM = "user";
 
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
 
-        String[] bookIdArray;
-
-        bookIdArray = request.getParameterValues(BOOK_ID_ARRAY_PARAM);
-
+        long userId;
         try {
-            ArrayList<Book> booksList = factory.getBookReceiver().findBooksByArrayOfId(bookIdArray);
-            request.setAttribute(BOOK_LIST_PARAM, booksList);
-            router.setPagePath(PageConstant.SHOW_BASKET);
+            userId = Long.valueOf(request.getParameter(USER_ID_PARAM));
+        } catch (NumberFormatException e) {
+            userId = 0;
+        }
+
+        try{
+            User user = factory.getUserReceiver().findUserById(userId);
+            request.setAttribute(USER_PARAM, user);
+            router.setPagePath(PageConstant.EDIT_USER_FORM);
+
         } catch (ReceiverException e) {
             request.setAttribute("message", e.getMessage());
             router.setPagePath(PageConstant.ERROR_PAGE);

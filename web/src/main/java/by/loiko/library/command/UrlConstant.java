@@ -12,4 +12,5 @@ public class UrlConstant {
     public static final String SHOW_ALL_BOOKS = "controller?command=show_all_books";
 
     public static final String SHOW_ALL_USERS = "controller?command=show_all_users";
+    public static final String SHOW_HISTORY_ORDERS = "controller?command=show_history_orders";
 }

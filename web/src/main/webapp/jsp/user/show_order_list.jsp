@@ -7,7 +7,7 @@
 
 <html>
 <head>
-    <title><fmt:message key="basket.name" bundle="${loc}"/></title>
+    <title><fmt:message key="booklist_order.name" bundle="${loc}"/></title>
 
 </head>
 <body>
@@ -24,7 +24,7 @@
         <input type="hidden" name="command" value="go_to_page"/>
         <div class="card" style="width: 100%;">
             <div class="card-block">
-                <h5 class="card-header"><fmt:message key="basket.name" bundle="${loc}"/></h5>
+                <h5 class="card-header"><fmt:message key="booklist_order.name" bundle="${loc}"/></h5>
                 <div class="card-text">
 
                     <table class="table table-bordered table-hover table-responsive table-sm" width="100%">
@@ -42,7 +42,7 @@
                                 <td>${book.publishYear}</td>
                                 <td>${book.realAmount}</td>
                                 <td><a href="/controller?command=show_book_info&id=${book.id}" rel="modal:open"
-                                       class="btn btn-outline-primary"><i class="">i</i></a></td>
+                                       class="btn btn-sm btn-outline-primary"><i class="">i</i></a></td>
                                 <td>
                                     <input type="checkbox" name="items" value="${book.id}"/>
                                 </td>
@@ -52,7 +52,7 @@
                     </table>
                 </div>
                 <div class="card-footer text-right">
-                    <button class="btn btn-primary my-2 my-sm-0" type="submit"><fmt:message key="basket.button.order" bundle="${loc}"/></button>
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit"><fmt:message key="booklist_order.button.order" bundle="${loc}"/></button>
 
                 </div>
             </div>

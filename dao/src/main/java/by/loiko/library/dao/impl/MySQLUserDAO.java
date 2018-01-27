@@ -20,7 +20,7 @@ public class MySQLUserDAO implements UserDAO {
 
     private final static String FIND_ALL_USERS = "SELECT * FROM user";
     private final static String FIND_USER_BY_ID = "SELECT * FROM user WHERE id = ?";
-    private final static String FIND_USER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE login = ? AND password = ?";
+    private final static String FIND_USER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE deleted = 0 AND login = ? AND password = ?";
 
     @Override
     public ArrayList<User> findAll() throws DAOException {
@@ -47,12 +47,35 @@ public class MySQLUserDAO implements UserDAO {
 
     @Override
     public User findEntityById(long id) throws DAOException {
-        return null;
+        User user = null;
+        ProxyConnection proxyConnection = null;
+        PreparedStatement statement = null;
+
+        try {
+            proxyConnection = ConnectionPool.getInstance().getConnection();
+            statement = proxyConnection.prepareStatement(FIND_USER_BY_ID);
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                user = buildUser(resultSet);
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Error in findUserById method: ", e);
+        }
+
+        return user;
     }
 
     @Override
     public void deleteEntityById(long id) throws DAOException {
 
+    }
+
+    @Override
+    public ArrayList<User> findEntitiesByArrayOfId(ArrayList<Long> idList) throws DAOException {
+        return null;
     }
 
     @Override
@@ -97,7 +120,7 @@ public class MySQLUserDAO implements UserDAO {
         user.setFirstName(resultSet.getString("firstname"));
         user.setLastName(resultSet.getString("lastname"));
         user.setRoleId(resultSet.getInt("role_id"));
-        user.setEnabled(resultSet.getBoolean("enabled"));
+        user.setDeleted(resultSet.getBoolean("deleted"));
 
         return user;
     }

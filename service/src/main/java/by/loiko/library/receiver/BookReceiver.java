@@ -9,7 +9,7 @@ import java.util.ArrayList;
  Author: Aliaksei Loika
  Date: 29.12.2017
  ***/
-public interface BookReceiver {
+public interface BookReceiver extends AbstractReceiver {
 
     ArrayList<Book> findBookByTitle(String title) throws ReceiverException;
 

@@ -32,17 +32,17 @@
 <div class="gradient-overlay py-3" style="background-image: url(&quot;${abs_path}/images/background.png&quot;);">
     <div class="container py-0">
         <div class="row align-items-baseline">
-            <div class="col-md-5 my-header">
+            <div class="col-md-7 my-header">
                 <h1 class="text-left"><b>${proj_name_p1}</b>${proj_name_p2}</h1>
             </div>
-            <div class="col-md-5 text-white my-header">
+            <%--<div class="col-md-5 text-white my-header">--%>
                 <%--<h5><c:out value="${hello_message}"/> ${user.firstName} ${user.lastName} [<a--%>
                         <%--href="${abs_path}/controller?command=sign_out">${exit}</a>]<br/>--%>
                 <%--</h5>--%>
-            </div>
-            <div class="col-md-2 text-white text-center">
+            <%--</div>--%>
+            <div class="col-md-5 text-white text-center">
 
-                <form action="controller" method="post">
+                <form action="/controller" method="post">
                     <input type="hidden" name="command" value="change_locale">
                     <input type="submit" class="btn btn-primary" value="${curr_lang}">
                 </form>

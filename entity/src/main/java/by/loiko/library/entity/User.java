@@ -14,12 +14,12 @@ public class User extends Entity {
     private String firstName;
     private String lastName;
     private int roleId;
-    private boolean enabled;
+    private boolean deleted;
 
     public User() {
     }
 
-    public User(long id, String login, String password, String email, String firstName, String lastName, int roleId, boolean enabled) {
+    public User(long id, String login, String password, String email, String firstName, String lastName, int roleId, boolean deleted) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -27,7 +27,7 @@ public class User extends Entity {
         this.firstName = firstName;
         this.lastName = lastName;
         this.roleId = roleId;
-        this.enabled = enabled;
+        this.deleted = deleted;
     }
 
     public long getId() {
@@ -86,12 +86,12 @@ public class User extends Entity {
         this.roleId = roleId;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public boolean isDeleted() {
+        return deleted;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override
@@ -101,7 +101,7 @@ public class User extends Entity {
         User user = (User) o;
         return id == user.id &&
                 roleId == user.roleId &&
-                enabled == user.enabled &&
+                deleted == user.deleted &&
                 Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
@@ -112,7 +112,7 @@ public class User extends Entity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, login, password, email, firstName, lastName, roleId, enabled);
+        return Objects.hash(id, login, password, email, firstName, lastName, roleId, deleted);
     }
 
     @Override
@@ -125,7 +125,7 @@ public class User extends Entity {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", roleId=" + roleId +
-                ", enabled=" + enabled +
+                ", deleted=" + deleted +
                 '}';
     }
 }

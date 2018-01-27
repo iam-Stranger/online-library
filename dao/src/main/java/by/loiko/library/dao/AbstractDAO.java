@@ -22,6 +22,18 @@ public interface AbstractDAO<T extends Entity> {
 
     void deleteEntityById(long id) throws DAOException;
 
+    ArrayList<T> findEntitiesByArrayOfId(ArrayList<Long> idList) throws DAOException;
+    /// !!!!
+
+    default String createINExpression(ArrayList<Long> idList) {
+        StringBuilder expression = new StringBuilder().append(" AND id IN (");
+        for (int i = 0; i < idList.size() - 1; i++) {
+            expression.append("?, ");
+        }
+        expression.append("?)");
+
+        return expression.toString();
+    }
 
     /*Gets connection back to connection pool*/
     default void releaseConnection(ProxyConnection connection) {

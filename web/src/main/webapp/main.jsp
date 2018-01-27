@@ -16,7 +16,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Main page</div>
 
-                <form action="controller" method="post">
+                <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_all_users">
                     <input type="submit" value="Get all users list"/>
                 </form>
@@ -24,7 +24,7 @@
                 <br/>
 
 
-                <form action="controller" method="post">
+                <form action="controller" method="get">
                     <input type="hidden" name="command" value="to_find_book_page">
                     <input type="submit" value="Find book"/>
                 </form>

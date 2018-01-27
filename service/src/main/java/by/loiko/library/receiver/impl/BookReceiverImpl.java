@@ -47,7 +47,7 @@ public class BookReceiverImpl implements BookReceiver {
         ArrayList<Book> booksList;
         try {
             BookDAO bookDAO = DAOFactory.getInstance().getBookDAO();
-            booksList = bookDAO.findBooksByArrayOfId(idList);
+            booksList = bookDAO.findEntitiesByArrayOfId(idList);
         } catch (DAOException e) {
             throw new ReceiverException("findBooksByArrayOfId command wasn't executed: ", e);
         }
@@ -85,22 +85,6 @@ public class BookReceiverImpl implements BookReceiver {
     @Override
     public void addNewBook(String title, int publishYear, int amount) throws ReceiverException {
 
-    }
-
-    private ArrayList<Long> validateArrayOfId(String[] idArray) {
-
-        ArrayList<Long> idList = new ArrayList<>();
-
-        for (String id : idArray) {
-            try {
-                long bookId = Long.parseLong(id);
-                idList.add(bookId);
-            } catch (NumberFormatException e) {
-                // log and just pass this value
-            }
-        }
-
-        return idList;
     }
 
 }

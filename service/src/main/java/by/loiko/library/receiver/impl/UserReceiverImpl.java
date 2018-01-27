@@ -52,6 +52,28 @@ public class UserReceiverImpl implements UserReceiver {
     }
 
     @Override
+    public User findUserById(long id) throws ReceiverException {
+        if (id <= 0) {
+            throw new ReceiverException("User ID is incorrect");
+        }
+
+        User user;
+
+        try {
+            UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
+            user = userDAO.findEntityById(id);
+        } catch (DAOException e) {
+            throw new ReceiverException("findUserById command error: ", e);
+        }
+
+        if (user == null) {
+            throw new ReceiverException("User with this id is not found");
+        }
+
+        return user;
+    }
+
+    @Override
     public boolean signIn(String login, String password) throws ReceiverException {
         return false;
     }

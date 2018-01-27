@@ -13,7 +13,6 @@ public interface BookDAO extends AbstractDAO<Book> {
 
     ArrayList<Book> findBooksByTitle(String title) throws DAOException; // List<Book> ??
 
-    ArrayList<Book> findBooksByArrayOfId(ArrayList<Long> idList) throws DAOException;
 
     void addNewBook(String title, int publishYear, int amount) throws DAOException;
 

@@ -27,7 +27,7 @@ public class ConnectionPool {
     private static ReentrantLock lock = new ReentrantLock();
     private BlockingQueue<ProxyConnection> queue;
 
-    private final int DEF_POOL_SIZE = 10;
+    private final int DEF_POOL_SIZE = 20;
 
 
     private ConnectionPool() {
@@ -120,6 +120,6 @@ public class ConnectionPool {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        throw new CloneNotSupportedException(); /// ????
+        throw new CloneNotSupportedException();
     }
 }

@@ -1,9 +1,11 @@
 package by.loiko.library.command;
 
+import by.loiko.library.command.admin.EditUserInfoCommand;
 import by.loiko.library.command.admin.ShowAllUsersCommand;
+import by.loiko.library.command.admin.ShowHistoryOrders;
 import by.loiko.library.command.common.*;
 import by.loiko.library.command.navigate.ToFindBookPageCommand;
-import by.loiko.library.command.user.ShowBasketCommand;
+import by.loiko.library.command.user.ShowOrderListCommand;
 import by.loiko.library.command.user.ShowBookInfoCommand;
 import by.loiko.library.command.user.ShowFindBooksCommand;
 
@@ -22,9 +24,12 @@ public enum CommandName {
     SHOW_BOOK_INFO(new ShowBookInfoCommand()),
     SHOW_FIND_BOOKS(new ShowFindBooksCommand()),
 
-    SHOW_BASKET(new ShowBasketCommand()),
+    SHOW_ORDER_LIST(new ShowOrderListCommand()),
 
+    EDIT_USER_INFO(new EditUserInfoCommand()),
     SHOW_ALL_USERS(new ShowAllUsersCommand()),
+    SHOW_HISTORY_ORDERS(new ShowHistoryOrders()),
+
     WRONG_COMMAND(new WrongCommand()),
 
     TO_FIND_BOOK_PAGE(new ToFindBookPageCommand());

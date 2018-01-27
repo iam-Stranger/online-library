@@ -106,7 +106,7 @@ public class MySQLBookDAO implements BookDAO {
     }
 
     @Override
-    public ArrayList<Book> findBooksByArrayOfId(ArrayList<Long> idList) throws DAOException {
+    public ArrayList<Book> findEntitiesByArrayOfId(ArrayList<Long> idList) throws DAOException {
         ArrayList<Book> booksList = new ArrayList<>();
         ProxyConnection proxyConnection = null;
         PreparedStatement statement = null;
@@ -114,17 +114,15 @@ public class MySQLBookDAO implements BookDAO {
         try {
             proxyConnection = ConnectionPool.getInstance().getConnection();
 
-            String wildcards = createParamExpression(idList);
+            String wildcards = createINExpression(idList);
             statement = proxyConnection.prepareStatement(FIND_BOOKS_BY_ARRAY_OF_ID + wildcards);
-
-            System.out.println(FIND_BOOKS_BY_ARRAY_OF_ID + wildcards);
             for (int i = 0; i < idList.size(); i++) {
                 statement.setLong(i + 1, idList.get(i));
             }
+
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                // System.out.println(buildBook(resultSet));
                 booksList.add(buildBook(resultSet));
             }
 
@@ -157,16 +155,5 @@ public class MySQLBookDAO implements BookDAO {
         book.setDeleted(resultSet.getBoolean("deleted"));
 
         return book;
-    }
-
-    private String createParamExpression(ArrayList<Long> idList) {
-
-        StringBuffer expression = new StringBuffer().append(" AND id IN (");
-        for (int i = 0; i < idList.size() - 1; i++) {
-            expression.append("?, ");
-        }
-        expression.append("?)");
-
-        return expression.toString();
     }
 }
