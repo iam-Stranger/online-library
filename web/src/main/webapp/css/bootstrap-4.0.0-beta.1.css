@@ -4354,7 +4354,7 @@ strong {
 }
 
 small {
-    font-size: 80%;
+    font-size: 67%;
 }
 
 sub,
@@ -4587,7 +4587,7 @@ template {
 .table th,
 .table td {
     /*padding: 0.75rem;*/
-    padding: 0.3rem;
+    padding: 0.2rem;
     vertical-align: center;
     border-top: 1px solid #e9ecef;
 }
@@ -5027,7 +5027,7 @@ hr {
 
 small,
 .small {
-    font-size: 80%;
+    font-size: 67%;
     font-weight: normal;
 }
 
@@ -6238,12 +6238,24 @@ a.bg-dark:focus, a.bg-dark:hover {
     clip-path: none;
 }
 
+.w-10 {
+    width: 10% !important;
+}
+
+.w-15 {
+    width: 15% !important;
+}
+
 .w-25 {
     width: 25% !important;
 }
 
 .w-50 {
     width: 50% !important;
+}
+
+.w-65 {
+    width: 65% !important;
 }
 
 .w-75 {
@@ -8084,4 +8096,9 @@ body > * {
 
 .divider-vertical {
     margin: 0 16px;
+}
+
+.shadow {
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }

@@ -11,14 +11,14 @@
 <body>
 
 <c:import url="${pageContext.request.contextPath}/jsp/include/header.jsp"/>
-
 <%--is-invalid--%>
 
-<div class="container col-md-4">
+<div class="container col-lg-4">
 
     <form class="form" action="${abs_path}/controller" method="get">
-        <input type="hidden" name="command" value="save_user_changes">
-        <div class="card">
+        <input type="hidden" name="command" value="validate_info_edit_user">
+        <input type="hidden" name="id" value="${user.id}">
+        <div class="card shadow">
             <div class="card-block">
                 <h5 class="card-header"><fmt:message key="user.edit_user"/></h5>
                 <div class="card-text m-2">
@@ -26,9 +26,9 @@
                         <div class="form-group row">
                             <label class="col-form-label col-3" for="firstname"><fmt:message key="user.first_name"/></label>
                             <div class="col-9">
-                                <input class="form-control " id="firstname" value="${user.firstName}" name="firstname"
-                                       type="text" placeholder="James" required="" pattern="[A-ZА-Я]{1}[a-zа-я]{2,20}">
-                                <%--<span class="badge badge-pill badge-danger">check your login</span>--%>
+                                <input data-toggle="tooltip" class="form-control " id="firstname" value="${user.firstName}" name="firstname"
+                                       type="text" required="" pattern="[A-ZА-Я]{1}[a-zа-я]{2,20}">
+                                <span class="form-text small text-muted"><fmt:message key="tips.user.firstname"/></span>
                             </div>
                         </div>
 
@@ -36,7 +36,8 @@
                             <label class="col-form-label col-3" for="lastname"><fmt:message key="user.last_name"/></label>
                             <div class="col-9">
                                 <input class="form-control" id="lastname" value="${user.lastName}" name="lastname"
-                                       type="text" placeholder="Bond" required="" pattern="[A-ZА-Я]{1}[a-zа-я]{3,20}">
+                                       type="text" required="" pattern="[A-ZА-Я]{1}[a-zа-я]{3,20}">
+                                <span class="form-text small text-muted"><fmt:message key="tips.user.lastname"/></span>
                             </div>
                         </div>
 
@@ -44,7 +45,8 @@
                             <label class="col-form-label col-3" for="login"><fmt:message key="user.login"/></label>
                             <div class="col-9">
                                 <input class="form-control" id="login" value="${user.login}" name="login" type="text"
-                                       placeholder="sUper12" required="" pattern="[a-zA-Zа-яА-Я]{1}[a-zA-Zа-яА-Я\d]{3,11}">
+                                       required="" pattern="[a-zA-Z]{1}[a-zA-Z\d]{3,19}">
+                                <span class="form-text small text-muted"><fmt:message key="tips.user.login"/></span>
                             </div>
                         </div>
 
@@ -79,12 +81,13 @@
                             <label class="col-form-label col-3" for="email"><fmt:message key="user.email"/></label>
                             <div class="col-9">
                                 <input class="form-control" id="email" value="${user.email}" name="email" type="text"
-                                       placeholder="user@my.com" required="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+                                       required="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+                                <span class="form-text small text-muted"><fmt:message key="tips.user.email"/></span>
                             </div>
                         </div>
 
                         <c:choose>
-                            <c:when test="${user.deleted eq 'true'}">
+                            <c:when test="${user.isDeleted eq 'true'}">
                                 <c:set var="bool" value="1"/>
                             </c:when>
                             <c:otherwise>
@@ -98,8 +101,7 @@
                                     <c:forEach var="j" begin="0" end="1">
                                         <c:choose>
                                             <c:when test="${j == bool}">
-                                                <option value="${j}" selected><fmt:message
-                                                        key="user.status.${j}"/></option>
+                                                <option value="${j}" selected><fmt:message key="user.status.${j}"/></option>
                                             </c:when>
                                             <c:otherwise>
                                                 <option value="${j}"><fmt:message key="user.status.${j}"/></option>

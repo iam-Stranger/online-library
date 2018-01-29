@@ -6,4 +6,6 @@
 
 <link href="../../css/jquery.modal.css" rel="stylesheet" type="text/css"/>
 
+<link href="../../font/css/fontawesome-all.css" rel="stylesheet" type="text/css"/>
+
 <script type="text/javascript" src="../../js/jquery.modal.js"></script>

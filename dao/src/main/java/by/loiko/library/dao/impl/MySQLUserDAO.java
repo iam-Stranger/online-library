@@ -5,6 +5,9 @@ import by.loiko.library.entity.User;
 import by.loiko.library.exception.DAOException;
 import by.loiko.library.pool.ConnectionPool;
 import by.loiko.library.pool.ProxyConnection;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,15 +19,19 @@ import java.util.ArrayList;
  Date: 21.12.2017
  ***/
 public class MySQLUserDAO implements UserDAO {
-    //private static Logger logger = LogManager.getLogger();
+    private static Logger logger = LogManager.getLogger();
 
+    private final static String ADD_NEW_USER_SIGN_UP = "INSERT INTO user  (login, password, email, firstname, lastname) VALUES (?, ?, ?, ?, ?)";
+
+    private final static String FIND_ID_BY_LOGIN = "SELECT id FROM user WHERE login = ?";
+    private final static String FIND_ID_BY_EMAIL = "SELECT id FROM user WHERE email = ?";
     private final static String FIND_ALL_USERS = "SELECT * FROM user";
     private final static String FIND_USER_BY_ID = "SELECT * FROM user WHERE id = ?";
     private final static String FIND_USER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE deleted = 0 AND login = ? AND password = ?";
 
     @Override
     public ArrayList<User> findAll() throws DAOException {
-        ArrayList<User> userList = new ArrayList<>(); // ??????
+        ArrayList<User> userList = new ArrayList<>();
         ProxyConnection proxyConnection = null;
         PreparedStatement statement = null;
 
@@ -106,8 +113,81 @@ public class MySQLUserDAO implements UserDAO {
     }
 
     @Override
-    public void addNewUser(String login, String password, String email, String firstName, String lastName, int roleId, boolean enabled) {
+    public boolean isUserPresentByLogin(String login) throws DAOException {
+        boolean isPresent = false;
+        ProxyConnection proxyConnection = null;
+        PreparedStatement statement = null;
 
+        try {
+            proxyConnection = ConnectionPool.getInstance().getConnection();
+            statement = proxyConnection.prepareStatement(FIND_ID_BY_LOGIN);
+            statement.setString(1, login);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                isPresent = true;
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Error in isUserPresentByLogin method: ", e);
+        } finally {
+            close(statement);
+            releaseConnection(proxyConnection);
+        }
+
+        return isPresent;
+    }
+
+    @Override
+    public boolean isUserPresentByEmail(String email) throws DAOException {
+        boolean isPresent = false;
+        ProxyConnection proxyConnection = null;
+        PreparedStatement statement = null;
+
+        try {
+            proxyConnection = ConnectionPool.getInstance().getConnection();
+            statement = proxyConnection.prepareStatement(FIND_ID_BY_EMAIL);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                isPresent = true;
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Error in isUserPresentByEmail method: ", e);
+        } finally {
+            close(statement);
+            releaseConnection(proxyConnection);
+        }
+
+        return isPresent;
+    }
+
+    @Override
+    public boolean addNewUser(User user) throws DAOException {
+        ProxyConnection proxyConnection = null;
+        PreparedStatement statement = null;
+        boolean isCreate;
+        try {
+            proxyConnection = ConnectionPool.getInstance().getConnection();
+            statement = proxyConnection.prepareStatement(ADD_NEW_USER_SIGN_UP);
+            statement.setString(1, user.getLogin());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getEmail());
+            statement.setString(4, user.getFirstName());
+            statement.setString(5, user.getLastName());
+            statement.executeUpdate();
+            isCreate = true;
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, e.getMessage());
+            throw new DAOException("Error in addNewUser method: ", e);
+        } finally {
+            close(statement);
+            releaseConnection(proxyConnection);
+        }
+
+        return isCreate;
     }
 
     private User buildUser(ResultSet resultSet) throws SQLException {
@@ -115,7 +195,7 @@ public class MySQLUserDAO implements UserDAO {
 
         user.setId(resultSet.getLong("id"));
         user.setLogin(resultSet.getString("login"));
-        // user.setPassword(resultSet.getString("password"));  // Hmmm..
+        // user.setPassword(resultSet.getString("password"));
         user.setEmail(resultSet.getString("email"));
         user.setFirstName(resultSet.getString("firstname"));
         user.setLastName(resultSet.getString("lastname"));

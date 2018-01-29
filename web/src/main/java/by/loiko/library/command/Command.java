@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,12 +21,13 @@ public interface Command {
 
     Router execute(HttpServletRequest request);
 
-    default Map<String, Object> getAllParametersAsAMap(HttpServletRequest request) {
+    default Map<String, String> getAllParametersAsMap(HttpServletRequest request) {
         Enumeration enumeration = request.getParameterNames();
-        Map<String, Object> paramMap = new HashMap<>();
+        Map<String, String> paramMap = new HashMap<>();
         while (enumeration.hasMoreElements()) {
             String paramName = (String) enumeration.nextElement();
-            Object paramValue = request.getParameter(paramName);
+            String paramValue = request.getParameter(paramName);
+            paramValue = new String(paramValue.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
             paramMap.put(paramName, paramValue);
         }
 

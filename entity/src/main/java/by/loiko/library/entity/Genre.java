@@ -9,29 +9,39 @@ import java.util.Objects;
 public class Genre extends Entity {
     private long id;
     private String type;
+    private boolean isDeleted;
 
     public Genre() {
     }
 
-    public Genre(long id, String type) {
+    public Genre(long id, String type, boolean isDeleted) {
         this.id = id;
         this.type = type;
+        this.isDeleted = isDeleted;
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getType() {
         return type;
     }
 
+    public boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public void setType(String type) {
         this.type = type;
+    }
+
+    public void setIsDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override
@@ -40,13 +50,14 @@ public class Genre extends Entity {
         if (!(o instanceof Genre)) return false;
         Genre genre = (Genre) o;
         return id == genre.id &&
+                isDeleted == genre.isDeleted &&
                 Objects.equals(type, genre.type);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, type);
+        return Objects.hash(id, type, isDeleted);
     }
 
     @Override
@@ -54,6 +65,7 @@ public class Genre extends Entity {
         return "Genre{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
 }

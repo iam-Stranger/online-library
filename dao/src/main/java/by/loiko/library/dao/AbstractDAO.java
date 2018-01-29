@@ -23,7 +23,6 @@ public interface AbstractDAO<T extends Entity> {
     void deleteEntityById(long id) throws DAOException;
 
     ArrayList<T> findEntitiesByArrayOfId(ArrayList<Long> idList) throws DAOException;
-    /// !!!!
 
     default String createINExpression(ArrayList<Long> idList) {
         StringBuilder expression = new StringBuilder().append(" AND id IN (");

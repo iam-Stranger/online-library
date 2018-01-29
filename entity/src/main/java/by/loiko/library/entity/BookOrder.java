@@ -16,12 +16,12 @@ public class BookOrder extends Entity {
     private LocalDate dateReturn;
     private int orderTypeId;
     private int statusId;
-    private boolean deleted;
+    private boolean isDeleted;
 
     public BookOrder() {
     }
 
-    public BookOrder(long id, User user, Book book, LocalDate dateFrom, LocalDate dateTo, LocalDate dateReturn, int orderTypeId, int statusId, boolean deleted) {
+    public BookOrder(long id, User user, Book book, LocalDate dateFrom, LocalDate dateTo, LocalDate dateReturn, int orderTypeId, int statusId, boolean isDeleted) {
         this.id = id;
         this.user = user;
         this.book = book;
@@ -30,7 +30,7 @@ public class BookOrder extends Entity {
         this.dateReturn = dateReturn;
         this.orderTypeId = orderTypeId;
         this.statusId = statusId;
-        this.deleted = deleted;
+        this.isDeleted = isDeleted;
     }
 
     public long getId() {
@@ -98,11 +98,11 @@ public class BookOrder extends Entity {
     }
 
     public boolean isDeleted() {
-        return deleted;
+        return isDeleted;
     }
 
     public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+        this.isDeleted = deleted;
     }
 
     @Override
@@ -113,7 +113,7 @@ public class BookOrder extends Entity {
         return id == bookOrder.id &&
                 orderTypeId == bookOrder.orderTypeId &&
                 statusId == bookOrder.statusId &&
-                deleted == bookOrder.deleted &&
+                isDeleted == bookOrder.isDeleted &&
                 Objects.equals(user, bookOrder.user) &&
                 Objects.equals(book, bookOrder.book) &&
                 Objects.equals(dateFrom, bookOrder.dateFrom) &&
@@ -124,7 +124,7 @@ public class BookOrder extends Entity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, user, book, dateFrom, dateTo, dateReturn, orderTypeId, statusId, deleted);
+        return Objects.hash(id, user, book, dateFrom, dateTo, dateReturn, orderTypeId, statusId, isDeleted);
     }
 
 

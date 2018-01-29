@@ -3,7 +3,10 @@ package by.loiko.library.command;
 import by.loiko.library.command.admin.EditUserInfoCommand;
 import by.loiko.library.command.admin.ShowAllUsersCommand;
 import by.loiko.library.command.admin.ShowHistoryOrders;
+import by.loiko.library.command.admin.ValidateInfoEditUserCommand;
 import by.loiko.library.command.common.*;
+import by.loiko.library.command.librarian.ShowAllAuthorsCommand;
+import by.loiko.library.command.librarian.ShowAllGenresCommand;
 import by.loiko.library.command.navigate.ToFindBookPageCommand;
 import by.loiko.library.command.user.ShowOrderListCommand;
 import by.loiko.library.command.user.ShowBookInfoCommand;
@@ -29,6 +32,12 @@ public enum CommandName {
     EDIT_USER_INFO(new EditUserInfoCommand()),
     SHOW_ALL_USERS(new ShowAllUsersCommand()),
     SHOW_HISTORY_ORDERS(new ShowHistoryOrders()),
+
+    SHOW_ALL_GENRES(new ShowAllGenresCommand()),
+    SHOW_ALL_AUTHORS(new ShowAllAuthorsCommand()),
+
+    VALIDATE_INFO_EDIT_USER(new ValidateInfoEditUserCommand()),
+    VALIDATE_INFO_NEW_USER(new ValidateInfoNewUserCommand()),
 
     WRONG_COMMAND(new WrongCommand()),
 

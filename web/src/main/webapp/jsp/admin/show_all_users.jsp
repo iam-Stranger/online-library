@@ -21,47 +21,47 @@
 
     <br/>
 
-        <div class="card" style="width: 100%;">
-            <div class="card-block">
-                <h5 class="card-header"><fmt:message key="label.users.show_all_users"/></h5>
-                <div class="card-text">
+    <div class="card" style="width: 100%;">
+        <div class="card-block">
+            <h5 class="card-header"><fmt:message key="label.users.show_all_users"/></h5>
+            <div class="card-text">
 
-                    <table class="table table-bordered table-hover table-responsive" width="100%">
-                        <tr>
-                            <th>#</th>
-                            <th><fmt:message key="user.login" /></th>
-                            <th><fmt:message key="user.first_name" /></th>
-                            <th><fmt:message key="user.last_name" /></th>
-                            <th><fmt:message key="user.email" /></th>
-                            <th><fmt:message key="user.role" /></th>
-                            <th></th>
+                <table class="table table-bordered table-hover table-responsive" width="100%">
+                    <tr>
+                        <th>#</th>
+                        <th><fmt:message key="user.login"/></th>
+                        <th><fmt:message key="user.first_name"/></th>
+                        <th><fmt:message key="user.last_name"/></th>
+                        <th><fmt:message key="user.email"/></th>
+                        <th><fmt:message key="user.role"/></th>
+                        <th><fmt:message key="list.edit"/></th>
+                    </tr>
+                    <c:forEach var="user" items="${user_list}" varStatus="loop">
+                        <c:choose>
+                            <c:when test="${user.isDeleted}">
+                                <tr class="table-light text-danger">
+                            </c:when>
+                            <c:otherwise>
+                                <tr>
+                            </c:otherwise>
+                        </c:choose>
+                        <td>${loop.index+1}</td>
+                        <td>${user.login}</td>
+                        <td>${user.firstName}</td>
+                        <td>${user.lastName}</td>
+                        <td>${user.email}</td>
+                        <td><ftm:message key="user.role.${user.roleId}"/></td>
+                        <td><a href="${abs_path}/controller?command=edit_user_info&id=${user.id}"
+                               class="btn-outline-primary btn-sm"><i class=""><fmt:message key="button.edit"/></i></a>
+                        </td>
                         </tr>
-                        <c:forEach var="user" items="${user_list}" varStatus="loop">
-                            <c:choose>
-                                <c:when test="${user.deleted}">
-                                    <tr class="table-light text-danger">
-                                </c:when>
-                                <c:otherwise>
-                                    <tr>
-                                </c:otherwise>
-                            </c:choose>
-                                <td>${loop.index+1}</td>
-                                <td>${user.login}</td>
-                                <td>${user.firstName}</td>
-                                <td>${user.lastName}</td>
-                                <td>${user.email}</td>
-                                <td><ftm:message key="user.role.${user.roleId}"/> </td>
-                            <%--rel="modal:open"--%>
-                                <td><a href="${abs_path}/controller?command=edit_user_info&id=${user.id}"
-                                       class="btn-outline-primary btn-sm"><i class=""><fmt:message key="label.edit" /></i></a></td>
-                            </tr>
-                        </c:forEach>
+                    </c:forEach>
 
-                    </table>
-                </div>
-
+                </table>
             </div>
+
         </div>
+    </div>
 
 </div>
 

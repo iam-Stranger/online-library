@@ -11,7 +11,9 @@ public interface UserDAO extends AbstractDAO<User> {
 
     User findUserByLoginAndPassword(String login, String password) throws DAOException;
 
-    void addNewUser(String login, String password, String email, String firstName,
-                    String lastName, int roleId, boolean enabled) throws DAOException;
+    boolean isUserPresentByLogin(String login) throws DAOException;
+    boolean isUserPresentByEmail(String email) throws DAOException;
+
+    boolean addNewUser(User user) throws DAOException;
 
 }

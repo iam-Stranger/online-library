@@ -25,12 +25,12 @@ public class MySQLBookOrderDAO implements BookOrderDAO {
     @Override
     public ArrayList findAll() throws DAOException {
         ArrayList<BookOrder> ordersList = new ArrayList<>();
-        ProxyConnection connection = null;
+        ProxyConnection proxyconnection = null;
         Statement statement = null;
 
         try {
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.createStatement();
+            proxyconnection = ConnectionPool.getInstance().getConnection();
+            statement = proxyconnection.createStatement();
             ResultSet resultSet = statement.executeQuery(FIND_ALL_BOOK_ORDERS);
 
             while (resultSet.next()) {
@@ -41,7 +41,7 @@ public class MySQLBookOrderDAO implements BookOrderDAO {
             throw new DAOException("Error in findAll(BookOrder) method: ", e);
         } finally {
             close(statement);
-            releaseConnection(connection);
+            releaseConnection(proxyconnection);
         }
 
 

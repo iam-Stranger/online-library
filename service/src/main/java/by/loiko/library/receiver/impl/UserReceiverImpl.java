@@ -5,9 +5,13 @@ import by.loiko.library.dao.UserDAO;
 import by.loiko.library.entity.User;
 import by.loiko.library.exception.DAOException;
 import by.loiko.library.exception.ReceiverException;
+import by.loiko.library.receiver.FieldConstant;
 import by.loiko.library.receiver.UserReceiver;
+import by.loiko.library.validator.UserValidator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /***
  Author: Aliaksei Loika
@@ -58,7 +62,6 @@ public class UserReceiverImpl implements UserReceiver {
         }
 
         User user;
-
         try {
             UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
             user = userDAO.findEntityById(id);
@@ -74,7 +77,62 @@ public class UserReceiverImpl implements UserReceiver {
     }
 
     @Override
+    public Map<String, String> AddNewUser(Map<String, String> paramsMap) throws ReceiverException {
+        if (paramsMap == null || paramsMap.isEmpty()) {
+            throw new ReceiverException("AddNewUser command: data is empty ");
+        }
+
+        UserValidator userValidator = new UserValidator();
+        HashMap<String, String> errorMap = userValidator.validateUserParams(paramsMap);
+
+        UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
+
+        try {
+            boolean isPresentLogin = userDAO.isUserPresentByLogin(paramsMap.get(FieldConstant.LOGIN_PARAM));
+            boolean isPresentEmail = userDAO.isUserPresentByEmail(paramsMap.get(FieldConstant.EMAIL_PARAM));
+
+            if (isPresentLogin) {
+                errorMap.put(FieldConstant.LOGIN_PARAM, FieldConstant.LOGIN_PRESENT_MSG);
+            }
+            if (isPresentEmail) {
+                errorMap.put(FieldConstant.EMAIL_PARAM, FieldConstant.EMAIL_PRESENT_MSG);
+            }
+        } catch (DAOException e) {
+            throw new ReceiverException("isUserPresentByParam command wasn't executed: ", e);
+        }
+
+        if (errorMap.isEmpty()) {
+
+            try {
+                userDAO.addNewUser(buildUser(paramsMap));
+            } catch (DAOException e) {
+                throw new ReceiverException("addNewUser command wasn't executed: ", e);
+            }
+        }
+
+        return errorMap;
+    }
+
+    @Override
     public boolean signIn(String login, String password) throws ReceiverException {
         return false;
+    }
+
+    private User buildUser(Map<String, String> paramsMap) {
+        User user = new User();
+
+        user.setLogin(paramsMap.get(FieldConstant.LOGIN_PARAM));
+        user.setPassword(paramsMap.get(FieldConstant.PASSWORD_PARAM));
+        user.setEmail(paramsMap.get(FieldConstant.EMAIL_PARAM));
+        user.setFirstName(paramsMap.get(FieldConstant.FIRSTNAME_PARAM));
+        user.setLastName(paramsMap.get(FieldConstant.LASTNAME_PARAM));
+
+        int roleId = Integer.parseInt(paramsMap.get(FieldConstant.ROLE_ID_PARAM));
+        boolean isDeleted = Boolean.parseBoolean(paramsMap.get(FieldConstant.ROLE_ID_PARAM));
+
+        user.setRoleId(roleId);
+        user.setDeleted(isDeleted);
+
+        return user;
     }
 }

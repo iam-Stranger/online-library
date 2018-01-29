@@ -12,18 +12,18 @@ public class Book extends Entity {
    private int publishYear;
    private int totalAmount;
    private int realAmount;
-   private boolean deleted;
+   private boolean isDeleted;
 
     public Book() {
     }
 
-    public Book(long id, String title, int publishYear, int totalAmount, int realAmount, boolean deleted) {
+    public Book(long id, String title, int publishYear, int totalAmount, int realAmount, boolean isDeleted) {
         this.id = id;
         this.title = title;
         this.publishYear = publishYear;
         this.totalAmount = totalAmount;
         this.realAmount = realAmount;
-        this.deleted = deleted;
+        this.isDeleted = isDeleted;
     }
 
     public long getId() {
@@ -66,12 +66,12 @@ public class Book extends Entity {
         this.realAmount = realAmount;
     }
 
-    public boolean isDeleted() {
-        return deleted;
+    public boolean getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+    public void setIsDeleted(boolean deleted) {
+        this.isDeleted = deleted;
     }
 
     @Override
@@ -83,14 +83,14 @@ public class Book extends Entity {
                 publishYear == book.publishYear &&
                 totalAmount == book.totalAmount &&
                 realAmount == book.realAmount &&
-                deleted == book.deleted &&
+                isDeleted == book.isDeleted &&
                 Objects.equals(title, book.title);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, title, publishYear, totalAmount, realAmount, deleted);
+        return Objects.hash(id, title, publishYear, totalAmount, realAmount, isDeleted);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class Book extends Entity {
                 ", publishYear=" + publishYear +
                 ", totalAmount=" + totalAmount +
                 ", realAmount=" + realAmount +
-                ", deleted=" + deleted +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
 }
