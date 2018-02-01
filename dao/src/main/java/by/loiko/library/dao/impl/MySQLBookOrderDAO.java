@@ -3,7 +3,6 @@ package by.loiko.library.dao.impl;
 import by.loiko.library.dao.BookOrderDAO;
 import by.loiko.library.entity.Book;
 import by.loiko.library.entity.BookOrder;
-import by.loiko.library.entity.Entity;
 import by.loiko.library.entity.User;
 import by.loiko.library.exception.DAOException;
 import by.loiko.library.pool.ConnectionPool;
@@ -13,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 /***
  Author: Aliaksei Loika
@@ -23,8 +23,8 @@ public class MySQLBookOrderDAO implements BookOrderDAO {
             "FROM book_orders bo INNER JOIN user u INNER JOIN book b ON bo.user_id = u.id AND bo.book_id = b.id";
 
     @Override
-    public ArrayList findAll() throws DAOException {
-        ArrayList<BookOrder> ordersList = new ArrayList<>();
+    public List<BookOrder> findAllEntities() throws DAOException {
+        List<BookOrder> ordersList = new ArrayList<>();
         ProxyConnection proxyconnection = null;
         Statement statement = null;
 
@@ -38,7 +38,7 @@ public class MySQLBookOrderDAO implements BookOrderDAO {
             }
 
         } catch (SQLException e) {
-            throw new DAOException("Error in findAll(BookOrder) method: ", e);
+            throw new DAOException("Error in findAllEntities(BookOrder) method: ", e);
         } finally {
             close(statement);
             releaseConnection(proxyconnection);
@@ -49,7 +49,7 @@ public class MySQLBookOrderDAO implements BookOrderDAO {
     }
 
     @Override
-    public Entity findEntityById(long id) throws DAOException {
+    public BookOrder findEntityById(long id) throws DAOException {
         return null;
     }
 
@@ -59,7 +59,17 @@ public class MySQLBookOrderDAO implements BookOrderDAO {
     }
 
     @Override
-    public ArrayList findEntitiesByArrayOfId(ArrayList idList) throws DAOException {
+    public void addNewEntity(BookOrder entity) throws DAOException {
+
+    }
+
+    @Override
+    public void updateEntity(BookOrder entity) throws DAOException {
+
+    }
+
+    @Override
+    public List<BookOrder> findEntitiesByArrayOfId(List<Long> idList) throws DAOException {
         return null;
     }
 

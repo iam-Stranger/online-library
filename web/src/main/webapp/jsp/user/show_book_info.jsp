@@ -34,7 +34,7 @@
                         <td>${book.publishYear}</td>
                     </tr>
                     <tr>
-                        <td><fmt:message key="book.info.amount" bundle="${loc}"/></td>
+                        <td><fmt:message key="book.info.real_amount" bundle="${loc}"/></td>
                         <td>${book.realAmount}</td>
                     </tr>
 

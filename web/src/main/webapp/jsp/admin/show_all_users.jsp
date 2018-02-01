@@ -21,7 +21,7 @@
 
     <br/>
 
-    <div class="card" style="width: 100%;">
+    <div class="card shadow" style="width: 100%;">
         <div class="card-block">
             <h5 class="card-header"><fmt:message key="label.users.show_all_users"/></h5>
             <div class="card-text">
@@ -52,14 +52,15 @@
                         <td>${user.email}</td>
                         <td><ftm:message key="user.role.${user.roleId}"/></td>
                         <td><a href="${abs_path}/controller?command=edit_user_info&id=${user.id}"
-                               class="btn-outline-primary btn-sm"><i class=""><fmt:message key="button.edit"/></i></a>
+                               class="btn-outline-primary btn-sm"><i class="far fa-edit"></i></a>
                         </td>
                         </tr>
                     </c:forEach>
 
                 </table>
             </div>
-
+            <div class="card-footer text-right">
+            </div>
         </div>
     </div>
 

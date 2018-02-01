@@ -32,7 +32,7 @@
                             <th>#</th>
                             <th><fmt:message key="book.info.title" bundle="${loc}"/></th>
                             <th><fmt:message key="book.info.publish_year" bundle="${loc}"/></th>
-                            <th><fmt:message key="book.info.amount" bundle="${loc}"/></th>
+                            <th><fmt:message key="book.info.real_amount" bundle="${loc}"/></th>
                             <th><fmt:message key="book.info" bundle="${loc}"/></th>
                         </tr>
                         <c:forEach var="book" items="${book_list}" varStatus="loop">

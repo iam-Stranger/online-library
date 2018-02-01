@@ -21,7 +21,7 @@
 <div class="container">
 
     <br/>
-    <div class="card" style="width: 100%;">
+    <div class="card shadow" style="width: 100%;">
         <div class="card-block">
             <h5 class="card-header"><fmt:message key="label.admin.show_history_orders"/></h5>
             <div class="card-text">
@@ -70,7 +70,8 @@
 
                 </table>
             </div>
-
+            <div class="card-footer text-right">
+            </div>
         </div>
     </div>
 

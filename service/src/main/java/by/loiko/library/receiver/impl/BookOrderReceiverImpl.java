@@ -8,6 +8,7 @@ import by.loiko.library.exception.ReceiverException;
 import by.loiko.library.receiver.BookOrderReceiver;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /***
  Author: Aliaksei Loika
@@ -15,12 +16,12 @@ import java.util.ArrayList;
  ***/
 public class BookOrderReceiverImpl implements BookOrderReceiver {
     @Override
-    public ArrayList<BookOrder> findAllBookOrders() throws ReceiverException {
-        ArrayList<BookOrder> ordersList = new ArrayList<>();
+    public List<BookOrder> findAllBookOrders() throws ReceiverException {
+        List<BookOrder> ordersList = new ArrayList<>();
 
         try {
             BookOrderDAO bookOrderDAO = DAOFactory.getInstance().getBookOrderDAO();
-            ordersList = bookOrderDAO.findAll();
+            ordersList = bookOrderDAO.findAllEntities();
         } catch (DAOException e) {
             throw new ReceiverException("findBooksByArrayOfId command wasn't executed: ", e);
         }

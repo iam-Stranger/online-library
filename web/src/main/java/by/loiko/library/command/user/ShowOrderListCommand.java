@@ -7,7 +7,7 @@ import by.loiko.library.entity.Book;
 import by.loiko.library.exception.ReceiverException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
+import java.util.List;
 
 /***
  Author: Aliaksei Loika
@@ -26,7 +26,7 @@ public class ShowOrderListCommand implements Command {
         bookIdArray = request.getParameterValues(BOOK_ID_ARRAY_PARAM);
 
         try {
-            ArrayList<Book> booksList = factory.getBookReceiver().findBooksByArrayOfId(bookIdArray);
+            List<Book> booksList = factory.getBookReceiver().findBooksByArrayOfId(bookIdArray);
             request.setAttribute(BOOK_LIST_PARAM, booksList);
             router.setPagePath(PageConstant.SHOW_ORDER_LIST);
         } catch (ReceiverException e) {

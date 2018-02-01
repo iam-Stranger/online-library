@@ -21,7 +21,7 @@
     <br/>
     <form action="/controller" method="get">
         <input type="hidden" name="command" value="show_order_list"/>
-        <div class="card" style="width: 100%;">
+        <div class="card shadow" style="width: 100%;">
             <div class="card-block">
                 <h5 class="card-header"><fmt:message key="book.show_find_book" /></h5>
                 <div class="card-text">
@@ -31,7 +31,7 @@
                             <th>#</th>
                             <th><fmt:message key="book.info.title" /></th>
                             <th><fmt:message key="book.info.publish_year" /></th>
-                            <th><fmt:message key="book.info.amount" /></th>
+                            <th><fmt:message key="book.info.real_amount" /></th>
                             <th><fmt:message key="book.info" /></th>
                         </tr>
                         <c:forEach var="book" items="${book_list}" varStatus="loop">
@@ -41,7 +41,7 @@
                                 <td>${book.publishYear}</td>
                                 <td>${book.realAmount}</td>
                                 <td><a href="${abs_path}/controller?command=show_book_info&id=${book.id}" rel="modal:open"
-                                       class="btn btn-sm btn-outline-primary"><i>i</i></a></td>
+                                       class="btn-sm btn-outline-primary"><i class="fas fa-info-circle"></i></a></td>
                                 <td>
                                     <input type="checkbox" name="items" value="${book.id}"/>
                                 </td>

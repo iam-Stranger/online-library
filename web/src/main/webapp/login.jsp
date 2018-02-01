@@ -67,7 +67,7 @@
         </div>
     </form>
     <div style="text-align: center">
-        <a class="btn btn-sm btn-outline-primary" href="${abs_path}/controller?command=to_sign_up"><fmt:message key="user.sign_up"/></a>
+        <a class="btn btn-sm btn-outline-primary" href="${abs_path}/controller?command=to_sign_up_page"><fmt:message key="user.sign_up"/></a>
     </div>
 </div>
 

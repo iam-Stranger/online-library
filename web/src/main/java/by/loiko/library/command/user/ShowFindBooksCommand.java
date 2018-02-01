@@ -8,7 +8,7 @@ import by.loiko.library.exception.ReceiverException;
 import by.loiko.library.receiver.BookReceiver;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
+import java.util.List;
 
 /***
  Author: Aliaksei Loika
@@ -23,7 +23,7 @@ public class ShowFindBooksCommand implements Command {
         Router router = new Router();
 
         String title = request.getParameter(TITLE_PARAM);
-        ArrayList<Book> booksList;
+        List<Book> booksList;
 
         try {
             BookReceiver bookReceiver = factory.getBookReceiver();

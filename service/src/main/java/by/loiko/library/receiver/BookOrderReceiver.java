@@ -3,7 +3,7 @@ package by.loiko.library.receiver;
 import by.loiko.library.entity.BookOrder;
 import by.loiko.library.exception.ReceiverException;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /***
  Author: Aliaksei Loika
@@ -11,6 +11,6 @@ import java.util.ArrayList;
  ***/
 public interface BookOrderReceiver extends AbstractReceiver {
 
-    ArrayList<BookOrder> findAllBookOrders() throws ReceiverException;
+    List<BookOrder> findAllBookOrders() throws ReceiverException;
 
 }

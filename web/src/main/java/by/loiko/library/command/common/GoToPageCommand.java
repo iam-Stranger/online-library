@@ -31,7 +31,7 @@ public class GoToPageCommand implements Command {
                 router.setPagePath(PageConstant.MAIN_PAGE);
             }
         } else {
-            router.setPagePath(PageConstant.SIGN_IN);
+            router.setPagePath(PageConstant.SIGN_IN_FORM);
         }
 
         request.getSession().setAttribute("url", request.getRequestURI() + "?" + request.getQueryString());

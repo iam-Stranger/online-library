@@ -3278,7 +3278,7 @@ button.list-group-item-dark.active {
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1050;
+    z-index: 100050;
     display: none;
     overflow: hidden;
     outline: 0;
@@ -3316,13 +3316,14 @@ button.list-group-item-dark.active {
 }
 
 .modal-backdrop {
+    opacity:0.5;
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
     z-index: 1040;
-    background-color: #000;
+    background-color: #CCC;
 }
 
 .modal-backdrop.fade {

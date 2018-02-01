@@ -1,6 +1,7 @@
 package by.loiko.library.command.common;
 
 import by.loiko.library.command.Command;
+import by.loiko.library.command.PageConstant;
 import by.loiko.library.controller.Router;
 import by.loiko.library.entity.User;
 import by.loiko.library.exception.ReceiverException;
@@ -33,12 +34,11 @@ public class SignInCommand implements Command {
             HttpSession session = request.getSession();
             session.setAttribute(USER_PARAM, user);
 
-            //request.setAttribute(USER_PARAM, user);
             router.setPagePath(PAGE);
         } catch (ReceiverException e) {
             // go to error page
             request.setAttribute("message", e.getMessage());
-            router.setPagePath("/jsp/error_page.jsp");
+            router.setPagePath(PageConstant.ERROR_PAGE);
         }
 
         return router;

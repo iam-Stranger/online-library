@@ -38,9 +38,13 @@
                 <li class="nav-item dropdown" >
                     <a class="nav-link dropdown-toggle" href="#" id="librarian" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><fmt:message key="menu.libr.group"/></a>
                     <div class="dropdown-menu" aria-labelledby="user_menu">
-                        <a class="dropdown-item" href="#"><fmt:message key="menu.user.settings"/></a>
+                        <a class="dropdown-item" href="${abs_path}/controller?command=show_all_genres"><fmt:message key="menu.libr.edit_genres"/></a>
+                        <a class="dropdown-item" href="${abs_path}/controller?command=show_all_authors"><fmt:message key="menu.libr.edit_authors"/></a>
+                        <a class="dropdown-item" href="${abs_path}/controller?command=show_all_books"><fmt:message key="menu.libr.edit_books"/></a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="${abs_path}/controller?command=sign_out"><fmt:message key="menu.user.exit"/></a>
+                        <a class="dropdown-item" href="${abs_path}/controller?command=to_add_genre_page"><fmt:message key="menu.libr.add_new_genre"/></a>
+                        <a class="dropdown-item" href="${abs_path}/controller?command=to_add_author_page"><fmt:message key="menu.libr.add_new_author"/></a>
+                        <a class="dropdown-item" href="${abs_path}/controller?command=to_add_book_page"><fmt:message key="menu.libr.add_new_book"/></a>
                     </div>
                 </li>
 
@@ -50,7 +54,6 @@
                     <a class="nav-link dropdown-toggle" href="#" id="admin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><fmt:message key="menu.admin.group"/></a>
                     <div class="dropdown-menu" aria-labelledby="user_menu">
                         <a class="dropdown-item" href="${abs_path}/controller?command=show_all_users"><fmt:message key="menu.admin.find_all_users"/></a>
-                        <a class="dropdown-item" href="${abs_path}/controller?command="><fmt:message key="menu.admin.edit_user_by_login"/></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="${abs_path}/controller?command=show_history_orders"><fmt:message key="menu.admin.show_history_orders"/></a>
                     </div>

@@ -6,7 +6,7 @@ import by.loiko.library.pool.ProxyConnection;
 
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.List;
 
 /***
  Author: Aliaksei Loika
@@ -15,24 +15,14 @@ import java.util.ArrayList;
 public interface AbstractDAO<T extends Entity> {
     // Logger ???
 
-
-    ArrayList<T> findAll() throws DAOException;
+    void deleteEntityById(long id) throws DAOException;
+    void addNewEntity(T entity) throws DAOException;
+    void updateEntity(T entity) throws DAOException;
 
     T findEntityById(long id) throws DAOException;
+    List<T> findAllEntities() throws DAOException;
+    List<T> findEntitiesByArrayOfId(List<Long> idList) throws DAOException;
 
-    void deleteEntityById(long id) throws DAOException;
-
-    ArrayList<T> findEntitiesByArrayOfId(ArrayList<Long> idList) throws DAOException;
-
-    default String createINExpression(ArrayList<Long> idList) {
-        StringBuilder expression = new StringBuilder().append(" AND id IN (");
-        for (int i = 0; i < idList.size() - 1; i++) {
-            expression.append("?, ");
-        }
-        expression.append("?)");
-
-        return expression.toString();
-    }
 
     /*Gets connection back to connection pool*/
     default void releaseConnection(ProxyConnection connection) {
@@ -53,6 +43,16 @@ public interface AbstractDAO<T extends Entity> {
         } catch (SQLException e) {
             // log
         }
+    }
+
+    default String createINExpression(List<Long> idList) {
+        StringBuilder expression = new StringBuilder().append(" AND id IN (");
+        for (int i = 0; i < idList.size() - 1; i++) {
+            expression.append("?, ");
+        }
+        expression.append("?)");
+
+        return expression.toString();
     }
 
 }

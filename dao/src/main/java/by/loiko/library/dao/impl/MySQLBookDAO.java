@@ -1,14 +1,10 @@
 package by.loiko.library.dao.impl;
 
 import by.loiko.library.dao.BookDAO;
-import by.loiko.library.entity.Author;
 import by.loiko.library.entity.Book;
-import by.loiko.library.entity.Genre;
 import by.loiko.library.exception.DAOException;
 import by.loiko.library.pool.ConnectionPool;
 import by.loiko.library.pool.ProxyConnection;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,25 +18,19 @@ import java.util.List;
  Date: 21.12.2017
  ***/
 public class MySQLBookDAO implements BookDAO {
-    private static Logger logger = LogManager.getLogger();
+    //private static Logger logger = LogManager.getLogger();
 
     private static final String FIND_BOOKS_BY_TITLE = "SELECT * FROM book WHERE title LIKE ? AND deleted = 0";
     private static final String FIND_ALL_BOOKS_READER = "SELECT * FROM book WHERE deleted = 0";
-    private static final String FIND_ALL_BOOKS_ADMIN = "SELECT * FROM book";
+    private static final String FIND_ALL_BOOKS_LIBRARIAN = "SELECT * FROM book";
     private static final String FIND_BOOK_BY_ID = "SELECT * FROM book WHERE id = ?";
     private static final String FIND_BOOKS_BY_ARRAY_OF_ID = "SELECT * FROM book WHERE deleted = 0 AND real_amount > 0";
     private final static String ADD_NEW_BOOK = "INSERT INTO book (title, publish_year, total_amount, real_amount) VALUES (?, ?, ?, ?)";
-
-    private static final String FIND_ALL_GENRES = "SELECT * FROM genre";
-    private static final String FIND_GENRE_BY_ID = "SELECT * FROM genre WHERE id = ?";
-    private final static String ADD_NEW_GENRE = "INSERT INTO genre (type) VALUE (?)";
-
-    private static final String FIND_ALL_AUTHORS = "SELECT * FROM author";
-    private static final String FIND_AUTHOR_BY_ID = "SELECT * FROM author WHERE id = ?";
-    private final static String ADD_NEW_AUTHOR = "INSERT INTO genre (name) VALUE (?)";
+    private final static String UPDATE_BOOK = "UPDATE book SET title = ? WHERE id = ?";
+    private final static String DELETE_BOOK = "UPDATE book SET deleted = '1' WHERE id = ?";
 
     @Override
-    public ArrayList<Book> findAll() throws DAOException {
+    public List<Book> findAllEntities() throws DAOException {
         ArrayList<Book> booksList = new ArrayList<>();
         ProxyConnection proxyConnection = null;
         Statement statement = null;
@@ -48,14 +38,14 @@ public class MySQLBookDAO implements BookDAO {
         try {
             proxyConnection = ConnectionPool.getInstance().getConnection();
             statement = proxyConnection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_ALL_BOOKS_ADMIN);
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_BOOKS_LIBRARIAN);
 
             while (resultSet.next()) {
                 booksList.add(buildBook(resultSet));
             }
 
         } catch (SQLException e) {
-            throw new DAOException("Error in findAll(Book) method: ", e);
+            throw new DAOException("Error in findAllEntities(Book) method: ", e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -92,6 +82,29 @@ public class MySQLBookDAO implements BookDAO {
 
     @Override
     public void deleteEntityById(long id) throws DAOException {
+        ProxyConnection proxyConnection = null;
+        PreparedStatement statement = null;
+        try {
+            proxyConnection = ConnectionPool.getInstance().getConnection();
+            statement = proxyConnection.prepareStatement(DELETE_BOOK);
+            statement.setLong(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Error in delBook method: ", e);
+        } finally {
+            close(statement);
+            releaseConnection(proxyConnection);
+        }
+
+    }
+
+    @Override
+    public void addNewEntity(Book entity) throws DAOException {
+
+    }
+
+    @Override
+    public void updateEntity(Book entity) throws DAOException {
 
     }
 
@@ -110,94 +123,18 @@ public class MySQLBookDAO implements BookDAO {
             while (resultSet.next()) {
                 booksList.add(buildBook(resultSet));
             }
-
         } catch (SQLException e) {
             throw new DAOException("Error in findBooksByTitle method: ", e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
         }
-
-
         return booksList;
     }
 
     @Override
-    public List<Genre> findAllGenres() throws DAOException {
-        List<Genre> genreList = new ArrayList<>();
-        ProxyConnection proxyConnection = null;
-        Statement statement = null;
-
-        try {
-            proxyConnection = ConnectionPool.getInstance().getConnection();
-            statement = proxyConnection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_ALL_GENRES);
-
-            while (resultSet.next()) {
-                genreList.add(buildGenre(resultSet));
-            }
-
-        } catch (SQLException e) {
-            throw new DAOException("Error in findAllGenres method: ", e);
-        } finally {
-            close(statement);
-            releaseConnection(proxyConnection);
-        }
-        return genreList;
-    }
-
-    @Override
-    public List<Author> findAllAuthors() throws DAOException {
-        List<Author> authorList = new ArrayList<>();
-        ProxyConnection proxyConnection = null;
-        Statement statement = null;
-
-        try {
-            proxyConnection = ConnectionPool.getInstance().getConnection();
-            statement = proxyConnection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_ALL_AUTHORS);
-
-            while (resultSet.next()) {
-                authorList.add(buildAuthor(resultSet));
-            }
-
-        } catch (SQLException e) {
-            throw new DAOException("Error in findAllAuthors method: ", e);
-        } finally {
-            close(statement);
-            releaseConnection(proxyConnection);
-        }
-        return authorList;
-    }
-
-    @Override
-    public Genre findGenreById(long id) throws DAOException {
-        return null;
-    }
-
-    @Override
-    public Author findAuthorById(long id) throws DAOException {
-        return null;
-    }
-
-    @Override
-    public boolean addNewGenre(Genre genre) throws DAOException {
-        return false;
-    }
-
-    @Override
-    public boolean addNewAuthor(Author author) throws DAOException {
-        return false;
-    }
-
-    @Override
-    public boolean addNewBook(Book book) throws DAOException {
-        return false;
-    }
-
-    @Override
-    public ArrayList<Book> findEntitiesByArrayOfId(ArrayList<Long> idList) throws DAOException {
-        ArrayList<Book> booksList = new ArrayList<>();
+    public List<Book> findEntitiesByArrayOfId(List<Long> idList) throws DAOException {
+        List<Book> booksList = new ArrayList<>();
         ProxyConnection proxyConnection = null;
         PreparedStatement statement = null;
 
@@ -239,25 +176,5 @@ public class MySQLBookDAO implements BookDAO {
         book.setIsDeleted(resultSet.getBoolean("deleted"));
 
         return book;
-    }
-
-    private Genre buildGenre(ResultSet resultSet) throws SQLException {
-        Genre genre = new Genre();
-
-        genre.setId(resultSet.getLong("id"));
-        genre.setType(resultSet.getString("type"));
-        genre.setIsDeleted(resultSet.getBoolean("deleted"));
-
-        return genre;
-    }
-
-    private Author buildAuthor(ResultSet resultSet) throws SQLException {
-        Author author = new Author();
-
-        author.setId(resultSet.getLong("id"));
-        author.setName(resultSet.getString("name"));
-        author.setIsDeleted(resultSet.getBoolean("deleted"));
-
-        return author;
     }
 }

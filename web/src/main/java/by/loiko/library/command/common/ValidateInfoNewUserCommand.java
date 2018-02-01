@@ -27,12 +27,12 @@ public class ValidateInfoNewUserCommand implements Command {
             errorMap = factory.getUserReceiver().AddNewUser(paramsMap);
             if (errorMap.isEmpty()) {
                 request.setAttribute("message","Congratulation!");
-                router.setPagePath(PageConstant.SIGN_IN);
+                router.setPagePath(PageConstant.SIGN_IN_FORM);
                 router.setRouteType(Router.RouteType.REDIRECT);
             } else {
                 request.setAttribute(ERROR_MAP_PARAM, errorMap);
                 request.setAttribute(PARAMS_MAP_PARAM, paramsMap);
-                router.setPagePath(PageConstant.SIGN_UP);
+                router.setPagePath(PageConstant.SIGN_UP_FORM);
             }
 
         } catch (ReceiverException e) {

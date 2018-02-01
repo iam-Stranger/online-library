@@ -9,8 +9,8 @@ import by.loiko.library.receiver.FieldConstant;
 import by.loiko.library.receiver.UserReceiver;
 import by.loiko.library.validator.UserValidator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /***
@@ -19,13 +19,13 @@ import java.util.Map;
  ***/
 public class UserReceiverImpl implements UserReceiver {
     @Override
-    public ArrayList<User> findAllUsers() throws ReceiverException {
-        ArrayList<User> userList = null;
+    public List<User> findAllUsers() throws ReceiverException {
+        List<User> userList;
 
         try {
             DAOFactory daoFactoryObj = DAOFactory.getInstance();
             UserDAO userDAO = daoFactoryObj.getUserDAO();
-            userList = userDAO.findAll();
+            userList = userDAO.findAllEntities();
         } catch (DAOException e) {
             throw new ReceiverException("findAllUsers command wasn't executed: ", e);
         }
@@ -104,7 +104,7 @@ public class UserReceiverImpl implements UserReceiver {
         if (errorMap.isEmpty()) {
 
             try {
-                userDAO.addNewUser(buildUser(paramsMap));
+                userDAO.addNewEntity(buildUser(paramsMap));
             } catch (DAOException e) {
                 throw new ReceiverException("addNewUser command wasn't executed: ", e);
             }
@@ -127,11 +127,15 @@ public class UserReceiverImpl implements UserReceiver {
         user.setFirstName(paramsMap.get(FieldConstant.FIRSTNAME_PARAM));
         user.setLastName(paramsMap.get(FieldConstant.LASTNAME_PARAM));
 
-        int roleId = Integer.parseInt(paramsMap.get(FieldConstant.ROLE_ID_PARAM));
-        boolean isDeleted = Boolean.parseBoolean(paramsMap.get(FieldConstant.ROLE_ID_PARAM));
-
-        user.setRoleId(roleId);
-        user.setDeleted(isDeleted);
+        if (paramsMap.get(FieldConstant.ROLE_ID_PARAM) != null) {
+            int roleId = Integer.parseInt(paramsMap.get(FieldConstant.ROLE_ID_PARAM));
+            user.setRoleId(roleId);
+        }
+        if (paramsMap.get(FieldConstant.STATUS_PARAM) != null) {
+            int intDeleted = Integer.parseInt(paramsMap.get(FieldConstant.STATUS_PARAM));
+            boolean isDeleted = (intDeleted != 0);
+            user.setIsDeleted(isDeleted);
+        }
 
         return user;
     }

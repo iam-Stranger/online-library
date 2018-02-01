@@ -1,8 +1,6 @@
 package by.loiko.library.dao;
 
-import by.loiko.library.dao.impl.MySQLBookDAO;
-import by.loiko.library.dao.impl.MySQLBookOrderDAO;
-import by.loiko.library.dao.impl.MySQLUserDAO;
+import by.loiko.library.dao.impl.*;
 
 /***
  Author: Aliaksei Loika
@@ -13,6 +11,8 @@ public class DAOFactory {
 
     private final UserDAO userDAO = new MySQLUserDAO();
     private final BookDAO bookDAO = new MySQLBookDAO();
+    private final GenreDAO genreDAO = new MySQLGenreDAO();
+    private final AuthorDAO authorDAO = new MySQLAuthorDAO();
     private final BookOrderDAO bookOrderDAO = new MySQLBookOrderDAO();
 
     private DAOFactory() {
@@ -32,5 +32,13 @@ public class DAOFactory {
 
     public BookOrderDAO getBookOrderDAO() {
         return bookOrderDAO;
+    }
+
+    public GenreDAO getGenreDAO() {
+        return genreDAO;
+    }
+
+    public AuthorDAO getAuthorDAO() {
+        return authorDAO;
     }
 }

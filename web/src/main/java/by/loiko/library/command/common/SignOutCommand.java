@@ -13,14 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 public class SignOutCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
-        Router router = new Router();
-
-        //request.getSession().removeAttribute("user");
+        Router router = new Router(Router.RouteType.REDIRECT);
 
         request.getSession().invalidate();
 
         router.setPagePath(PageConstant.INDEX_PAGE);
-
         return router;
     }
 }

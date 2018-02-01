@@ -3,7 +3,7 @@ package by.loiko.library.receiver;
 import by.loiko.library.entity.User;
 import by.loiko.library.exception.ReceiverException;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /***
@@ -12,7 +12,7 @@ import java.util.Map;
  ***/
 public interface UserReceiver extends AbstractReceiver {
 
-    ArrayList<User> findAllUsers() throws ReceiverException;
+    List<User> findAllUsers() throws ReceiverException;
 
     User findUser(String login, String password) throws ReceiverException;
     User findUserById (long id) throws ReceiverException;

@@ -9,7 +9,7 @@ import by.loiko.library.exception.ReceiverException;
 import org.apache.logging.log4j.Level;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
+import java.util.List;
 
 /***
  Author: Aliaksei Loika
@@ -23,7 +23,7 @@ public class ShowHistoryOrders implements Command {
         Router router = new Router();
 
         try {
-            ArrayList<BookOrder> ordersList = factory.getBookOrderReceiver().findAllBookOrders();
+            List<BookOrder> ordersList = factory.getBookOrderReceiver().findAllBookOrders();
             request.setAttribute(ORDER_LIST_VAR, ordersList);
             router.setPagePath(PageConstant.SHOW_HISTORY_ORDERS);
         } catch (ReceiverException e) {

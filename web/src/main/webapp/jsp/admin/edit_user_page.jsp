@@ -26,7 +26,7 @@
                         <div class="form-group row">
                             <label class="col-form-label col-3" for="firstname"><fmt:message key="user.first_name"/></label>
                             <div class="col-9">
-                                <input data-toggle="tooltip" class="form-control " id="firstname" value="${user.firstName}" name="firstname"
+                                <input class="form-control " id="firstname" value="${user.firstName}" name="firstname"
                                        type="text" required="" pattern="[A-ZА-Я]{1}[a-zа-я]{2,20}">
                                 <span class="form-text small text-muted"><fmt:message key="tips.user.firstname"/></span>
                             </div>
