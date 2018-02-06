@@ -18,7 +18,7 @@ import java.util.List;
  Author: Aliaksei Loika
  Date: 26.01.2018
  ***/
-public class MySQLBookOrderDAO implements BookOrderDAO {
+public class BookOrderDAOImpl implements BookOrderDAO {
     private static final String FIND_ALL_BOOK_ORDERS = "SELECT bo.id , u.id AS user_id, b.id AS book_id, b.title,  u.login, bo.date_from, bo.date_to, bo.date_return, bo.order_type_id, bo.status_id  " +
             "FROM book_orders bo INNER JOIN user u INNER JOIN book b ON bo.user_id = u.id AND bo.book_id = b.id";
 

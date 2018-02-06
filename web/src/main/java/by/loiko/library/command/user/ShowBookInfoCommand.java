@@ -21,13 +21,7 @@ public class ShowBookInfoCommand implements Command {
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
 
-        long bookId;
-
-        try {
-            bookId = Long.parseLong(request.getParameter(BOOK_ID_PARAM));
-        } catch (NumberFormatException e) {
-            bookId = 0;
-        }
+        String bookId = request.getParameter(BOOK_ID_PARAM);
 
         try {
             Book book = factory.getBookReceiver().findBookById(bookId);

@@ -13,4 +13,6 @@ public interface GenreDAO extends AbstractDAO<Genre> {
 
     List<Genre> findGenresByBookId(long id) throws DAOException;
 
+    List<Genre> findAllGenresAbs() throws DAOException;
+
 }

@@ -21,7 +21,7 @@ public interface Command {
 
     Router execute(HttpServletRequest request);
 
-    default Map<String, String> getAllParametersAsMap(HttpServletRequest request) {
+        default Map<String, String> getAllParametersAsMap(HttpServletRequest request) {
         Enumeration enumeration = request.getParameterNames();
         Map<String, String> paramMap = new HashMap<>();
         while (enumeration.hasMoreElements()) {
@@ -29,6 +29,25 @@ public interface Command {
             String paramValue = request.getParameter(paramName);
             paramValue = new String(paramValue.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
             paramMap.put(paramName, paramValue);
+        }
+
+        return paramMap;
+    }
+
+    default Map<String, String[]> getAllParamArrayAsMap(HttpServletRequest request) {
+        Enumeration enumeration = request.getParameterNames();
+        Map<String, String[]> paramMap = new HashMap<>();
+        while (enumeration.hasMoreElements()) {
+            String paramName = (String) enumeration.nextElement();
+            String paramValues[] = new String[0];
+            try {
+                paramValues = request.getParameterValues(paramName);
+            }catch (IndexOutOfBoundsException e){
+                String paramValue = request.getParameter(paramName);
+                paramValues[1] = new String(paramValue.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+            }
+
+            paramMap.put(paramName, paramValues);
         }
 
         return paramMap;

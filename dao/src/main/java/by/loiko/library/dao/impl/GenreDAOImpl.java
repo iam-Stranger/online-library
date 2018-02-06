@@ -5,6 +5,9 @@ import by.loiko.library.entity.Genre;
 import by.loiko.library.exception.DAOException;
 import by.loiko.library.pool.ConnectionPool;
 import by.loiko.library.pool.ProxyConnection;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,8 +20,11 @@ import java.util.List;
  Author: Aliaksei Loika
  Date: 31.01.2018
  ***/
-public class MySQLGenreDAO implements GenreDAO {
-    private final static String FIND_ALL_GENRES = "SELECT * FROM genre";
+public class GenreDAOImpl implements GenreDAO {
+    private static Logger logger = LogManager.getLogger();
+
+    private final static String FIND_ALL_GENRES = "SELECT * FROM genre WHERE deleted = 0 ORDER BY type";
+    private final static String FIND_ALL_GENRES_ABS = "SELECT * FROM genre ORDER BY type";
     private final static String FIND_GENRE_BY_ID = "SELECT * FROM genre WHERE id = ?";
     private final static String ADD_NEW_GENRE = "INSERT INTO genre (type) VALUE (?)";
     private final static String UPDATE_GENRE = "UPDATE genre SET type = ? , deleted = ? WHERE id = ?";
@@ -116,6 +122,7 @@ public class MySQLGenreDAO implements GenreDAO {
                 genreList.add(buildGenre(resultSet));
             }
         } catch (SQLException e) {
+            logger.log(Level.ERROR, e);
             throw new DAOException("Error in findAllGenres method: ", e);
         } finally {
             close(statement);
@@ -128,17 +135,6 @@ public class MySQLGenreDAO implements GenreDAO {
     public List<Genre> findEntitiesByArrayOfId(List<Long> idList) throws DAOException {
 
         return null;
-    }
-
-
-    private Genre buildGenre(ResultSet resultSet) throws SQLException {
-        Genre genre = new Genre();
-
-        genre.setId(resultSet.getLong("id"));
-        genre.setType(resultSet.getString("type"));
-        genre.setIsDeleted(resultSet.getBoolean("deleted"));
-
-        return genre;
     }
 
     @Override
@@ -159,5 +155,39 @@ public class MySQLGenreDAO implements GenreDAO {
             throw new DAOException("Error in findGenresByBookId method: ", e);
         }
         return genreList;
+    }
+
+    @Override
+    public List<Genre> findAllGenresAbs() throws DAOException {
+        List<Genre> genreList = new ArrayList<>();
+        ProxyConnection proxyConnection = null;
+        Statement statement = null;
+        try {
+            proxyConnection = ConnectionPool.getInstance().getConnection();
+            statement = proxyConnection.createStatement();
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_GENRES_ABS);
+
+            while (resultSet.next()) {
+                genreList.add(buildGenre(resultSet));
+            }
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, e);
+            throw new DAOException("Error in findAllGenres method: ", e);
+        } finally {
+            close(statement);
+            releaseConnection(proxyConnection);
+        }
+        return genreList;
+    }
+
+
+    private Genre buildGenre(ResultSet resultSet) throws SQLException {
+        Genre genre = new Genre();
+
+        genre.setId(resultSet.getLong("id"));
+        genre.setType(resultSet.getString("type"));
+        genre.setIsDeleted(resultSet.getBoolean("deleted"));
+
+        return genre;
     }
 }

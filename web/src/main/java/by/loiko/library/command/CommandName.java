@@ -6,10 +6,7 @@ import by.loiko.library.command.admin.ShowHistoryOrders;
 import by.loiko.library.command.admin.ValidateInfoEditUserCommand;
 import by.loiko.library.command.common.*;
 import by.loiko.library.command.librarian.*;
-import by.loiko.library.command.navigate.ToAddAuthorPageCommand;
-import by.loiko.library.command.navigate.ToAddGenrePageCommand;
-import by.loiko.library.command.navigate.ToFindBookPageCommand;
-import by.loiko.library.command.navigate.ToSignUpCommand;
+import by.loiko.library.command.navigate.*;
 import by.loiko.library.command.user.ShowBookInfoCommand;
 import by.loiko.library.command.user.ShowFindBooksCommand;
 import by.loiko.library.command.user.ShowOrderListCommand;
@@ -36,6 +33,8 @@ public enum CommandName {
     SHOW_BOOK_INFO(new ShowBookInfoCommand()),
     EDIT_BOOK_INFO(new EditBookInfoCommand()),
     SHOW_ALL_BOOKS(new ShowAllBooksCommand()),
+    UPDATE_BOOK_INFO(new UpdateBookInfoCommand()),
+    ADD_NEW_BOOK(new AddNewBookCommand()),
 
     DELETE_BOOK(new DeleteBookCommand()),
 
@@ -58,6 +57,7 @@ public enum CommandName {
     VALIDATE_INFO_EDIT_USER(new ValidateInfoEditUserCommand()),
     VALIDATE_INFO_NEW_USER(new ValidateInfoNewUserCommand()),
 
+    TO_ADD_BOOK_PAGE(new ToAddBookPageCommand()),
     TO_ADD_AUTHOR_PAGE(new ToAddAuthorPageCommand()),
     TO_ADD_GENRE_PAGE(new ToAddGenrePageCommand()),
     TO_FIND_BOOK_PAGE(new ToFindBookPageCommand()),

@@ -2,6 +2,7 @@ package by.loiko.library.command.librarian;
 
 import by.loiko.library.command.Command;
 import by.loiko.library.command.PageConstant;
+import by.loiko.library.command.ParamConstant;
 import by.loiko.library.controller.Router;
 import by.loiko.library.entity.Genre;
 import by.loiko.library.exception.ReceiverException;
@@ -13,32 +14,25 @@ import javax.servlet.http.HttpServletRequest;
  Date: 30.01.2018
  ***/
 public class EditGenreInfoCommand implements Command {
-    private static final String GENRE_ID_PARAM = "id";
-    private static final String GENRE_PARAM = "genre";
 
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
 
-        long genreId;
-        try {
-            genreId = Long.valueOf(request.getParameter(GENRE_ID_PARAM));
-        } catch (NumberFormatException e) {
-            genreId = 0;
-        }
+        String id = request.getParameter(ParamConstant.GENRE_ID_PARAM);
 
         try{
-            Genre genre = factory.getBookReceiver().findGenreById(genreId);
-            request.setAttribute(GENRE_PARAM, genre);
+            Genre genre = factory.getBookReceiver().findGenreById(id);
+            request.setAttribute(ParamConstant.GENRE_OBJ_PARAM, genre);
             router.setPagePath(PageConstant.EDIT_GENRE_FORM);
 
         } catch (ReceiverException e) {
-
-            request.setAttribute("message", e.getMessage());
+            request.getSession().setAttribute(ParamConstant.MESSAGE_PARAM, e.getMessage());
             router.setPagePath(PageConstant.ERROR_PAGE);
+            router.setRouteType(Router.RouteType.REDIRECT);
         }
 
-        request.getSession().setAttribute("url", request.getRequestURI() + "?" + request.getQueryString());
+        request.getSession().setAttribute(ParamConstant.URL_PARAM, request.getRequestURI() + "?" + request.getQueryString());
         return router;
     }
 }

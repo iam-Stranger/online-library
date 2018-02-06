@@ -11,6 +11,7 @@ public class PageConstant {
 
     public static final String SIGN_IN_FORM = "/login.jsp";
     public static final String SIGN_UP_FORM = "/jsp/common/sign_up.jsp";
+
     public static final String FIND_BOOK_FORM = "/jsp/user/find_book_page.jsp";
     public static final String EDIT_USER_FORM = "/jsp/admin/edit_user_page.jsp";
     public static final String EDIT_GENRE_FORM = "/jsp/librarian/edit_genre_page.jsp";
@@ -19,7 +20,7 @@ public class PageConstant {
 
     public static final String ADD_GENRE_FORM = "/jsp/librarian/add_genre_page.jsp";
     public static final String ADD_AUTHOR_FORM = "/jsp/librarian/add_author_page.jsp";
-
+    public static final String ADD_BOOK_FORM = "/jsp/librarian/add_book_page.jsp";
 
     public static final String DIALOG_DELETE = "/jsp/librarian/dialog_delete.jsp";
 

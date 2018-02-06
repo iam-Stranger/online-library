@@ -2,6 +2,7 @@ package by.loiko.library.command.user;
 
 import by.loiko.library.command.Command;
 import by.loiko.library.command.PageConstant;
+import by.loiko.library.command.ParamConstant;
 import by.loiko.library.controller.Router;
 import by.loiko.library.entity.Book;
 import by.loiko.library.exception.ReceiverException;
@@ -14,27 +15,24 @@ import java.util.List;
  Date: 23.01.2018
  ***/
 public class ShowOrderListCommand implements Command {
-    private static final String BOOK_ID_ARRAY_PARAM = "items";
-    private static final String BOOK_LIST_PARAM = "book_list";
-
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
 
-        String[] bookIdArray;
-
-        bookIdArray = request.getParameterValues(BOOK_ID_ARRAY_PARAM);
+        String[] bookIdArray = request.getParameterValues(ParamConstant.BOOK_ID_ARRAY_PARAM);
 
         try {
             List<Book> booksList = factory.getBookReceiver().findBooksByArrayOfId(bookIdArray);
-            request.setAttribute(BOOK_LIST_PARAM, booksList);
+            request.setAttribute(ParamConstant.BOOK_LIST_PARAM, booksList);
             router.setPagePath(PageConstant.SHOW_ORDER_LIST);
+
         } catch (ReceiverException e) {
-            request.setAttribute("message", e.getMessage());
+            request.getSession().setAttribute(ParamConstant.MESSAGE_PARAM, e.getMessage());
             router.setPagePath(PageConstant.ERROR_PAGE);
+            router.setRouteType(Router.RouteType.REDIRECT);
         }
 
-        request.getSession().setAttribute("url", request.getRequestURI() + "?" + request.getQueryString());
+        request.getSession().setAttribute(ParamConstant.URL_PARAM, request.getRequestURI() + "?" + request.getQueryString());
         return router;
     }
 }

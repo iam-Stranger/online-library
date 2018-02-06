@@ -60,6 +60,7 @@ public class UserReceiverImpl implements UserReceiver {
         if (id <= 0) {
             throw new ReceiverException("User ID is incorrect");
         }
+        ////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
         User user;
         try {

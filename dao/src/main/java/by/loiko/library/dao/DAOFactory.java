@@ -9,11 +9,11 @@ import by.loiko.library.dao.impl.*;
 public class DAOFactory {
     private static final DAOFactory instance = new DAOFactory();
 
-    private final UserDAO userDAO = new MySQLUserDAO();
-    private final BookDAO bookDAO = new MySQLBookDAO();
-    private final GenreDAO genreDAO = new MySQLGenreDAO();
-    private final AuthorDAO authorDAO = new MySQLAuthorDAO();
-    private final BookOrderDAO bookOrderDAO = new MySQLBookOrderDAO();
+    private final UserDAO userDAO = new UserDAOImpl();
+    private final BookDAO bookDAO = new BookDAOImpl();
+    private final GenreDAO genreDAO = new GenreDAOImpl();
+    private final AuthorDAO authorDAO = new AuthorDAOImpl();
+    private final BookOrderDAO bookOrderDAO = new BookOrderDAOImpl();
 
     private DAOFactory() {
     }

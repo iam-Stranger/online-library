@@ -9,6 +9,7 @@ import by.loiko.library.receiver.UserReceiver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Locale;
 
 /***
  Author: Aliaksei Loika
@@ -20,9 +21,14 @@ public class SignInCommand implements Command {
     private final static String PWD_PARAM = "password";
     private static final String PAGE = "main.jsp";
 
+
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
+
+        String locale = Locale.LanguageRange.parse(request.getHeader("Accept-Language")).get(1).getRange();
+        System.out.println(locale);
+
 
         String login = request.getParameter(LOGIN_PARAM);
         String password = request.getParameter(PWD_PARAM);

@@ -19,7 +19,7 @@ import java.util.List;
  Author: Aliaksei Loika
  Date: 21.12.2017
  ***/
-public class MySQLUserDAO implements UserDAO {
+public class UserDAOImpl implements UserDAO {
     private static Logger logger = LogManager.getLogger();
 
     private final static String ADD_NEW_USER_SIGN_UP = "INSERT INTO user  (login, password, email, firstname, lastname) VALUES (?, ?, ?, ?, ?)";

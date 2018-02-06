@@ -21,20 +21,26 @@ public interface BookReceiver extends AbstractReceiver {
     List<Genre> findAllGenres() throws ReceiverException;
     List<Author> findAllAuthors() throws ReceiverException;
 
-    Book findBookById(long id) throws ReceiverException;
-    Genre findGenreById(long id) throws ReceiverException;
-    Author findAuthorById(long id) throws ReceiverException;
+    List<Book> findAllBooksAbs() throws ReceiverException;
+    List<Genre> findAllGenresAbs() throws ReceiverException;
+    List<Author> findAllAuthorsAbs() throws ReceiverException;
 
-    Map<String, String> addNewBook(Map<String, String> paramsMap) throws ReceiverException;
+    Book findBookById(String id) throws ReceiverException;
+    Genre findGenreById(String id) throws ReceiverException;
+    Author findAuthorById(String id) throws ReceiverException;
+
+    Map<String, String> addNewBook(Map<String, String> paramsMap, String[] genres, String[] authors) throws ReceiverException;
     Map<String, String> addNewGenre(Map<String, String> paramsMap) throws ReceiverException;
     Map<String, String> addNewAuthor(Map<String, String> paramsMap) throws ReceiverException;
 
-    void deleteGenre(long id) throws ReceiverException;
-    void deleteAuthor(long id) throws ReceiverException;
-    void deleteBook(long id) throws ReceiverException;
+    void deleteGenre(String id) throws ReceiverException;
+    void deleteAuthor(String id) throws ReceiverException;
+    void deleteBook(String id) throws ReceiverException;
 
     Map<String, String> updateGenreInfo(Map<String, String> paramsMap) throws ReceiverException;
     Map<String, String> updateAuthorInfo(Map<String, String> paramsMap) throws ReceiverException;
+
+    Map<String, String> updateBookInfo(Map<String, String> paramsMap, String[] genres, String[] authors) throws ReceiverException;
 
 
 

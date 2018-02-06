@@ -1,6 +1,9 @@
 package by.loiko.library.dao;
 
 import by.loiko.library.entity.Author;
+import by.loiko.library.exception.DAOException;
+
+import java.util.List;
 
 /***
  Author: Aliaksei Loika
@@ -8,4 +11,7 @@ import by.loiko.library.entity.Author;
  ***/
 public interface AuthorDAO extends AbstractDAO<Author> {
 
+    List<Author> findAuthorsByBookId(long id) throws DAOException;
+
+    List<Author> findAllAuthorsAbs() throws DAOException;
 }

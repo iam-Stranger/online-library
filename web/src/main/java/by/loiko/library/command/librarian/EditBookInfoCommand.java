@@ -2,6 +2,7 @@ package by.loiko.library.command.librarian;
 
 import by.loiko.library.command.Command;
 import by.loiko.library.command.PageConstant;
+import by.loiko.library.command.ParamConstant;
 import by.loiko.library.controller.Router;
 import by.loiko.library.entity.Author;
 import by.loiko.library.entity.Book;
@@ -16,40 +17,30 @@ import java.util.List;
  Date: 30.01.2018
  ***/
 public class EditBookInfoCommand implements Command {
-    private static final String MESSAGE_PARAM = "message";
-    private static final String BOOK_ID_PARAM = "id";
-    private static final String BOOK_PARAM = "book";
-    private static final String GENRES_PARAM = "genres";
-    private static final String AUTHORS_PARAM = "authors";
 
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
 
-        long authorId;
-        try {
-            authorId = Long.valueOf(request.getParameter(BOOK_ID_PARAM));
-        } catch (NumberFormatException e) {
-            authorId = 0;
-        }
+        String id = request.getParameter(ParamConstant.BOOK_ID_PARAM);
 
         try {
             List<Genre> genreList = factory.getBookReceiver().findAllGenres();
             List<Author> authorList = factory.getBookReceiver().findAllAuthors();
-            Book book = factory.getBookReceiver().findBookById(authorId);
+            Book book = factory.getBookReceiver().findBookById(id);
 
-            request.setAttribute(AUTHORS_PARAM, authorList);
-            request.setAttribute(GENRES_PARAM, genreList);
-            request.setAttribute(BOOK_PARAM, book);
+            request.setAttribute(ParamConstant.AUTHORS_LIST_PARAM, authorList);
+            request.setAttribute(ParamConstant.GENRES_LIST_PARAM, genreList);
+            request.setAttribute(ParamConstant.BOOK_OBJ_PARAM, book);
             router.setPagePath(PageConstant.EDIT_BOOK_FORM);
 
         } catch (ReceiverException e) {
-
-            request.setAttribute(MESSAGE_PARAM, e.getMessage());
+            request.getSession().setAttribute(ParamConstant.MESSAGE_PARAM, e.getMessage());
             router.setPagePath(PageConstant.ERROR_PAGE);
+            router.setRouteType(Router.RouteType.REDIRECT);
         }
 
-        request.getSession().setAttribute("url", request.getRequestURI() + "?" + request.getQueryString());
+        request.getSession().setAttribute(ParamConstant.URL_PARAM, request.getRequestURI() + "?" + request.getQueryString());
         return router;
     }
 }

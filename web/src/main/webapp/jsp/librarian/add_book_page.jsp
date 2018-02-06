@@ -6,7 +6,7 @@
 <fmt:setBundle basename="localization"/>
 <html>
 <head>
-    <title><fmt:message key="label.libr.edit_book"/>: #${book.id}</title>
+    <title><fmt:message key="label.libr.add_book"/></title>
 </head>
 <body>
 
@@ -15,18 +15,17 @@
 <div class="container col-lg-4">
 
     <form class="form" action="${abs_path}/controller" method="post">
-        <input type="hidden" name="command" value="update_book_info">
-        <input type="hidden" name="id" value="${book.id}">
+        <input type="hidden" name="command" value="add_new_book">
         <div class="card shadow">
             <div class="card-block">
-                <h5 class="card-header"><fmt:message key="label.libr.edit_book"/></h5>
+                <h5 class="card-header"><fmt:message key="label.libr.add_book"/></h5>
                 <div class="card-text m-2">
                     <fieldset>
                         <div class="form-group row">
                             <label class="col-form-label col-3" for="title"><fmt:message key="book.info.title"/></label>
                             <div class="col-9">
-                                <input class="form-control " id="title" value="${book.title}" name="title"
-                                       type="text" required="" >
+                                <input class="form-control " id="title" value="${params['title']}" name="title"
+                                       type="text" >
                                 <span class="form-text small text-muted"><fmt:message key="tips.book.title"/></span>
                                 <span class="form-text small text-danger">${errors['title']}</span>
                             </div>
@@ -35,7 +34,7 @@
                         <div class="form-group row">
                             <label class="col-form-label col-3" for="publish_year"><fmt:message key="book.info.publish_year"/></label>
                             <div class="col-9">
-                                <input class="form-control " id="publish_year" value="${book.publishYear}" name="publish_year"
+                                <input class="form-control " id="publish_year" value="${params['publish_year']}" name="publish_year"
                                        type="text" required="" >
                                 <span class="form-text small text-muted"><fmt:message key="tips.book.publish_year"/></span>
                                 <span class="form-text small text-danger">${errors['publish_year']}</span>
@@ -45,7 +44,7 @@
                         <div class="form-group row">
                             <label class="col-form-label col-3" for="total_amount"><fmt:message key="book.info.total_amount"/></label>
                             <div class="col-9">
-                                <input class="form-control " id="total_amount" value="${book.totalAmount}" name="total_amount"
+                                <input class="form-control " id="total_amount" value="${params['total_amount']}" name="total_amount"
                                        type="text" required="" >
                                 <span class="form-text small text-muted"><fmt:message key="tips.book.total_amount"/></span>
                                 <span class="form-text small text-danger">${errors['total_amount']}</span>
@@ -56,7 +55,7 @@
                         <div class="form-group row">
                             <label class="col-form-label col-3" for="real_amount"><fmt:message key="book.info.real_amount"/></label>
                             <div class="col-9">
-                                <input class="form-control " id="real_amount" value="${book.realAmount}" name="real_amount"
+                                <input class="form-control " id="real_amount" value="${params['real_amount']}" name="real_amount"
                                        type="text" required="" >
                                 <span class="form-text small text-muted"><fmt:message key="tips.book.real_amount"/></span>
                                 <span class="form-text small text-danger">${errors['real_amount']}</span>
@@ -69,10 +68,10 @@
                                 <select id="genreid" name="genreid" class="form-control" multiple size="4">
                                     <c:forEach var="genre" items="${genres}" >
                                         <c:set var="selected" value=""/>
-                                        <c:forEach var="curr_genre" items="${book.genres}" >
-                                                <c:if test="${genre.id == curr_genre.id}">
-                                                    <c:set var="selected" value="selected"/>
-                                                </c:if>
+                                        <c:forEach var="curr_id" items="${genreid}" >
+                                            <c:if test="${genre.id == curr_id}">
+                                                <c:set var="selected" value="selected"/>
+                                            </c:if>
                                         </c:forEach>
                                         <option value="${genre.id}" ${selected}>${genre.type}</option>
                                     </c:forEach>
@@ -88,8 +87,8 @@
                                 <select id="authorid" name="authorid" class="form-control" multiple size="4">
                                     <c:forEach var="author" items="${authors}" >
                                         <c:set var="selected" value=""/>
-                                        <c:forEach var="curr_author" items="${book.authors}" >
-                                            <c:if test="${author.id == curr_author.id}">
+                                        <c:forEach var="curr_id" items="${authorid}" >
+                                            <c:if test="${author.id == curr_id}">
                                                 <c:set var="selected" value="selected"/>
                                             </c:if>
                                         </c:forEach>
@@ -101,32 +100,6 @@
                             </div>
                         </div>
 
-                        <c:choose>
-                            <c:when test="${book.isDeleted eq 'true'}">
-                                <c:set var="bool" value="1"/>
-                            </c:when>
-                            <c:otherwise>
-                                <c:set var="bool" value="0"/>
-                            </c:otherwise>
-                        </c:choose>
-                        <div class="form-group row">
-                            <label class="col-form-label col-3" for="status"><fmt:message key="user.status"/></label>
-                            <div class="col-9">
-                                <select id="status" name="status" class="form-control">
-                                    <c:forEach var="j" begin="0" end="1">
-                                        <c:choose>
-                                            <c:when test="${j == bool}">
-                                                <option value="${j}" selected><fmt:message key="user.status.${j}"/></option>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <option value="${j}"><fmt:message key="user.status.${j}"/></option>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <span class="form-text small text-danger">${errors['status']}</span>
-                        </div>
                     </fieldset>
                 </div>
                 <div class="card-footer text-right">

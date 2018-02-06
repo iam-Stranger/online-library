@@ -2,6 +2,7 @@ package by.loiko.library.command.librarian;
 
 import by.loiko.library.command.Command;
 import by.loiko.library.command.PageConstant;
+import by.loiko.library.command.ParamConstant;
 import by.loiko.library.command.UrlConstant;
 import by.loiko.library.controller.Router;
 import by.loiko.library.exception.ReceiverException;
@@ -13,20 +14,11 @@ import javax.servlet.http.HttpServletRequest;
  Date: 30.01.2018
  ***/
 public class DeleteGenreCommand implements Command {
-    private static final String GENRE_ID_PARAM = "id";
-    private static final String MESSAGE_PARAM = "message";
-
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
 
-        long id;
-
-        try {
-            id = Long.parseLong(request.getParameter(GENRE_ID_PARAM));
-        } catch (NumberFormatException e) {
-            id = 0;
-        }
+        String id = request.getParameter(ParamConstant.GENRE_ID_PARAM);
 
         try {
             factory.getBookReceiver().deleteGenre(id);
@@ -34,8 +26,9 @@ public class DeleteGenreCommand implements Command {
             router.setRouteType(Router.RouteType.REDIRECT);
 
         } catch (ReceiverException | NumberFormatException e) {
-            request.setAttribute(MESSAGE_PARAM, e.getMessage());
+            request.getSession().setAttribute(ParamConstant.MESSAGE_PARAM, e.getMessage());
             router.setPagePath(PageConstant.ERROR_PAGE);
+            router.setRouteType(Router.RouteType.REDIRECT);
         }
 
         return router;
