@@ -1,3 +1,4 @@
+<%--@elvariable id="abs_path" type="pageContext.request.contextPath"--%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -12,12 +13,12 @@
         window.onload = function () {
             document.getElementById("password").onchange = validatePassword;
             document.getElementById("confirm").onchange = validatePassword;
-        }
+        };
 
         function validatePassword() {
             var pass2 = document.getElementById("confirm").value;
             var pass1 = document.getElementById("password").value;
-            if (pass1 != pass2)
+            if (pass1 !== pass2)
                 document.getElementById("confirm").setCustomValidity("Passwords Don't Match");
             else
                 document.getElementById("confirm").setCustomValidity('');
@@ -29,8 +30,6 @@
 <body>
 
 <c:import url="${pageContext.request.contextPath}/jsp/include/header.jsp"/>
-<%--<jsp:include page="${pageContext.request.contextPath}/jsp/include/common_imports.jspf"/>--%>
-<%--is-invalid--%>
 
 <div class="container col-lg-4 col-md-6">
     <form class="form" action="${abs_path}/controller" method="post">

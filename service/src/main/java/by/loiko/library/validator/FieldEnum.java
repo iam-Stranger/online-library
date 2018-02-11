@@ -16,7 +16,13 @@ public enum FieldEnum {
 
     TYPE("[A-ZА-ЯЁ]{1}[A-ZА-ЯЁa-zа-яё\\s]{2,48}", "type", "Genre type is incorrect"),
     NAME("[A-ZА-ЯЁ]{1}[A-ZА-ЯЁa-zа-яё\\s]{2,48}", "name", "Author name is incorrect"),
-    STATUS("0|1", "status", "Entity status is incorrect");
+    STATUS("0|1", "status", "Entity status is incorrect"),
+    ORDER_TYPE("0|1", "order_type", "Order type is incorrect"),
+    DATE_FROM("\\d{4}-\\d{2}-\\d{2}", "date_from", "DateFrom is incorrect"),
+    DATE_TO("\\d{4}-\\d{d}-\\d{2}", "date_to", "DateTo is incorrect")
+
+
+    ;
 
     FieldEnum(String regEx, String fieldName, String message) {
         this.regEx = regEx;

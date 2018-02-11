@@ -30,7 +30,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><fmt:message key="menu.orders"/></a>
+                    <a class="nav-link" href="${abs_path}/controller?command=show_active_user_orders"><fmt:message key="menu.orders"/></a>
                 </li>
 
                 <li class="divider-vertical"></li>
@@ -38,6 +38,8 @@
                 <li class="nav-item dropdown" >
                     <a class="nav-link dropdown-toggle" href="#" id="librarian" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><fmt:message key="menu.libr.group"/></a>
                     <div class="dropdown-menu" aria-labelledby="user_menu">
+                        <a class="dropdown-item" href="${abs_path}/controller?command=manage_orders"><fmt:message key="menu.libr.manage_orders"/></a>
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="${abs_path}/controller?command=show_all_genres"><fmt:message key="menu.libr.edit_genres"/></a>
                         <a class="dropdown-item" href="${abs_path}/controller?command=show_all_authors"><fmt:message key="menu.libr.edit_authors"/></a>
                         <a class="dropdown-item" href="${abs_path}/controller?command=show_all_books"><fmt:message key="menu.libr.edit_books"/></a>

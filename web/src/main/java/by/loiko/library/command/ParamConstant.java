@@ -5,8 +5,21 @@ package by.loiko.library.command;
  Date: 05.02.2018
  ***/
 public class ParamConstant {
+    public static final String COMMAND_PARAM = "command";
     public static final String MESSAGE_PARAM = "message";
     public static final String URL_PARAM = "url";
+    public static final String REFERER_PARAM = "referer";
+
+    public static final String USER_PARAM = "user";
+
+    public static final String COUNT_POSSIBLE_BOOKS = "count_psb_books";
+
+    public static final String ORDER_LIST_PARAM = "order_list";
+
+    public static final String ORDER_ID_PARAM = "id";
+    public static final String ORDER_TYPE_PARAM = "order_type";
+    public static final String ORDER_DATE_FROM_PARAM = "date_from";
+    public static final String ORDER_DATE_TO_PARAM = "date_to";
 
     public static final String BOOK_ID_PARAM = "id";
     public static final String BOOK_OBJ_PARAM = "book";

@@ -9,7 +9,7 @@
 
 <html>
 <head>
-    <title><fmt:message key="label.users.show_all_users"/></title>
+    <title><fmt:message key="label.admin.show_all_users"/></title>
 
 </head>
 <body>
@@ -23,7 +23,7 @@
 
     <div class="card shadow" style="width: 100%;">
         <div class="card-block">
-            <h5 class="card-header"><fmt:message key="label.users.show_all_users"/></h5>
+            <h5 class="card-header"><fmt:message key="label.admin.show_all_users"/></h5>
             <div class="card-text">
 
                 <table class="table table-bordered table-hover table-responsive" width="100%">

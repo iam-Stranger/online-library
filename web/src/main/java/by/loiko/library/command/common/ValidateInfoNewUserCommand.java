@@ -40,18 +40,6 @@ public class ValidateInfoNewUserCommand implements Command {
             router.setPagePath(PageConstant.ERROR_PAGE);
         }
 
-//        if(!errorMap.isEmpty()){
-//            for(Map.Entry<String, String> entry : errorMap.entrySet()){
-//                System.out.println(entry.getValue());
-//            }
-//        }
-//
-//        if(!paramsMap.isEmpty()){
-//            for(Map.Entry<String, String> entry : paramsMap.entrySet()){
-//                System.out.println(entry.getValue());
-//            }
-//        }
-
         return router;
     }
 }

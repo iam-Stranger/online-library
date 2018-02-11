@@ -6,7 +6,7 @@
 <fmt:setBundle basename="localization"/>
 <html>
 <head>
-    <title><fmt:message key="dialog.delete"/>: #${params['id']}</title>
+    <title><fmt:message key="dialog.limit_books1"/>: </title>
 </head>
 <body>
 
@@ -14,21 +14,22 @@
 
 <div class="container col-lg-4">
 
-    <form class="form" action="${abs_path}/controller" method="post">
-        <input type="hidden" name="command" value="${params['type']}">
-        <input type="hidden" name="id" value="${params['id']}">
         <div class="card shadow">
             <div class="card-block">
-                <h5 class="card-header"><fmt:message key="dialog.delete"/></h5>
+                <h5 class="card-header"><fmt:message key="dialog.limit_books1"/></h5>
+
                 <div class="card-text m-2">
-                    <fieldset>
-                        <h5>&nbsp;<fmt:message key="dialog.are_you_sure"/></h5>
+                    <fieldset style="padding: 5px">
+                        <h5 style="padding: 5px"><fmt:message key="dialog.limit_books2"/></h5>
                     </fieldset>
                 </div>
+
+                <br/>
                 <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-danger"><fmt:message key="button.dialog.delete"/></button>
-                    <a href="${abs_path}/controller?command=${params['return']}" name="cancel" class="btn btn-primary">
-                        <fmt:message key="button.dialog.cancel"/></a>
+                    <a href="${abs_path}/controller?command=to_main_page" name="to_main" class="btn btn-outline-secondary btn-sm">
+                        <fmt:message key="button.go_to_main"/></a>
+                    <a href="${abs_path}/controller?command=show_active_user_orders" name="to_expired" class="btn btn-outline-secondary btn-sm">
+                        <fmt:message key="button.go_to_orders_lim"/></a>
                 </div>
             </div>
         </div>

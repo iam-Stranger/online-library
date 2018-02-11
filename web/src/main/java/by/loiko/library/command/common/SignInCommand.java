@@ -2,6 +2,7 @@ package by.loiko.library.command.common;
 
 import by.loiko.library.command.Command;
 import by.loiko.library.command.PageConstant;
+import by.loiko.library.command.ParamConstant;
 import by.loiko.library.controller.Router;
 import by.loiko.library.entity.User;
 import by.loiko.library.exception.ReceiverException;
@@ -16,10 +17,8 @@ import java.util.Locale;
  Date: 11.01.2018
  ***/
 public class SignInCommand implements Command {
-    private final static String USER_PARAM = "user";
     private final static String LOGIN_PARAM = "login";
     private final static String PWD_PARAM = "password";
-    private static final String PAGE = "main.jsp";
 
 
     @Override
@@ -27,8 +26,6 @@ public class SignInCommand implements Command {
         Router router = new Router();
 
         String locale = Locale.LanguageRange.parse(request.getHeader("Accept-Language")).get(1).getRange();
-        System.out.println(locale);
-
 
         String login = request.getParameter(LOGIN_PARAM);
         String password = request.getParameter(PWD_PARAM);
@@ -38,13 +35,13 @@ public class SignInCommand implements Command {
             User user = userReceiver.findUser(login, password);
 
             HttpSession session = request.getSession();
-            session.setAttribute(USER_PARAM, user);
+            session.setAttribute(ParamConstant.USER_PARAM, user);
 
-            router.setPagePath(PAGE);
+            router.setPagePath(PageConstant.MAIN_PAGE);
         } catch (ReceiverException e) {
-            // go to error page
-            request.setAttribute("message", e.getMessage());
+            request.getSession().setAttribute(ParamConstant.MESSAGE_PARAM, e.getMessage());
             router.setPagePath(PageConstant.ERROR_PAGE);
+            router.setRouteType(Router.RouteType.REDIRECT);
         }
 
         return router;

@@ -127,5 +127,18 @@ public class BookOrder extends Entity {
         return Objects.hash(id, user, book, dateFrom, dateTo, dateReturn, orderTypeId, statusId, isDeleted);
     }
 
-
+    @Override
+    public String toString() {
+        return "BookOrder{" +
+                "id=" + id +
+                ", user=" + user +
+                ", book=" + book +
+                ", dateFrom=" + dateFrom +
+                ", dateTo=" + dateTo +
+                ", dateReturn=" + dateReturn +
+                ", orderTypeId=" + orderTypeId +
+                ", statusId=" + statusId +
+                ", isDeleted=" + isDeleted +
+                '}';
+    }
 }

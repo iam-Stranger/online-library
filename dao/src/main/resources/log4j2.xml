@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="INFO">
-    <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+<configuration status="WARN">
+    <Properties>
+        <Property name="basePath">C:\\log\</Property>
+    </Properties>
+    <appenders>
+        <RollingFile name="FILE" fileName="${basePath}/logs/library-info.log" filePattern="${basePath}/training-info - %d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="%d{ISO8601} [%-5p] (%F:%L) - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingFile>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{ABSOLUTE} [%-5p] (%F:%L) - %m%n"/>
         </Console>
-        <File name="MyFile" fileName="${basedir}/logs/app-log.log" append="false">
-            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-        </File>
-    </Appenders>
+    </appenders>
     <Loggers>
-        <Root level="debug">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="MyFile"/>
-        </Root>
+        <root level="debug">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="FILE"/>
+        </root>
     </Loggers>
-</Configuration>
+</configuration>

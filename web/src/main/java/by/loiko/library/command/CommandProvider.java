@@ -1,5 +1,9 @@
 package by.loiko.library.command;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 
 /***
@@ -7,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
  Date: 29.12.2017
  ***/
 public class CommandProvider {
+    private static Logger logger = LogManager.getLogger();
 
     private final static CommandProvider instance = new CommandProvider();
 
@@ -18,16 +23,24 @@ public class CommandProvider {
     }
 
     public Command getCommand(HttpServletRequest request) {
-        String name = request.getParameter("command");
+        return getCommandName(request).getCommand();
+    }
+
+    public int getCommandAccessLevel(HttpServletRequest request){
+        return getCommandName(request).getAccessLevel();
+    }
+
+    public CommandName getCommandName(HttpServletRequest request) {
+        String name = request.getParameter(ParamConstant.COMMAND_PARAM);
         CommandName commandName;
         try {
             commandName = CommandName.valueOf(name.toUpperCase());
         } catch (IllegalArgumentException | NullPointerException e) {
-            System.out.println(e.getMessage()); /// LOG
+            logger.log(Level.DEBUG,"Unknown command: "+name);
             commandName = CommandName.WRONG_COMMAND;
         }
-
-        return commandName.getCommand();
+        return commandName;
     }
+
 
 }

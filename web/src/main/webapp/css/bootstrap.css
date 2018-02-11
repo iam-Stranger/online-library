@@ -983,6 +983,13 @@ fieldset[disabled] a.btn {
     border-radius: 0.2rem;
 }
 
+.btn-xsm, .btn-group-xsm > .btn {
+    padding: 0.15rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}
+
 .btn-block {
     display: block;
     width: 100%;
@@ -1022,6 +1029,10 @@ input[type="button"].btn-block {
 .card-subtitle {
     margin-top: -0.375rem;
     margin-bottom: 0;
+}
+
+.card-text {
+    padding: 2px;
 }
 
 .card-text:last-child {
@@ -8102,4 +8113,9 @@ body > * {
 .shadow {
     box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
     transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.c{
+    text-align: center;
+    width: min-content;
 }
