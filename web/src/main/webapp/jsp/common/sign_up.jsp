@@ -33,7 +33,7 @@
 
 <div class="container col-lg-4 col-md-6">
     <form class="form" action="${abs_path}/controller" method="post">
-        <input type="hidden" name="command" value="validate_info_new_user">
+        <input type="hidden" name="command" value="add_new_user">
         <div class="card shadow">
             <div class="card-block">
                 <h5 class="card-header"><fmt:message key="user.sign_up"/></h5>

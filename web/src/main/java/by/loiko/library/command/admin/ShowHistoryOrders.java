@@ -2,7 +2,6 @@ package by.loiko.library.command.admin;
 
 import by.loiko.library.command.Command;
 import by.loiko.library.command.PageConstant;
-import by.loiko.library.command.UrlConstant;
 import by.loiko.library.controller.Router;
 import by.loiko.library.entity.BookOrder;
 import by.loiko.library.exception.ReceiverException;
@@ -32,7 +31,6 @@ public class ShowHistoryOrders implements Command {
             router.setPagePath(PageConstant.ERROR_PAGE);
         }
 
-        request.getSession().setAttribute("url", UrlConstant.SHOW_HISTORY_ORDERS);
         return router;
     }
 }

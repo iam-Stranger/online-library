@@ -15,9 +15,11 @@ public interface UserReceiver extends AbstractReceiver {
     List<User> findAllUsers() throws ReceiverException;
 
     User findUser(String login, String password) throws ReceiverException;
-    User findUserById (long id) throws ReceiverException;
+    User findUserById (String id) throws ReceiverException;
     Map<String, String> AddNewUser(Map<String, String> paramsMap) throws ReceiverException;
 
-    boolean signIn(String login, String password) throws ReceiverException;
+    Map<String, String> updateUserInfo(Map<String, String> paramsMap) throws ReceiverException;
+
+    void deleteUser(String id) throws ReceiverException;
 
 }

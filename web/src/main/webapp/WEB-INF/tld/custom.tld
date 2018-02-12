@@ -11,4 +11,24 @@
         <tag-class>by.loiko.library.tag.DateTag</tag-class>
         <body-content>empty</body-content>
     </tag>
+    <tag>
+        <name>is-admin</name>
+        <tag-class>by.loiko.library.tag.AdminRoleTag</tag-class>
+        <body-content>JSP</body-content>
+    </tag>
+    <tag>
+        <name>is-librarian</name>
+        <tag-class>by.loiko.library.tag.LibrarianRoleTag</tag-class>
+        <body-content>JSP</body-content>
+    </tag>
+    <tag>
+        <name>is-user</name>
+        <tag-class>by.loiko.library.tag.UserRoleTag</tag-class>
+        <body-content>JSP</body-content>
+    </tag>
+    <tag>
+        <name>is-guest</name>
+        <tag-class>by.loiko.library.tag.GuestRoleTag</tag-class>
+        <body-content>JSP</body-content>
+    </tag>
 </taglib>

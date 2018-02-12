@@ -1,10 +1,11 @@
-package by.loiko.library.command.librarian;
+package by.loiko.library.command.admin;
 
 import by.loiko.library.command.Command;
 import by.loiko.library.command.PageConstant;
 import by.loiko.library.command.ParamConstant;
 import by.loiko.library.command.UrlConstant;
 import by.loiko.library.controller.Router;
+import by.loiko.library.entity.User;
 import by.loiko.library.exception.ReceiverException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +13,9 @@ import java.util.Map;
 
 /***
  Author: Aliaksei Loika
- Date: 28.01.2018
+ Date: 27.01.2018
  ***/
-public class AddNewAuthorCommand implements Command {
-
+public class UpdateUserInfoCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
@@ -23,17 +23,23 @@ public class AddNewAuthorCommand implements Command {
         Map<String, String> errorMap = null;
         Map<String, String> paramsMap = getAllParametersAsMap(request);
 
+
         try {
-            errorMap = factory.getBookReceiver().addNewAuthor(paramsMap);
+            errorMap = factory.getUserReceiver().updateUserInfo(paramsMap);
 
             if (errorMap.isEmpty()) {
-                router.setPagePath(PageConstant.DIALOG_SUCCESS);
-                request.getSession().setAttribute(ParamConstant.RETURN_PAGE_PARAM, UrlConstant.SHOW_ALL_AUTHORS);
+                router.setPagePath(UrlConstant.SHOW_ALL_USERS);
+                // add success  PAGE or message
                 router.setRouteType(Router.RouteType.REDIRECT);
             } else {
+                String id = request.getParameter(ParamConstant.USER_ID_PARAM);
+
+                User user = factory.getUserReceiver().findUserById(id);
+
+                request.setAttribute(ParamConstant.USER_OBJ_PARAM, user);
+
                 request.setAttribute(ParamConstant.ERROR_MAP_PARAM, errorMap);
-                request.setAttribute(ParamConstant.PARAMS_MAP_PARAM, paramsMap);
-                router.setPagePath(PageConstant.ADD_AUTHOR_FORM);
+                router.setPagePath(PageConstant.EDIT_USER_FORM);
             }
 
         } catch (ReceiverException e) {

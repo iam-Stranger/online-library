@@ -22,17 +22,14 @@ public class ShowUserOrdersCommand implements Command {
         try {
             List<BookOrder> ordersList = factory.getBookOrderReceiver().findAllBookOrdersAbs();
 
-
             request.setAttribute(ParamConstant.ORDER_LIST_PARAM, ordersList);
             router.setPagePath(PageConstant.SHOW_HISTORY_ORDERS);
         } catch (ReceiverException e) {
-
             request.getSession().setAttribute(ParamConstant.MESSAGE_PARAM, e.getMessage());
             router.setPagePath(PageConstant.ERROR_PAGE);
             router.setRouteType(Router.RouteType.REDIRECT);
         }
 
-        request.getSession().setAttribute(ParamConstant.URL_PARAM, request.getRequestURI() + "?" + request.getQueryString());
         return router;
     }
 }

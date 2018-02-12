@@ -10,7 +10,8 @@ public class ParamConstant {
     public static final String URL_PARAM = "url";
     public static final String REFERER_PARAM = "referer";
 
-    public static final String USER_PARAM = "user";
+    public static final String USER_OBJ_PARAM = "user";
+    public static final String USER_ID_PARAM = "id";
 
     public static final String COUNT_POSSIBLE_BOOKS = "count_psb_books";
 
@@ -42,4 +43,6 @@ public class ParamConstant {
 
     public static final String GENRES_LIST_PARAM = "genres";
     public static final String AUTHORS_LIST_PARAM = "authors";
+
+    public static final String RETURN_PAGE_PARAM = "return_page";
 }

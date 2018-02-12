@@ -27,12 +27,10 @@ public class EditAuthorInfoCommand implements Command {
             router.setPagePath(PageConstant.EDIT_AUTHOR_FORM);
 
         } catch (ReceiverException e) {
-
             request.getSession().setAttribute(ParamConstant.MESSAGE_PARAM, e.getMessage());
             router.setPagePath(PageConstant.ERROR_PAGE);
+            router.setRouteType(Router.RouteType.REDIRECT);
         }
-
-        request.getSession().setAttribute("url", request.getRequestURI() + "?" + request.getQueryString());
         return router;
     }
 }

@@ -27,8 +27,8 @@ public class UpdateGenreInfoCommand implements Command {
             errorMap = factory.getBookReceiver().updateGenreInfo(paramsMap);
 
             if (errorMap.isEmpty()) {
-                router.setPagePath(UrlConstant.SHOW_ALL_GENRES);
-                // add success  PAGE or message
+                router.setPagePath(PageConstant.DIALOG_SUCCESS);
+                request.getSession().setAttribute(ParamConstant.RETURN_PAGE_PARAM, UrlConstant.SHOW_ALL_GENRES);
                 router.setRouteType(Router.RouteType.REDIRECT);
             } else {
                 request.setAttribute(ParamConstant.ERROR_MAP_PARAM, errorMap);

@@ -5,13 +5,14 @@ package by.loiko.library.command;
  Date: 17.01.2018
  ***/
 public class PageConstant {
-    public static final String ERROR_PAGE = "/jsp/error_page.jsp";
+    public static final String ERROR_PAGE = "/jsp/common/error_page.jsp";
     public static final String MAIN_PAGE = "/jsp/user/main_page.jsp";
     public static final String INDEX_PAGE = "index.jsp";
-    public static final String LOGIN_PAGE = "/jsp/login.jsp";
+    public static final String LOGIN_PAGE = "/jsp/common/login.jsp";
 
-    public static final String SIGN_IN_FORM = "/login.jsp";
+    public static final String SIGN_IN_FORM = "/jsp/common/login.jsp";
     public static final String SIGN_UP_FORM = "/jsp/common/sign_up.jsp";
+    public static final String SIGN_UP_SUCCESS = "/jsp/common/sign_up_success.jsp";
 
     public static final String FIND_BOOK_FORM = "/jsp/user/find_book_page.jsp";
     public static final String EDIT_USER_FORM = "/jsp/admin/edit_user_page.jsp";
@@ -26,6 +27,7 @@ public class PageConstant {
     public static final String MANAGE_ORDERS = "/jsp/librarian/manage_orders.jsp";
     public static final String SHOW_ACTIVE_USER_ORDERS = "/jsp/user/show_active_user_orders.jsp";
 
+    public static final String DIALOG_SUCCESS = "/jsp/user/dialog_success.jsp";
     public static final String DIALOG_DELETE = "/jsp/librarian/dialog_delete.jsp";
     public static final String DIALOG_GIVE_BOOK = "/jsp/librarian/dialog_give_book.jsp";
     public static final String DIALOG_DISMISS_BOOK = "/jsp/librarian/dialog_dismiss_book.jsp";

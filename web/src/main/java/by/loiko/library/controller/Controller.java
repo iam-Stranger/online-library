@@ -30,20 +30,17 @@ public class Controller extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Router router;
-
         Command command = CommandProvider.getInstance().getCommand(request);
 
         router = command.execute(request);
         switch (router.getRouteType()) {
             case FORWARD:
-                //request.getSession().setAttribute("url", request.getHeader("referer"));
                 request.getRequestDispatcher(router.getPagePath()).forward(request, response);
                 break;
             case REDIRECT:
                 response.sendRedirect(router.getPagePath());
                 break;
         }
-
     }
 
 }

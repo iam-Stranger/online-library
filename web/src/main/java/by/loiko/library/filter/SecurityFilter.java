@@ -21,7 +21,7 @@ public class SecurityFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        User user = (User) request.getSession().getAttribute(ParamConstant.USER_PARAM);
+        User user = (User) request.getSession().getAttribute(ParamConstant.USER_OBJ_PARAM);
 
         int commandAccessLevel = CommandProvider.getInstance().getCommandAccessLevel(request);
         String commandName = CommandProvider.getInstance().getCommandName(request).toString();
@@ -32,7 +32,7 @@ public class SecurityFilter implements Filter {
                 request.getRequestDispatcher(PageConstant.ERROR_PAGE).forward(servletRequest, servletResponse);
             }
 
-        } else if (!commandName.equals("SIGN_IN")) {
+        } else if (!isGuestCommand(commandName)) {
             request.getRequestDispatcher(PageConstant.LOGIN_PAGE).forward(servletRequest, servletResponse);
         }
 
@@ -48,4 +48,21 @@ public class SecurityFilter implements Filter {
     public void destroy() {
 
     }
+
+    private boolean isGuestCommand(String commandName){
+        switch (commandName){
+            case "GO_TO_PAGE":
+            case "SIGN_IN":
+            case "SIGN_UP":
+            case "TO_SIGN_IN_PAGE":
+            case "TO_SIGN_UP_PAGE":
+            case "CHANGE_LOCALE":
+            case "ADD_NEW_USER":
+            case "WRONG_COMMAND":
+                return true;
+            default:
+                return false;
+        }
+    }
+
 }

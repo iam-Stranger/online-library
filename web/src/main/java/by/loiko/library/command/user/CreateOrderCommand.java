@@ -20,7 +20,7 @@ public class CreateOrderCommand implements Command {
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
 
-        User user = (User) request.getSession().getAttribute(ParamConstant.USER_PARAM);
+        User user = (User) request.getSession().getAttribute(ParamConstant.USER_OBJ_PARAM);
         String[] orderTypes = request.getParameterValues(ParamConstant.ORDER_TYPE_PARAM);
         String[] items = request.getParameterValues(ParamConstant.BOOK_ID_ARRAY_PARAM);
 
@@ -32,8 +32,9 @@ public class CreateOrderCommand implements Command {
                 router.setRouteType(Router.RouteType.REDIRECT);
             }else {
                factory.getBookOrderReceiver().createNewUserOrders(user, orderTypes, items);
-               // success page
-               router.setPagePath(UrlConstant.SHOW_ACTIVE_USER_ORDERS);
+
+                router.setPagePath(PageConstant.DIALOG_SUCCESS);
+                request.getSession().setAttribute(ParamConstant.RETURN_PAGE_PARAM, UrlConstant.SHOW_ACTIVE_USER_ORDERS);
             }
 
         } catch (ReceiverException e) {

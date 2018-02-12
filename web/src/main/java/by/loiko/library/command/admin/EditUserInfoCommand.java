@@ -20,15 +20,10 @@ public class EditUserInfoCommand implements Command {
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
 
-        long userId;
-        try {
-            userId = Long.valueOf(request.getParameter(USER_ID_PARAM));
-        } catch (NumberFormatException e) {
-            userId = 0;
-        }
+        String id = request.getParameter(USER_ID_PARAM);
 
         try{
-            User user = factory.getUserReceiver().findUserById(userId);
+            User user = factory.getUserReceiver().findUserById(id);
             request.setAttribute(USER_PARAM, user);
             router.setPagePath(PageConstant.EDIT_USER_FORM);
 
@@ -37,7 +32,6 @@ public class EditUserInfoCommand implements Command {
             router.setPagePath(PageConstant.ERROR_PAGE);
         }
 
-        request.getSession().setAttribute("url", request.getRequestURI() + "?" + request.getQueryString());
         return router;
     }
 }

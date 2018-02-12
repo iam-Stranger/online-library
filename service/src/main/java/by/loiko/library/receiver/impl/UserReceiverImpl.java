@@ -7,6 +7,7 @@ import by.loiko.library.exception.DAOException;
 import by.loiko.library.exception.ReceiverException;
 import by.loiko.library.receiver.FieldConstant;
 import by.loiko.library.receiver.UserReceiver;
+import by.loiko.library.validator.EntityValidator;
 import by.loiko.library.validator.UserValidator;
 
 import java.util.HashMap;
@@ -39,6 +40,7 @@ public class UserReceiverImpl implements UserReceiver {
         if ("".equals(login) || "".equals(password) || login == null || password == null) {
             throw new ReceiverException("login or password is empty");
         }
+        //////////////////////////////////////////////////////////////////////////////////////
 
         User user;
         try {
@@ -56,22 +58,25 @@ public class UserReceiverImpl implements UserReceiver {
     }
 
     @Override
-    public User findUserById(long id) throws ReceiverException {
-        if (id <= 0) {
+    public User findUserById(String id) throws ReceiverException {
+        EntityValidator validator = new EntityValidator();
+        long userId;
+        if (validator.validateId(id)) {
+            userId = Long.parseLong(id);
+        } else {
             throw new ReceiverException("User ID is incorrect");
         }
-        ////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
         User user;
         try {
             UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
-            user = userDAO.findEntityById(id);
+            user = userDAO.findEntityById(userId);
         } catch (DAOException e) {
             throw new ReceiverException("findUserById command error: ", e);
         }
 
         if (user == null) {
-            throw new ReceiverException("User with this id is not found");
+            throw new ReceiverException("User with this id was not found");
         }
 
         return user;
@@ -114,9 +119,45 @@ public class UserReceiverImpl implements UserReceiver {
         return errorMap;
     }
 
+
     @Override
-    public boolean signIn(String login, String password) throws ReceiverException {
-        return false;
+    public Map<String, String> updateUserInfo(Map<String, String> paramsMap) throws ReceiverException {
+        if (paramsMap == null || paramsMap.isEmpty()) {
+            throw new ReceiverException("UpdateUser command: data is empty ");
+        }
+
+        UserValidator userValidator = new UserValidator();
+        HashMap<String, String> errorMap = userValidator.validateEditUser(paramsMap);
+
+        UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
+
+        if (errorMap.isEmpty()) {
+            try {
+                userDAO.updateEntity(buildUser(paramsMap));
+            } catch (DAOException e) {
+                throw new ReceiverException("updateUser command wasn't executed: ", e);
+            }
+        }
+
+        return errorMap;
+    }
+
+    @Override
+    public void deleteUser(String id) throws ReceiverException {
+        EntityValidator validator = new EntityValidator();
+        long genreId;
+        if (validator.validateId(id)) {
+            genreId = Long.parseLong(id);
+        } else {
+            throw new ReceiverException("Wrong format ID");
+        }
+
+        try {
+            UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
+            userDAO.deleteEntityById(genreId);
+        } catch (DAOException e) {
+            throw new ReceiverException("deleteGenre command wasn't executed: ", e);
+        }
     }
 
     private User buildUser(Map<String, String> paramsMap) {
@@ -127,6 +168,11 @@ public class UserReceiverImpl implements UserReceiver {
         user.setEmail(paramsMap.get(FieldConstant.EMAIL_PARAM));
         user.setFirstName(paramsMap.get(FieldConstant.FIRSTNAME_PARAM));
         user.setLastName(paramsMap.get(FieldConstant.LASTNAME_PARAM));
+
+        if (paramsMap.get(FieldConstant.ID_PARAM) != null) {
+            long userId = Long.parseLong(paramsMap.get(FieldConstant.ID_PARAM));
+            user.setId(userId);
+        }
 
         if (paramsMap.get(FieldConstant.ROLE_ID_PARAM) != null) {
             int roleId = Integer.parseInt(paramsMap.get(FieldConstant.ROLE_ID_PARAM));

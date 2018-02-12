@@ -2,6 +2,7 @@ package by.loiko.library.command.user;
 
 import by.loiko.library.command.Command;
 import by.loiko.library.command.PageConstant;
+import by.loiko.library.command.ParamConstant;
 import by.loiko.library.controller.Router;
 import by.loiko.library.entity.Book;
 import by.loiko.library.exception.ReceiverException;
@@ -15,7 +16,6 @@ import java.util.List;
  Date: 21.01.2018
  ***/
 public class ShowFindBooksCommand implements Command {
-    private static final String BOOK_LIST_PARAM = "book_list";
     private static final String TITLE_PARAM = "title";
 
     @Override
@@ -29,16 +29,15 @@ public class ShowFindBooksCommand implements Command {
             BookReceiver bookReceiver = factory.getBookReceiver();
             booksList = bookReceiver.findBookByTitle(title);
 
-            request.setAttribute(BOOK_LIST_PARAM, booksList);
+            request.setAttribute(ParamConstant.BOOK_LIST_PARAM, booksList);
             router.setPagePath(PageConstant.SHOW_FIND_BOOKS);
 
         } catch (ReceiverException e) {
-            request.setAttribute("message", e.getMessage());
+            request.getSession().setAttribute(ParamConstant.MESSAGE_PARAM, e.getMessage());
             router.setPagePath(PageConstant.ERROR_PAGE);
+            router.setRouteType(Router.RouteType.REDIRECT);
         }
 
-
-        request.getSession().setAttribute("url", request.getRequestURI() + "?" + request.getQueryString());
         return router;
     }
 }

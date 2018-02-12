@@ -21,7 +21,7 @@ public class ShowCurrentOrderListCommand implements Command {
         Router router = new Router();
 
         String[] bookIdArray = request.getParameterValues(ParamConstant.BOOK_ID_ARRAY_PARAM);
-        User user = (User) request.getSession().getAttribute(ParamConstant.USER_PARAM);
+        User user = (User) request.getSession().getAttribute(ParamConstant.USER_OBJ_PARAM);
 
         try {
             boolean noDebt = factory.getBookOrderReceiver().checkNoDebtBooksByUser(user);
@@ -46,7 +46,7 @@ public class ShowCurrentOrderListCommand implements Command {
             router.setRouteType(Router.RouteType.REDIRECT);
         }
 
-        request.getSession().setAttribute(ParamConstant.URL_PARAM, request.getRequestURI() + "?" + request.getQueryString());
+
         return router;
     }
 }

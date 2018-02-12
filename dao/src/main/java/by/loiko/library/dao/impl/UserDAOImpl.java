@@ -29,6 +29,8 @@ public class UserDAOImpl implements UserDAO {
     private final static String FIND_ALL_USERS = "SELECT * FROM user";
     private final static String FIND_USER_BY_ID = "SELECT * FROM user WHERE id = ?";
     private final static String FIND_USER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE deleted = 0 AND login = ? AND password = ?";
+    private final static String DELETE_USER = "UPDATE user SET deleted = '1' WHERE id = ?";
+    private final static String UPDATE_USER = "UPDATE user SET login = ?, email = ?, firstname = ?, lastname = ?, role_id = ?, deleted = ? WHERE id = ?";
 
     @Override
     public List<User> findAllEntities() throws DAOException {
@@ -78,14 +80,25 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void deleteEntityById(long id) throws DAOException {
-
+        ProxyConnection proxyConnection = null;
+        PreparedStatement statement = null;
+        try {
+            proxyConnection = ConnectionPool.getInstance().getConnection();
+            statement = proxyConnection.prepareStatement(DELETE_USER);
+            statement.setLong(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Error in delUser method: ", e);
+        } finally {
+            close(statement);
+            releaseConnection(proxyConnection);
+        }
     }
 
     @Override
     public void addNewEntity(User user) throws DAOException {
         ProxyConnection proxyConnection = null;
         PreparedStatement statement = null;
-        boolean isCreate;
         try {
             proxyConnection = ConnectionPool.getInstance().getConnection();
             statement = proxyConnection.prepareStatement(ADD_NEW_USER_SIGN_UP);
@@ -95,7 +108,7 @@ public class UserDAOImpl implements UserDAO {
             statement.setString(4, user.getFirstName());
             statement.setString(5, user.getLastName());
             statement.executeUpdate();
-            isCreate = true;
+
         } catch (SQLException e) {
             logger.log(Level.ERROR, e.getMessage());
             throw new DAOException("Error in addNewUser method: ", e);
@@ -107,10 +120,31 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void updateEntity(User user) throws DAOException {
+        ProxyConnection proxyConnection = null;
+        PreparedStatement statement = null;
 
+        try {
+            proxyConnection = ConnectionPool.getInstance().getConnection();
+            statement = proxyConnection.prepareStatement(UPDATE_USER);
+
+            statement.setString(1, user.getLogin());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getFirstName());
+            statement.setString(4, user.getLastName());
+            statement.setInt(5, user.getRoleId());
+            statement.setBoolean(6, user.getIsDeleted());
+            statement.setLong(7, user.getId());
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DAOException("Error in updateUser method: ", e);
+        }finally {
+            close(statement);
+            releaseConnection(proxyConnection);
+        }
     }
 
-    @Override
+        @Override
     public List<User> findEntitiesByArrayOfId(List<Long> idList) throws DAOException {
         return null;
     }

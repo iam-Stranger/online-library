@@ -8,24 +8,6 @@
 <html>
 <head>
     <title><fmt:message key="user.sign_in"/></title>
-
-    <script type="text/javascript">
-        window.onload = function () {
-            document.getElementById("password").onchange = validatePassword;
-            document.getElementById("confirm").onchange = validatePassword;
-        };
-
-        function validatePassword() {
-            var pass2 = document.getElementById("confirm").value;
-            var pass1 = document.getElementById("password").value;
-            if (pass1 !== pass2)
-                document.getElementById("confirm").setCustomValidity("Passwords Don't Match");
-            else
-                document.getElementById("confirm").setCustomValidity('');
-            //empty string means no validation error
-        }
-    </script>
-
 </head>
 <body>
 

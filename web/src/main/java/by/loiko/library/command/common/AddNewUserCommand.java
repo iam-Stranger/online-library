@@ -2,6 +2,7 @@ package by.loiko.library.command.common;
 
 import by.loiko.library.command.Command;
 import by.loiko.library.command.PageConstant;
+import by.loiko.library.command.ParamConstant;
 import by.loiko.library.controller.Router;
 import by.loiko.library.exception.ReceiverException;
 
@@ -12,9 +13,7 @@ import java.util.Map;
  Author: Aliaksei Loika
  Date: 28.01.2018
  ***/
-public class ValidateInfoNewUserCommand implements Command {
-    private static final String ERROR_MAP_PARAM = "errors";
-    private static final String PARAMS_MAP_PARAM = "params";
+public class AddNewUserCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
@@ -26,18 +25,18 @@ public class ValidateInfoNewUserCommand implements Command {
         try {
             errorMap = factory.getUserReceiver().AddNewUser(paramsMap);
             if (errorMap.isEmpty()) {
-                request.setAttribute("message","Congratulation!");
-                router.setPagePath(PageConstant.SIGN_IN_FORM);
+                router.setPagePath(PageConstant.SIGN_UP_SUCCESS);
                 router.setRouteType(Router.RouteType.REDIRECT);
             } else {
-                request.setAttribute(ERROR_MAP_PARAM, errorMap);
-                request.setAttribute(PARAMS_MAP_PARAM, paramsMap);
+                request.setAttribute(ParamConstant.ERROR_MAP_PARAM, errorMap);
+                request.setAttribute(ParamConstant.PARAMS_MAP_PARAM, paramsMap);
                 router.setPagePath(PageConstant.SIGN_UP_FORM);
             }
 
         } catch (ReceiverException e) {
-            request.setAttribute("message", e.getMessage());
+            request.getSession().setAttribute(ParamConstant.MESSAGE_PARAM, e.getMessage());
             router.setPagePath(PageConstant.ERROR_PAGE);
+            router.setRouteType(Router.RouteType.REDIRECT);
         }
 
         return router;

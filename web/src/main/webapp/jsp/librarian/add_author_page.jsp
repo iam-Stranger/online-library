@@ -25,7 +25,7 @@
                             <label class="col-form-label col-3" for="name"><fmt:message key="author.name"/></label>
                             <div class="col-9">
                                 <input class="form-control" id="name" value="${params['name']}" name="name"
-                                       type="text" required="" pattern="[A-ZА-ЯЁ]{1}[A-ZА-ЯЁa-zа-яё\s]{2,48}">
+                                       type="text" required="" pattern="[A-ZА-ЯЁ]{1}[A-ZА-ЯЁa-zа-яё\s.]{2,48}">
                                 <span class="form-text small text-muted"><fmt:message key="tips.genre_author"/></span>
                                 <span class="form-text small text-danger">${errors['name']}</span>
                             </div>

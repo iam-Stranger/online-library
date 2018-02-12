@@ -1,9 +1,6 @@
 package by.loiko.library.command;
 
-import by.loiko.library.command.admin.EditUserInfoCommand;
-import by.loiko.library.command.admin.ShowAllUsersCommand;
-import by.loiko.library.command.admin.ShowHistoryOrders;
-import by.loiko.library.command.admin.ValidateInfoEditUserCommand;
+import by.loiko.library.command.admin.*;
 import by.loiko.library.command.common.*;
 import by.loiko.library.command.librarian.*;
 import by.loiko.library.command.navigate.*;
@@ -25,6 +22,7 @@ public enum CommandName {
 
     EDIT_USER_INFO(new EditUserInfoCommand(),3),
     SHOW_ALL_USERS(new ShowAllUsersCommand(),3),
+    DELETE_USER(new DeleteUserCommand(),3),
 
     SHOW_HISTORY_ORDERS(new ShowHistoryOrders(),3),
 
@@ -63,8 +61,8 @@ public enum CommandName {
     DIALOG_TAKE_BOOK(new DialogTakeBookCommand(),2),
     DIALOG_CANCEL_BOOK(new DialogCancelBookCommand(),1),
 
-    VALIDATE_INFO_EDIT_USER(new ValidateInfoEditUserCommand(),3),
-    VALIDATE_INFO_NEW_USER(new ValidateInfoNewUserCommand(),1),
+    UPDATE_USER_INFO(new UpdateUserInfoCommand(),3),
+    ADD_NEW_USER(new AddNewUserCommand(),1),
 
     TO_ADD_BOOK_PAGE(new ToAddBookPageCommand(),2),
     TO_ADD_AUTHOR_PAGE(new ToAddAuthorPageCommand(),2),
@@ -72,7 +70,7 @@ public enum CommandName {
     TO_FIND_BOOK_PAGE(new ToFindBookPageCommand(),1),
     TO_SIGN_UP_PAGE(new ToSignUpCommand(),1),
     TO_MAIN_PAGE(new ToMainPageCommand(),1),
-
+    TO_SIGN_IN_PAGE(new ToSignInCommand(),1),
 
 
     WRONG_COMMAND(new WrongCommand(),1);

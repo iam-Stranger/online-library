@@ -21,7 +21,7 @@ public class ShowActiveUserOrdersCommand implements Command {
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
 
-        User user = (User) request.getSession().getAttribute(ParamConstant.USER_PARAM);
+        User user = (User) request.getSession().getAttribute(ParamConstant.USER_OBJ_PARAM);
 
         try {
             List<BookOrder> ordersList = factory.getBookOrderReceiver().findBookOrdersByUser(user);
@@ -35,7 +35,6 @@ public class ShowActiveUserOrdersCommand implements Command {
             router.setRouteType(Router.RouteType.REDIRECT);
         }
 
-        request.getSession().setAttribute(ParamConstant.URL_PARAM, request.getRequestURI() + "?" + request.getQueryString());
         return router;
     }
 }

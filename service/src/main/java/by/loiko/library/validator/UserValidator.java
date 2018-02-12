@@ -2,6 +2,9 @@ package by.loiko.library.validator;
 
 import by.loiko.library.exception.ReceiverException;
 import by.loiko.library.receiver.FieldConstant;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +16,7 @@ import java.util.regex.Pattern;
  Date: 27.01.2018
  ***/
 public class UserValidator {
+    private static Logger logger = LogManager.getLogger();
 
     private static final String ID_REGEX = "[^-0]+\\d*";
     private static final String FIRSTNAME_REGEX = "[A-ZА-ЯЁ]{1}[a-zа-яё]{2,20}";
@@ -85,6 +89,7 @@ public class UserValidator {
     private boolean checkBadParameter(String regex, String line) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(line);
+        logger.log(Level.DEBUG, line + " " + matcher.matches());
         return !matcher.matches();
     }
 

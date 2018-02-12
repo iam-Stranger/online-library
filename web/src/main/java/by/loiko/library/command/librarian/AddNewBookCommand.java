@@ -32,8 +32,8 @@ public class AddNewBookCommand implements Command {
             errorMap = factory.getBookReceiver().addNewBook(paramsMap, genresIdArray, authorsIdArray);
 
             if (errorMap.isEmpty()) {
-                router.setPagePath(UrlConstant.SHOW_ALL_BOOKS);
-                // add success  PAGE or message
+                router.setPagePath(PageConstant.DIALOG_SUCCESS);
+                request.getSession().setAttribute(ParamConstant.RETURN_PAGE_PARAM, UrlConstant.SHOW_ALL_BOOKS);
                 router.setRouteType(Router.RouteType.REDIRECT);
             } else {
                 List<Genre> genreList = factory.getBookReceiver().findAllGenres();

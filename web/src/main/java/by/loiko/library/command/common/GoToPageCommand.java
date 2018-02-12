@@ -17,9 +17,9 @@ public class GoToPageCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        Router router = new Router(Router.RouteType.REDIRECT);
+        Router router = new Router();
 
-        User user = (User) request.getSession().getAttribute(ParamConstant.USER_PARAM);
+        User user = (User) request.getSession().getAttribute(ParamConstant.USER_OBJ_PARAM);
 
         if (user != null) {
             router.setPagePath(UrlConstant.MAIN_PAGE);

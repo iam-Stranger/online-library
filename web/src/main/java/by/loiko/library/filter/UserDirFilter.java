@@ -20,7 +20,7 @@ public class UserDirFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        User user = (User) request.getSession().getAttribute(ParamConstant.USER_PARAM);
+        User user = (User) request.getSession().getAttribute(ParamConstant.USER_OBJ_PARAM);
         if (user == null) {
             request.getSession().setAttribute(ParamConstant.MESSAGE_PARAM, "Access denied!");
             request.getRequestDispatcher(PageConstant.ERROR_PAGE).forward(servletRequest, servletResponse);

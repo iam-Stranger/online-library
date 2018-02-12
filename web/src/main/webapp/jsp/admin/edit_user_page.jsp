@@ -11,12 +11,11 @@
 <body>
 
 <c:import url="${pageContext.request.contextPath}/jsp/include/header.jsp"/>
-<%--is-invalid--%>
 
 <div class="container col-lg-4">
 
-    <form class="form" action="${abs_path}/controller" method="get">
-        <input type="hidden" name="command" value="validate_info_edit_user">
+    <form class="form" action="${abs_path}/controller" method="post">
+        <input type="hidden" name="command" value="update_user_info">
         <input type="hidden" name="id" value="${user.id}">
         <div class="card shadow">
             <div class="card-block">
@@ -29,6 +28,7 @@
                                 <input class="form-control " id="firstname" value="${user.firstName}" name="firstname"
                                        type="text" required="" pattern="[A-ZА-Я]{1}[a-zа-я]{2,20}">
                                 <span class="form-text small text-muted"><fmt:message key="tips.user.firstname"/></span>
+                                <span class="form-text small text-danger">${errors['firstName']}</span>
                             </div>
                         </div>
 
@@ -38,6 +38,7 @@
                                 <input class="form-control" id="lastname" value="${user.lastName}" name="lastname"
                                        type="text" required="" pattern="[A-ZА-Я]{1}[a-zа-я]{3,20}">
                                 <span class="form-text small text-muted"><fmt:message key="tips.user.lastname"/></span>
+                                <span class="form-text small text-danger">${errors['lastName']}</span>
                             </div>
                         </div>
 
@@ -47,17 +48,9 @@
                                 <input class="form-control" id="login" value="${user.login}" name="login" type="text"
                                        required="" pattern="[a-zA-Z]{1}[a-zA-Z\d]{3,19}">
                                 <span class="form-text small text-muted"><fmt:message key="tips.user.login"/></span>
+                                <span class="form-text small text-danger">${errors['login']}</span>
                             </div>
                         </div>
-
-                        <!-- Password input-->
-                        <%--<div class="form-group">--%>
-                        <%--<label class="col-md-4 form-control-label" for="password">Password</label>--%>
-                        <%--<div class="col-md-4">--%>
-                        <%--<input id="password" value="${user.password}" name="password" type="password" placeholder="mypassword"--%>
-                        <%--class="form-control input-md" required="">--%>
-                        <%--</div>--%>
-                        <%--</div>--%>
 
                         <div class="form-group row">
                             <label class="col-form-label col-3" for="role"><fmt:message key="user.role"/></label>
@@ -74,7 +67,9 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </c:forEach>
-                                </select></div>
+                                </select>
+                                <span class="form-text small text-danger">${errors['role']}</span>
+                            </div>
                         </div>
 
                         <div class="form-group row">
@@ -83,6 +78,7 @@
                                 <input class="form-control" id="email" value="${user.email}" name="email" type="text"
                                        required="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
                                 <span class="form-text small text-muted"><fmt:message key="tips.user.email"/></span>
+                                <span class="form-text small text-danger">${errors['email']}</span>
                             </div>
                         </div>
 
@@ -110,12 +106,14 @@
                                     </c:forEach>
                                 </select>
                             </div>
+                            <span class="form-text small text-danger">${errors['status']}</span>
                         </div>
                     </fieldset>
                 </div>
                 <div class="card-footer text-right">
                     <button type="submit" class="btn btn-success"><fmt:message key="button.dialog.apply"/></button>
-                    <button type="reset" class="btn btn-danger"><fmt:message key="button.dialog.cancel"/></button>
+                    <a href="${abs_path}/controller?command=show_all_users" id="cancel" name="cancel" class="btn btn-primary"><fmt:message key="button.dialog.cancel"/></a>
+
                 </div>
             </div>
         </div>

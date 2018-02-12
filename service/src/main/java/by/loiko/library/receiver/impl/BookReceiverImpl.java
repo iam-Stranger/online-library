@@ -99,11 +99,17 @@ public class BookReceiverImpl implements BookReceiver {
             List<Genre> genreList = genreDAO.findGenresByBookId(bookId);
             List<Author> authorList = authorDAO.findAuthorsByBookId(bookId);
             book = bookDAO.findEntityById(bookId);
+
+            if (book == null) {
+                throw new ReceiverException("Book with this id was not found");
+            }
+
             book.setGenres(genreList);
             book.setAuthors(authorList);
         } catch (DAOException | NullPointerException e) {
             throw new ReceiverException("findBookById command wasn't executed: ", e);
         }
+
 
         return book;
     }

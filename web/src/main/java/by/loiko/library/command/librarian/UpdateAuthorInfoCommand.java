@@ -26,8 +26,8 @@ public class UpdateAuthorInfoCommand implements Command {
             errorMap = factory.getBookReceiver().updateAuthorInfo(paramsMap);
 
             if (errorMap.isEmpty()) {
-                router.setPagePath(UrlConstant.SHOW_ALL_AUTHORS);
-                // add success  PAGE or message
+                router.setPagePath(PageConstant.DIALOG_SUCCESS);
+                request.getSession().setAttribute(ParamConstant.RETURN_PAGE_PARAM, UrlConstant.SHOW_ALL_AUTHORS);
                 router.setRouteType(Router.RouteType.REDIRECT);
             } else {
                 request.setAttribute(ParamConstant.ERROR_MAP_PARAM, errorMap);

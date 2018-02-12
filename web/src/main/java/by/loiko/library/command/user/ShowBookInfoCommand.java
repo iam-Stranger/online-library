@@ -2,6 +2,7 @@ package by.loiko.library.command.user;
 
 import by.loiko.library.command.Command;
 import by.loiko.library.command.PageConstant;
+import by.loiko.library.command.ParamConstant;
 import by.loiko.library.controller.Router;
 import by.loiko.library.entity.Book;
 import by.loiko.library.exception.ReceiverException;
@@ -13,24 +14,22 @@ import javax.servlet.http.HttpServletRequest;
  Date: 22.01.2018
  ***/
 public class ShowBookInfoCommand implements Command {
-    private static final String BOOK_PARAM = "book";
-    private static final String BOOK_ID_PARAM = "id";
-
 
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
 
-        String bookId = request.getParameter(BOOK_ID_PARAM);
+        String bookId = request.getParameter(ParamConstant.BOOK_ID_PARAM);
 
         try {
             Book book = factory.getBookReceiver().findBookById(bookId);
-            request.setAttribute(BOOK_PARAM, book);
+            request.setAttribute(ParamConstant.BOOK_OBJ_PARAM, book);
             router.setPagePath(PageConstant.SHOW_BOOK_INFO);
 
         } catch (ReceiverException e) {
-            request.setAttribute("message", e.getMessage());
+            request.getSession().setAttribute(ParamConstant.MESSAGE_PARAM, e.getMessage());
             router.setPagePath(PageConstant.ERROR_PAGE);
+            router.setRouteType(Router.RouteType.REDIRECT);
         }
 
         return router;

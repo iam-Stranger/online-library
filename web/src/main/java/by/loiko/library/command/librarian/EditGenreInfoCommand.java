@@ -32,7 +32,6 @@ public class EditGenreInfoCommand implements Command {
             router.setRouteType(Router.RouteType.REDIRECT);
         }
 
-        request.getSession().setAttribute(ParamConstant.URL_PARAM, request.getRequestURI() + "?" + request.getQueryString());
         return router;
     }
 }

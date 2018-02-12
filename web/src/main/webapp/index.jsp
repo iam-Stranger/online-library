@@ -4,6 +4,6 @@
 <head>
 </head>
 <body>
-<c:redirect url="controller?command=to_main_page"/>
+<c:redirect url="${pageContext.request.contextPath}/controller?command=go_to_page"/>
 </body>
 </html>
