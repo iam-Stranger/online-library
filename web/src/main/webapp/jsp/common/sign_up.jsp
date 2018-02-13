@@ -12,11 +12,12 @@
         window.onload = function () {
             document.getElementById("password").onchange = validatePassword;
             document.getElementById("confirm").onchange = validatePassword;
-        }
-        function validatePassword(){
-            var pass2=document.getElementById("confirm").value;
-            var pass1=document.getElementById("password").value;
-            if(pass1!=pass2)
+        };
+
+        function validatePassword() {
+            var pass2 = document.getElementById("confirm").value;
+            var pass1 = document.getElementById("password").value;
+            if (pass1 !== pass2)
                 document.getElementById("confirm").setCustomValidity("Passwords Don't Match");
             else
                 document.getElementById("confirm").setCustomValidity('');
@@ -39,12 +40,14 @@
                 <h5 class="card-header"><fmt:message key="user.sign_up"/></h5>
                 <div class="card-text m-2">
                     <%--<div class="alert alert-danger">--%>
-                        <%--<a class="close" data-dismiss="alert" href="#">×</a>${errors.login}</div>--%>
+                    <%--<a class="close" data-dismiss="alert" href="#">×</a>${errors.login}</div>--%>
                     <fieldset>
                         <div class="form-group row">
-                            <label class="col-form-label col-3" for="firstname"><fmt:message key="user.first_name"/></label>
+                            <label class="col-form-label col-3" for="firstname"><fmt:message
+                                    key="user.first_name"/></label>
                             <div class="col-9">
-                                <input class="form-control" id="firstname" value="${params['firstname']}" name="firstname"
+                                <input class="form-control" id="firstname" value="${params['firstname']}"
+                                       name="firstname"
                                        type="text" required="" pattern="[A-ZА-ЯЁ]{1}[a-zа-яё]{2,20}">
                                 <span class="form-text small text-muted"><fmt:message key="tips.user.firstname"/></span>
                                 <span class="form-text small text-danger">${errors['firstname']}</span>
@@ -65,7 +68,8 @@
                         <div class="form-group row">
                             <label class="col-form-label col-3" for="login"><fmt:message key="user.login"/></label>
                             <div class="col-9">
-                                <input class="form-control" id="login" value="${params['login']}" name="login" type="text"
+                                <input class="form-control" id="login" value="${params['login']}" name="login"
+                                       type="text"
                                        required="" pattern="[a-zA-Z]{1}[a-zA-Z\d]{3,19}">
                                 <span class="form-text small text-muted"><fmt:message key="tips.user.login"/></span>
                                 <span class="form-text small text-danger">${errors['login']}</span>
@@ -75,7 +79,8 @@
                         <div class="form-group row">
                             <label class="col-form-label col-3" for="email"><fmt:message key="user.email"/></label>
                             <div class="col-9">
-                                <input class="form-control" id="email" value="${params['email']}" name="email" type="text"
+                                <input class="form-control" id="email" value="${params['email']}" name="email"
+                                       type="text"
                                        required="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
                                 <span class="form-text small text-muted"><fmt:message key="tips.user.email"/></span>
                                 <span class="form-text small text-danger">${errors['email']}</span>
@@ -86,7 +91,7 @@
                             <label class="col-form-label col-3" for="password"><fmt:message key="user.pass"/></label>
                             <div class="col-9">
                                 <input class="form-control" id="password" name="password" type="password"
-                                      value="${params['password']}" required="" pattern="[a-zA-Z0-9._*]{3,20}">
+                                       value="${params['password']}" required="" pattern="[a-zA-Z0-9._*]{3,20}">
                                 <span class="form-text small text-muted"><fmt:message key="tips.user.password"/></span>
                                 <span class="form-text small text-danger">${errors['password']}</span>
                             </div>
@@ -96,7 +101,7 @@
                             <label class="col-form-label col-3" for="confirm"><fmt:message key="user.confirm"/></label>
                             <div class="col-9">
                                 <input class="form-control" id="confirm" type="password"
-                                      value="${params['confirm']}" required="" pattern="[a-zA-Z0-9._*]{3,20}">
+                                       value="${params['confirm']}" required="" pattern="[a-zA-Z0-9._*]{3,20}">
                                 <%--<span class="form-text small text-muted"><fmt:message key="tips.user.password"/></span>--%>
                             </div>
                         </div>

@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 public class CommandProvider {
     private static Logger logger = LogManager.getLogger();
 
+    private static final String UNKNOWN_COMMAND = "Unknown command: ";
+
     private final static CommandProvider instance = new CommandProvider();
 
     private CommandProvider() {
@@ -26,7 +28,7 @@ public class CommandProvider {
         return getCommandName(request).getCommand();
     }
 
-    public int getCommandAccessLevel(HttpServletRequest request){
+    public int getCommandAccessLevel(HttpServletRequest request) {
         return getCommandName(request).getAccessLevel();
     }
 
@@ -36,7 +38,7 @@ public class CommandProvider {
         try {
             commandName = CommandName.valueOf(name.toUpperCase());
         } catch (IllegalArgumentException | NullPointerException e) {
-            logger.log(Level.DEBUG,"Unknown command: "+name);
+            logger.log(Level.DEBUG, UNKNOWN_COMMAND + name);
             commandName = CommandName.WRONG_COMMAND;
         }
         return commandName;

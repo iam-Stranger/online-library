@@ -13,24 +13,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /***
  Author: Aliaksei Loika
  Date: 21.12.2017
  ***/
 public class UserDAOImpl implements UserDAO {
+    /* ResultSetCreator for Book objects */
     private UserCreator userCreator = new UserCreator();
 
     private final static String ADD_NEW_USER_SIGN_UP = "INSERT INTO user  (login, password, email, firstname, lastname) VALUES (?, ?, ?, ?, ?)";
-
     private final static String FIND_ID_BY_LOGIN = "SELECT id FROM user WHERE login = ?";
     private final static String FIND_ID_BY_EMAIL = "SELECT id FROM user WHERE email = ?";
     private final static String FIND_ALL_USERS = "SELECT * FROM user";
     private final static String FIND_USER_BY_ID = "SELECT * FROM user WHERE id = ?";
     private final static String FIND_USER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE deleted = 0 AND login = ? AND password = ?";
+    /* MySQL query change status User to deleted */
     private final static String DELETE_USER = "UPDATE user SET deleted = '1' WHERE id = ?";
     private final static String UPDATE_USER = "UPDATE user SET login = ?, email = ?, firstname = ?, lastname = ?, role_id = ?, deleted = ? WHERE id = ?";
     private final static String CHANGE_PASSWORD = "UPDATE user SET password = ? WHERE id = ?";
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.AbstractDAO#findAllEntities()
+     */
     @Override
     public List<User> findAllEntities() throws DAOException {
         List<User> userList = new ArrayList<>();
@@ -54,6 +59,9 @@ public class UserDAOImpl implements UserDAO {
         return userList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.AbstractDAO#findEntityById(long)
+     */
     @Override
     public User findEntityById(long id) throws DAOException {
         User user = null;
@@ -77,6 +85,9 @@ public class UserDAOImpl implements UserDAO {
         return user;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.AbstractDAO#deleteEntityById(long)
+     */
     @Override
     public void deleteEntityById(long id) throws DAOException {
         ProxyConnection proxyConnection = null;
@@ -94,6 +105,9 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.AbstractDAO#addNewEntity(by.loiko.library.entity.Entity)
+     */
     @Override
     public void addNewEntity(User user) throws DAOException {
         ProxyConnection proxyConnection = null;
@@ -116,6 +130,9 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.AbstractDAO#updateEntity(by.loiko.library.entity.Entity)
+     */
     @Override
     public void updateEntity(User user) throws DAOException {
         ProxyConnection proxyConnection = null;
@@ -142,11 +159,17 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.AbstractDAO#findEntitiesByArrayOfId(java.util.List)
+     */
     @Override
     public List<User> findEntitiesByArrayOfId(List<Long> idList) throws DAOException {
         throw new UnsupportedOperationException();
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.UserDAO#findUserByLoginAndPassword(java.lang.String, java.lang.String)
+     */
     @Override
     public User findUserByLoginAndPassword(String login, String password) throws DAOException {
         User user = null;
@@ -174,6 +197,9 @@ public class UserDAOImpl implements UserDAO {
         return user;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.UserDAO#isUserPresentByLogin(java.lang.String)
+     */
     @Override
     public boolean isUserPresentByLogin(String login) throws DAOException {
         boolean isPresent = false;
@@ -200,6 +226,9 @@ public class UserDAOImpl implements UserDAO {
         return isPresent;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.UserDAO#isUserPresentByEmail(java.lang.String)
+     */
     @Override
     public boolean isUserPresentByEmail(String email) throws DAOException {
         boolean isPresent = false;
@@ -223,6 +252,9 @@ public class UserDAOImpl implements UserDAO {
         return isPresent;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.UserDAO#changeUserPassword(long, java.lang.String)
+     */
     @Override
     public void changeUserPassword(long userId, String newPassword) throws DAOException {
         ProxyConnection proxyConnection = null;

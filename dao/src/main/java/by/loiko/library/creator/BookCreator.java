@@ -7,16 +7,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
 
 /***
  Author: Aliaksei Loika
  Date: 12.02.2018
  ***/
-public class BookCreator {
+public class BookCreator implements ResultSetCreator{
     private static Logger logger = LogManager.getLogger();
 
     private static final String BOOK_ID = "id";
@@ -27,6 +26,13 @@ public class BookCreator {
     private static final String DELETED = "deleted";
 
 
+    /**
+     * Creates the book.
+     *
+     * @param resultSet the result set
+     * @return the book
+     * @throws DAOException the DAO exception
+     */
     public Book createBook(ResultSet resultSet) throws DAOException {
         List<String> columnList = null;
         Book book = new Book();
@@ -68,17 +74,5 @@ public class BookCreator {
 
         return book;
     }
-
-    private List<String> getColumnsNames(ResultSet resultSet) throws SQLException {
-        List<String> columnList = new ArrayList<>();
-        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-
-        for (int i = 1; i < resultSetMetaData.getColumnCount() + 1; i++) {
-            columnList.add(resultSetMetaData.getColumnLabel(i));
-        }
-
-        return columnList;
-    }
-
 
 }

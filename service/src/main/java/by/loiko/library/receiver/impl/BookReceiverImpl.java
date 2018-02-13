@@ -8,7 +8,7 @@ import by.loiko.library.entity.Author;
 import by.loiko.library.entity.Book;
 import by.loiko.library.entity.Genre;
 import by.loiko.library.exception.DAOException;
-import by.loiko.library.exception.ReceiverException;
+import by.loiko.library.receiver.ReceiverException;
 import by.loiko.library.receiver.BookReceiver;
 import by.loiko.library.validator.EntityValidator;
 import by.loiko.library.validator.FieldEnum;
@@ -21,16 +21,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /***
  Author: Aliaksei Loika
  Date: 29.12.2017
  ***/
 public class BookReceiverImpl implements BookReceiver {
     private static Logger logger = LogManager.getLogger();
-
     private BookDAO bookDAO = DAOFactory.getInstance().getBookDAO();
     private AuthorDAO authorDAO = DAOFactory.getInstance().getAuthorDAO();
+    private GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findBookByTitle(java.lang.String)
+     */
     @Override
     public List<Book> findBookByTitle(String title) throws ReceiverException {
         if (title == null) {
@@ -52,6 +56,9 @@ public class BookReceiverImpl implements BookReceiver {
         return booksList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findBooksByArrayOfId(java.lang.String[])
+     */
     @Override
     public List<Book> findBooksByArrayOfId(String[] idTextArray) throws ReceiverException {
         if (idTextArray == null){
@@ -78,6 +85,9 @@ public class BookReceiverImpl implements BookReceiver {
         return bookList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findBooksByGenreId(java.lang.String)
+     */
     @Override
     public List<Book> findBooksByGenreId(String id) throws ReceiverException {
         long genreId;
@@ -103,6 +113,9 @@ public class BookReceiverImpl implements BookReceiver {
         return bookList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findBooksByAuthorId(java.lang.String)
+     */
     @Override
     public List<Book> findBooksByAuthorId(String id) throws ReceiverException {
         long authorId;
@@ -128,6 +141,9 @@ public class BookReceiverImpl implements BookReceiver {
         return bookList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findAllBooksAbs()
+     */
     @Override
     public List<Book> findAllBooksAbs() throws ReceiverException {
         List<Book> bookList;
@@ -142,6 +158,9 @@ public class BookReceiverImpl implements BookReceiver {
         return bookList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findBookById(java.lang.String)
+     */
     @Override
     public Book findBookById(String id) throws ReceiverException {
         long bookId;
@@ -154,7 +173,6 @@ public class BookReceiverImpl implements BookReceiver {
 
         Book book;
         try {
-            GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
             List<Genre> genreList = genreDAO.findGenresByBookId(bookId);
             List<Author> authorList = authorDAO.findAuthorsByBookId(bookId);
             book = bookDAO.findEntityById(bookId);
@@ -172,11 +190,13 @@ public class BookReceiverImpl implements BookReceiver {
         return book;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findAllGenres()
+     */
     @Override
     public List<Genre> findAllGenres() throws ReceiverException {
         List<Genre> genreList;
         try {
-            GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
             genreList = genreDAO.findAllEntities();
         } catch (DAOException e) {
             logger.log(Level.ERROR, e);
@@ -185,11 +205,13 @@ public class BookReceiverImpl implements BookReceiver {
         return genreList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findAllGenresAbs()
+     */
     @Override
     public List<Genre> findAllGenresAbs() throws ReceiverException {
         List<Genre> genreList;
         try {
-            GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
             genreList = genreDAO.findAllGenresAbs();
         } catch (DAOException e) {
             logger.log(Level.ERROR, e);
@@ -198,6 +220,9 @@ public class BookReceiverImpl implements BookReceiver {
         return genreList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findAllAuthors()
+     */
     @Override
     public List<Author> findAllAuthors() throws ReceiverException {
         List<Author> authorList;
@@ -212,6 +237,9 @@ public class BookReceiverImpl implements BookReceiver {
         return authorList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findAllAuthorsAbs()
+     */
     @Override
     public List<Author> findAllAuthorsAbs() throws ReceiverException {
         List<Author> authorList;
@@ -226,11 +254,13 @@ public class BookReceiverImpl implements BookReceiver {
         return authorList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findAllNotEmptyGenres()
+     */
     @Override
     public List<Genre> findAllNotEmptyGenres() throws ReceiverException {
         List<Genre> genreList;
         try {
-            GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
             genreList = genreDAO.findAllNotEmptyGenres();
         } catch (DAOException e) {
             logger.log(Level.ERROR, e);
@@ -239,6 +269,9 @@ public class BookReceiverImpl implements BookReceiver {
         return genreList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findAllNotEmptyAuthors()
+     */
     @Override
     public List<Author> findAllNotEmptyAuthors() throws ReceiverException {
         List<Author> authorList;
@@ -253,6 +286,9 @@ public class BookReceiverImpl implements BookReceiver {
         return authorList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findAllBooks()
+     */
     @Override
     public List<Book> findAllBooks() throws ReceiverException {
         List<Book> bookList;
@@ -266,6 +302,9 @@ public class BookReceiverImpl implements BookReceiver {
         return bookList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findGenreById(java.lang.String)
+     */
     @Override
     public Genre findGenreById(String id) throws ReceiverException {
         long genreId;
@@ -278,7 +317,6 @@ public class BookReceiverImpl implements BookReceiver {
 
         Genre genre;
         try {
-            GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
             genre = genreDAO.findEntityById(genreId);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e);
@@ -292,6 +330,9 @@ public class BookReceiverImpl implements BookReceiver {
         return genre;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#findAuthorById(java.lang.String)
+     */
     @Override
     public Author findAuthorById(String id) throws ReceiverException {
         long authorId;
@@ -318,6 +359,9 @@ public class BookReceiverImpl implements BookReceiver {
         return author;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#addNewBook(java.util.Map, java.lang.String[], java.lang.String[])
+     */
     @Override
     public Map<String, String> addNewBook(Map<String, String> paramsMap, String[] genres, String[] authors) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
@@ -338,6 +382,9 @@ public class BookReceiverImpl implements BookReceiver {
         return errorMap;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#addNewGenre(java.util.Map)
+     */
     @Override
     public Map<String, String> addNewGenre(Map<String, String> paramsMap) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
@@ -349,7 +396,6 @@ public class BookReceiverImpl implements BookReceiver {
 
         if (errorMap.isEmpty()) {
             try {
-                GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
                 genreDAO.addNewEntity(buildGenre(paramsMap));
             } catch (DAOException e) {
                 logger.log(Level.ERROR, e);
@@ -360,6 +406,9 @@ public class BookReceiverImpl implements BookReceiver {
         return errorMap;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#addNewAuthor(java.util.Map)
+     */
     @Override
     public Map<String, String> addNewAuthor(Map<String, String> paramsMap) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
@@ -383,6 +432,9 @@ public class BookReceiverImpl implements BookReceiver {
     }
 
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#deleteGenre(java.lang.String)
+     */
     @Override
     public void deleteGenre(String id) throws ReceiverException {
         long genreId;
@@ -394,7 +446,6 @@ public class BookReceiverImpl implements BookReceiver {
         }
 
         try {
-            GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
             genreDAO.deleteEntityById(genreId);
         } catch (DAOException e) {
             logger.log(Level.ERROR, e);
@@ -402,6 +453,9 @@ public class BookReceiverImpl implements BookReceiver {
         }
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#deleteAuthor(java.lang.String)
+     */
     @Override
     public void deleteAuthor(String id) throws ReceiverException {
         long authorId;
@@ -420,6 +474,9 @@ public class BookReceiverImpl implements BookReceiver {
         }
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#deleteBook(java.lang.String)
+     */
     @Override
     public void deleteBook(String id) throws ReceiverException {
         long bookId;
@@ -438,6 +495,9 @@ public class BookReceiverImpl implements BookReceiver {
         }
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#updateGenreInfo(java.util.Map)
+     */
     @Override
     public Map<String, String> updateGenreInfo(Map<String, String> paramsMap) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
@@ -449,7 +509,6 @@ public class BookReceiverImpl implements BookReceiver {
 
         if (errorMap.isEmpty()) {
             try {
-                GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
                 genreDAO.updateEntity(buildGenre(paramsMap));
             } catch (DAOException e) {
                 logger.log(Level.ERROR, e);
@@ -460,6 +519,9 @@ public class BookReceiverImpl implements BookReceiver {
         return errorMap;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#updateAuthorInfo(java.util.Map)
+     */
     @Override
     public Map<String, String> updateAuthorInfo(Map<String, String> paramsMap) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
@@ -481,6 +543,9 @@ public class BookReceiverImpl implements BookReceiver {
         return errorMap;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookReceiver#updateBookInfo(java.util.Map, java.lang.String[], java.lang.String[])
+     */
     @Override
     public Map<String, String> updateBookInfo(Map<String, String> paramsMap, String[] genres, String[] authors) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
@@ -503,6 +568,12 @@ public class BookReceiverImpl implements BookReceiver {
         return errorMap;
     }
 
+    /**
+     * Builds the genre.
+     *
+     * @param paramsMap the params map
+     * @return the genre
+     */
     private Genre buildGenre(Map<String, String> paramsMap) {
         Genre genre = new Genre();
 
@@ -525,6 +596,12 @@ public class BookReceiverImpl implements BookReceiver {
         return genre;
     }
 
+    /**
+     * Builds the author.
+     *
+     * @param paramsMap the params map
+     * @return the author
+     */
     private Author buildAuthor(Map<String, String> paramsMap) {
         Author author = new Author();
 
@@ -544,6 +621,14 @@ public class BookReceiverImpl implements BookReceiver {
         return author;
     }
 
+    /**
+     * Builds the book.
+     *
+     * @param paramsMap the params map
+     * @param genres the genres
+     * @param authors the authors
+     * @return the book
+     */
     private Book buildBook(Map<String, String> paramsMap, String[] genres, String[] authors) {
         Book book = new Book();
 

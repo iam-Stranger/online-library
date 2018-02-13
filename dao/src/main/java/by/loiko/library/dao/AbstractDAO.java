@@ -15,19 +15,69 @@ import java.util.List;
  Author: Aliaksei Loika
  Date: 21.12.2017
  ***/
-public interface AbstractDAO<T extends Entity> {
-    static Logger logger = LogManager.getLogger();
 
+/**
+ * @param <T> the generic type
+ */
+public interface AbstractDAO<T extends Entity> {
+    Logger logger = LogManager.getLogger();
+
+    /**
+     * Delete Entity by id.
+     *
+     * @param id the ID of Entity
+     * @throws DAOException the DAO exception
+     */
     void deleteEntityById(long id) throws DAOException;
+
+    /**
+     * Adds the new Entity.
+     *
+     * @param entity the Entity
+     * @throws DAOException the DAO exception
+     */
     void addNewEntity(T entity) throws DAOException;
+
+    /**
+     * Update Entity.
+     *
+     * @param entity the Entity
+     * @throws DAOException the DAO exception
+     */
     void updateEntity(T entity) throws DAOException;
 
+    /**
+     * Find Entity by id.
+     *
+     * @param id the ID of Entity
+     * @return the Entity
+     * @throws DAOException the DAO exception
+     */
     T findEntityById(long id) throws DAOException;
+
+    /**
+     * Find all entities.
+     *
+     * @return the List<Entity>
+     * @throws DAOException the DAO exception
+     */
     List<T> findAllEntities() throws DAOException;
+
+    /**
+     * Find Entities by array of ID.
+     *
+     * @param idList the id list
+     * @return the List<Entity>
+     * @throws DAOException the DAO exception
+     */
     List<T> findEntitiesByArrayOfId(List<Long> idList) throws DAOException;
 
 
-    /*Gets connection back to connection pool*/
+    /**
+     * Gets connection back to connection pool
+     *
+     * @param connection the ProxyConnection
+     */
     default void releaseConnection(ProxyConnection connection) {
         try {
             if (connection != null) {
@@ -38,6 +88,11 @@ public interface AbstractDAO<T extends Entity> {
         }
     }
 
+    /**
+     * Close statement.
+     *
+     * @param statement the Statement
+     */
     default void close(Statement statement) {
         try {
             if (statement != null) {

@@ -10,6 +10,10 @@ import by.loiko.library.command.user.*;
  Author: Aliaksei Loika
  Date: 29.12.2017
  ***/
+
+/**
+ * COMMAND_NAME ( the command object , access level of command)
+ */
 public enum CommandName {
     CHANGE_LOCALE(new ChangeLocaleCommand(),1),
     GO_TO_PAGE(new GoToPageCommand(),1),

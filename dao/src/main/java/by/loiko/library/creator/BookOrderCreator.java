@@ -9,16 +9,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
 
 /***
  Author: Aliaksei Loika
  Date: 07.02.2018
  ***/
-public class BookOrderCreator {
+public class BookOrderCreator implements ResultSetCreator {
     private static Logger logger = LogManager.getLogger();
 
     private static final String BOOK_ORDER_ID = "id";
@@ -35,6 +34,13 @@ public class BookOrderCreator {
     private static final String STATUS_ID = "status_id";
 
 
+    /**
+     * Creates the book order.
+     *
+     * @param resultSet the result set
+     * @return the book order
+     * @throws DAOException the DAO exception
+     */
     public BookOrder createBookOrder(ResultSet resultSet) throws DAOException {
         List<String> columnList = null;
         BookOrder bookOrder = new BookOrder();
@@ -103,17 +109,5 @@ public class BookOrderCreator {
 
         return bookOrder;
     }
-
-    private List<String> getColumnsNames(ResultSet resultSet) throws SQLException {
-        List<String> columnList = new ArrayList<>();
-        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-
-        for (int i = 1; i < resultSetMetaData.getColumnCount() + 1; i++) {
-            columnList.add(resultSetMetaData.getColumnLabel(i));
-        }
-
-        return columnList;
-    }
-
 
 }

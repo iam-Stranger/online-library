@@ -28,7 +28,7 @@ public class Controller extends HttpServlet {
         processRequest(request, response);
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Router router;
         Command command = CommandProvider.getInstance().getCommand(request);
 

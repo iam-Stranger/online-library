@@ -13,8 +13,14 @@
 
 <c:import url="${pageContext.request.contextPath}/jsp/include/header.jsp"/>
 
+<fmt:message key="login.hellomessage" var="hello_message"/>
+
 <div class="container">
-    Welcome
+
+    <div style="font-size: 3em; text-shadow: 1px 1px 1px #999999; color: #f7f7f7; text-align: center;">
+        <c:out value="${hello_message}"/> ${user.firstName} ${user.lastName}
+    </div>
+
 </div>
 
 <c:import url="${abs_path}/jsp/include/footer.jsp"/>

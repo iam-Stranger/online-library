@@ -7,16 +7,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
 
 /***
  Author: Aliaksei Loika
  Date: 12.02.2018
  ***/
-public class AuthorCreator {
+public class AuthorCreator implements ResultSetCreator {
+
     private static Logger logger = LogManager.getLogger();
 
     private static final String AUTHOR_ID = "id";
@@ -24,6 +24,13 @@ public class AuthorCreator {
     private static final String DELETED = "deleted";
 
 
+    /**
+     * Creates the author.
+     *
+     * @param resultSet the result set
+     * @return the author
+     * @throws DAOException the DAO exception
+     */
     public Author createAuthor(ResultSet resultSet) throws DAOException {
         List<String> columnList = null;
         Author author = new Author();
@@ -56,17 +63,5 @@ public class AuthorCreator {
 
         return author;
     }
-
-    private List<String> getColumnsNames(ResultSet resultSet) throws SQLException {
-        List<String> columnList = new ArrayList<>();
-        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-
-        for (int i = 1; i < resultSetMetaData.getColumnCount() + 1; i++) {
-            columnList.add(resultSetMetaData.getColumnLabel(i));
-        }
-
-        return columnList;
-    }
-
 
 }

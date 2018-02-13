@@ -7,16 +7,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
 
 /***
  Author: Aliaksei Loika
  Date: 12.02.2018
  ***/
-public class GenreCreator {
+public class GenreCreator implements ResultSetCreator {
     private static Logger logger = LogManager.getLogger();
 
     private static final String GENRE_ID = "id";
@@ -24,6 +23,13 @@ public class GenreCreator {
     private static final String DELETED = "deleted";
 
 
+    /**
+     * Creates the genre.
+     *
+     * @param resultSet the result set
+     * @return the genre
+     * @throws DAOException the DAO exception
+     */
     public Genre createGenre(ResultSet resultSet) throws DAOException {
         List<String> columnList = null;
         Genre genre = new Genre();
@@ -56,17 +62,4 @@ public class GenreCreator {
 
         return genre;
     }
-
-    private List<String> getColumnsNames(ResultSet resultSet) throws SQLException {
-        List<String> columnList = new ArrayList<>();
-        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-
-        for (int i = 1; i < resultSetMetaData.getColumnCount() + 1; i++) {
-            columnList.add(resultSetMetaData.getColumnLabel(i));
-        }
-
-        return columnList;
-    }
-
-
 }

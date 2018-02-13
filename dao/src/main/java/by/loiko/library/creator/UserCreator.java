@@ -7,16 +7,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
 
 /***
  Author: Aliaksei Loika
  Date: 12.02.2018
  ***/
-public class UserCreator {
+public class UserCreator implements ResultSetCreator {
     private static Logger logger = LogManager.getLogger();
 
     private static final String USER_ID = "id";
@@ -28,6 +27,13 @@ public class UserCreator {
     private static final String ROLE_ID = "role_id";
     private static final String DELETED = "deleted";
 
+    /**
+     * Creates the user.
+     *
+     * @param resultSet the result set
+     * @return the user
+     * @throws DAOException the DAO exception
+     */
     public User createUser(ResultSet resultSet) throws DAOException {
         List<String> columnList = null;
         User user = new User();
@@ -45,7 +51,7 @@ public class UserCreator {
                         user.setLogin(resultSet.getString(LOGIN));
                         break;
                     case PASSWORD:
-                       // user.setPassword(resultSet.getString(PASSWORD));
+                        // user.setPassword(resultSet.getString(PASSWORD));
                         break;
                     case EMAIL:
                         user.setEmail(resultSet.getString(EMAIL));
@@ -75,17 +81,4 @@ public class UserCreator {
 
         return user;
     }
-
-    private List<String> getColumnsNames(ResultSet resultSet) throws SQLException {
-        List<String> columnList = new ArrayList<>();
-        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-
-        for (int i = 1; i < resultSetMetaData.getColumnCount() + 1; i++) {
-            columnList.add(resultSetMetaData.getColumnLabel(i));
-        }
-
-        return columnList;
-    }
-
-
 }

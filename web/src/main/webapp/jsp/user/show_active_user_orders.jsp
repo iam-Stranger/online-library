@@ -18,7 +18,6 @@
 
 <div class="container">
 
-    <form action="${abs_path}/controller" method="post">
         <div class="card shadow" style="width: 100%;">
             <div class="card-block">
                 <h5 class="card-header"><fmt:message key="label.user.active_orders"/></h5>
@@ -47,7 +46,7 @@
                                     </c:choose>
                                 </c:when>
                                 <c:when test="${order.statusId == 1}">
-                                    <form action="/controller" method="get">
+                                    <form action="/controller" method="post">
                                     <input type="hidden" name="command" value="dialog_cancel_book"/>
                                     <tr class="text-primary">
                                 </c:when>
@@ -90,7 +89,6 @@
                 </div>
             </div>
         </div>
-    </form>
 </div>
 
 <c:import url="${abs_path}/jsp/include/footer.jsp"/>

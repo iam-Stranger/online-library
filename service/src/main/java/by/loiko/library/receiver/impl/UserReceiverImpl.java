@@ -4,7 +4,7 @@ import by.loiko.library.dao.DAOFactory;
 import by.loiko.library.dao.UserDAO;
 import by.loiko.library.entity.User;
 import by.loiko.library.exception.DAOException;
-import by.loiko.library.exception.ReceiverException;
+import by.loiko.library.receiver.ReceiverException;
 import by.loiko.library.receiver.UserReceiver;
 import by.loiko.library.util.PasswordEncoder;
 import by.loiko.library.validator.EntityValidator;
@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /***
  Author: Aliaksei Loika
  Date: 29.12.2017
@@ -25,6 +26,9 @@ public class UserReceiverImpl implements UserReceiver {
     private static Logger logger = LogManager.getLogger();
     private EntityValidator entityValidator = new EntityValidator();
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.UserReceiver#findAllUsers()
+     */
     @Override
     public List<User> findAllUsers() throws ReceiverException {
         List<User> userList;
@@ -40,6 +44,9 @@ public class UserReceiverImpl implements UserReceiver {
         return userList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.UserReceiver#findUser(java.lang.String, java.lang.String)
+     */
     @Override
     public User findUser(String login, String password) throws ReceiverException {
 
@@ -59,12 +66,15 @@ public class UserReceiverImpl implements UserReceiver {
         }
 
         if (user == null) {
-            throw new ReceiverException("Login or password is incorrect");
+            throw new ReceiverException("Login or password is incorrect or user blocked");
         }
 
         return user;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.UserReceiver#findUserById(java.lang.String)
+     */
     @Override
     public User findUserById(String id) throws ReceiverException {
         EntityValidator validator = new EntityValidator();
@@ -91,6 +101,9 @@ public class UserReceiverImpl implements UserReceiver {
         return user;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.UserReceiver#AddNewUser(java.util.Map)
+     */
     @Override
     public Map<String, String> AddNewUser(Map<String, String> paramsMap) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
@@ -112,6 +125,9 @@ public class UserReceiverImpl implements UserReceiver {
         return errorMap;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.UserReceiver#changePassword(java.util.Map)
+     */
     @Override
     public Map<String, String> changePassword(Map<String, String> paramsMap) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
@@ -144,6 +160,9 @@ public class UserReceiverImpl implements UserReceiver {
     }
 
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.UserReceiver#updateUserInfo(java.util.Map)
+     */
     @Override
     public Map<String, String> updateUserInfo(Map<String, String> paramsMap) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
@@ -165,6 +184,9 @@ public class UserReceiverImpl implements UserReceiver {
         return errorMap;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.UserReceiver#deleteUser(java.lang.String)
+     */
     @Override
     public void deleteUser(String id) throws ReceiverException {
         EntityValidator validator = new EntityValidator();
@@ -184,6 +206,12 @@ public class UserReceiverImpl implements UserReceiver {
         }
     }
 
+    /**
+     * Builds the user.
+     *
+     * @param paramsMap the params map
+     * @return the user
+     */
     private User buildUser(Map<String, String> paramsMap) {
         User user = new User();
 

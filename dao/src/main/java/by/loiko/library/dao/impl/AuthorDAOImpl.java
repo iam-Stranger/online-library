@@ -19,18 +19,25 @@ import java.util.List;
  Date: 31.01.2018
  ***/
 public class AuthorDAOImpl implements AuthorDAO {
+    /* ResultSetCreator for Author objects */
     private AuthorCreator authorCreator = new AuthorCreator();
 
     private final static String FIND_ALL_NOT_EMPTY_AUTHORS = "SELECT author_id AS id, author.name, count(*) FROM book_authors INNER JOIN author WHERE author_id = id GROUP BY author_id ";
     private final static String FIND_AUTHORS_BY_BOOK_ID = "SELECT a.id, a.name, a.deleted FROM book_authors ba INNER JOIN author a ON ba.author_id = a.id WHERE book_id = ? AND deleted = 0";
+    /* MySQL query find all authors which not deleted  */
     private static final String FIND_ALL_AUTHORS = "SELECT * FROM author WHERE deleted = 0 ORDER BY name";
+    /* MySQL query find ALL authors (and deleted) */
     private static final String FIND_ALL_AUTHORS_ABS = "SELECT * FROM author ORDER BY name";
     private static final String FIND_AUTHOR_BY_ID = "SELECT * FROM author WHERE id = ?";
     private final static String ADD_NEW_AUTHOR = "INSERT INTO author (name) VALUE (?)";
     private final static String UPDATE_AUTHOR = "UPDATE author SET name = ? , deleted = ? WHERE id = ?";
+    /* MySQL query change status author to deleted */
     private final static String DELETE_AUTHOR = "UPDATE author SET deleted = '1' WHERE id = ?";
 
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.AbstractDAO#deleteEntityById(long)
+     */
     @Override
     public void deleteEntityById(long id) throws DAOException {
         ProxyConnection proxyConnection = null;
@@ -48,6 +55,9 @@ public class AuthorDAOImpl implements AuthorDAO {
         }
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.AbstractDAO#addNewEntity(by.loiko.library.entity.Entity)
+     */
     @Override
     public void addNewEntity(Author author) throws DAOException {
         ProxyConnection proxyConnection = null;
@@ -65,6 +75,9 @@ public class AuthorDAOImpl implements AuthorDAO {
         }
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.AbstractDAO#updateEntity(by.loiko.library.entity.Entity)
+     */
     @Override
     public void updateEntity(Author author) throws DAOException {
         ProxyConnection proxyConnection = null;
@@ -85,6 +98,9 @@ public class AuthorDAOImpl implements AuthorDAO {
         }
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.AbstractDAO#findEntityById(long)
+     */
     @Override
     public Author findEntityById(long id) throws DAOException {
         Author author = new Author();
@@ -106,6 +122,9 @@ public class AuthorDAOImpl implements AuthorDAO {
         return author;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.AbstractDAO#findAllEntities()
+     */
     @Override
     public List<Author> findAllEntities() throws DAOException {
         List<Author> authorList = new ArrayList<>();
@@ -129,11 +148,18 @@ public class AuthorDAOImpl implements AuthorDAO {
         return authorList;
     }
 
+    /* (non-Javadoc)
+     *  Not used
+     * @see by.loiko.library.dao.AbstractDAO#findEntitiesByArrayOfId(java.util.List)
+     */
     @Override
     public List<Author> findEntitiesByArrayOfId(List<Long> idList) throws DAOException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.AuthorDAO#findAuthorsByBookId(long)
+     */
     @Override
     public List<Author> findAuthorsByBookId(long id) throws DAOException {
         List<Author> authorList = new ArrayList<>();
@@ -156,6 +182,9 @@ public class AuthorDAOImpl implements AuthorDAO {
         return authorList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.AuthorDAO#findAllAuthorsAbs()
+     */
     @Override
     public List<Author> findAllAuthorsAbs() throws DAOException {
         List<Author> authorList = new ArrayList<>();
@@ -179,6 +208,9 @@ public class AuthorDAOImpl implements AuthorDAO {
         return authorList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.dao.AuthorDAO#findAllNotEmptyAuthors()
+     */
     @Override
     public List<Author> findAllNotEmptyAuthors() throws DAOException {
         List<Author> authorList = new ArrayList<>();

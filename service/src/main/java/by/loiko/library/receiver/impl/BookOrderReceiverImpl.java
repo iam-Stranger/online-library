@@ -5,7 +5,7 @@ import by.loiko.library.dao.DAOFactory;
 import by.loiko.library.entity.BookOrder;
 import by.loiko.library.entity.User;
 import by.loiko.library.exception.DAOException;
-import by.loiko.library.exception.ReceiverException;
+import by.loiko.library.receiver.ReceiverException;
 import by.loiko.library.receiver.BookOrderReceiver;
 import by.loiko.library.validator.EntityValidator;
 import org.apache.logging.log4j.Level;
@@ -15,15 +15,18 @@ import org.apache.logging.log4j.Logger;
 import java.time.LocalDate;
 import java.util.List;
 
+
 /***
  Author: Aliaksei Loika
  Date: 26.01.2018
  ***/
 public class BookOrderReceiverImpl implements BookOrderReceiver {
     private static Logger logger = LogManager.getLogger();
-
     private BookOrderDAO bookOrderDAO = DAOFactory.getInstance().getBookOrderDAO();
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookOrderReceiver#findAllBookOrdersAbs()
+     */
     @Override
     public List<BookOrder> findAllBookOrdersAbs() throws ReceiverException {
         List<BookOrder> ordersList;
@@ -38,6 +41,9 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
         return ordersList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookOrderReceiver#findAllBookOrders()
+     */
     @Override
     public List<BookOrder> findAllBookOrders() throws ReceiverException {
         List<BookOrder> ordersList;
@@ -52,6 +58,9 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
         return ordersList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookOrderReceiver#findBookOrdersByUser(by.loiko.library.entity.User)
+     */
     @Override
     public List<BookOrder> findBookOrdersByUser(User user) throws ReceiverException {
         List<BookOrder> ordersList;
@@ -73,6 +82,9 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
         return ordersList;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookOrderReceiver#changeBookOrderStatusToIssued(java.lang.String, java.lang.String, java.lang.String)
+     */
     public void changeBookOrderStatusToIssued(String id, String orderType, String date) throws ReceiverException {
         EntityValidator entityValidator = new EntityValidator();
         long bookOrderId;
@@ -104,6 +116,9 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
 
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookOrderReceiver#changeBookOrderStatusToCanceled(java.lang.String)
+     */
     @Override
     public void changeBookOrderStatusToCanceled(String id) throws ReceiverException {
         EntityValidator entityValidator = new EntityValidator();
@@ -124,6 +139,9 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
 
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookOrderReceiver#changeBookOrderStatusToReturned(java.lang.String)
+     */
     @Override
     public void changeBookOrderStatusToReturned(String id) throws ReceiverException {
         EntityValidator entityValidator = new EntityValidator();
@@ -146,6 +164,9 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
 
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookOrderReceiver#findCountPossibleBooksByUser(by.loiko.library.entity.User)
+     */
     @Override
     public int findCountPossibleBooksByUser(User user) throws ReceiverException {
         int count;
@@ -166,6 +187,9 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
         return 3 - count;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookOrderReceiver#checkNoDebtBooksByUser(by.loiko.library.entity.User)
+     */
     @Override
     public boolean checkNoDebtBooksByUser(User user) throws ReceiverException {
         int countExpiredBooks;
@@ -189,6 +213,9 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
         return countExpiredBooks == 0;
     }
 
+    /* (non-Javadoc)
+     * @see by.loiko.library.receiver.BookOrderReceiver#createNewUserOrders(by.loiko.library.entity.User, java.lang.String[], java.lang.String[])
+     */
     @Override
     public void createNewUserOrders(User user, String[] orderTypesStr, String[] booksIdStr) throws ReceiverException {
         EntityValidator entityValidator = new EntityValidator();
@@ -218,6 +245,11 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
         }
     }
 
+    /**
+     * Take current date.
+     *
+     * @return the string
+     */
     private String takeCurrentDate() {
         return LocalDate.now().toString();
     }

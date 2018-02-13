@@ -1,4 +1,4 @@
-package by.loiko.library.exception;
+package by.loiko.library.receiver;
 
 /***
  Author: Aliaksei Loika

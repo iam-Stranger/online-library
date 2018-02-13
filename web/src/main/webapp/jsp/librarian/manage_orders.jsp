@@ -18,7 +18,6 @@
 
 <div class="container">
 
-    <form action="${abs_path}/controller" method="post">
         <div class="card shadow" style="width: 100%;">
             <div class="card-block">
                 <h5 class="card-header"><fmt:message key="label.libr.manage_orders"/></h5>
@@ -118,7 +117,6 @@
                 </div>
             </div>
         </div>
-    </form>
 </div>
 
 <c:import url="${abs_path}/jsp/include/footer.jsp"/>

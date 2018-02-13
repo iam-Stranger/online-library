@@ -3,12 +3,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="localization" var="loc"/>
+<fmt:setBundle basename="localization"/>
 <html>
 <head>
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <style>
         .my-header {
             color: #FFFFFF;
@@ -22,11 +20,9 @@
 
 <c:set var="abs_path">${pageContext.request.contextPath}</c:set>
 
-<fmt:message bundle="${loc}" key="project.name_p1" var="proj_name_p1"/>
-<fmt:message bundle="${loc}" key="project.name_p2" var="proj_name_p2"/>
-<fmt:message bundle="${loc}" key="login.hellomessage" var="hello_message"/>
-<fmt:message bundle="${loc}" key="login.exit" var="exit"/>
-<fmt:message bundle="${loc}" key="locale.lang" var="curr_lang"/>
+<fmt:message key="project.name_p1" var="proj_name_p1"/>
+<fmt:message key="project.name_p2" var="proj_name_p2"/>
+<fmt:message key="locale.lang" var="curr_lang"/>
 
 
 <div class="gradient-overlay py-3" style="background-image: url(&quot;${abs_path}/images/background.png&quot;);">
@@ -35,11 +31,6 @@
             <div class="col-md-7 my-header">
                 <h1 class="text-left"><b>${proj_name_p1}</b>${proj_name_p2}</h1>
             </div>
-            <%--<div class="col-md-5 text-white my-header">--%>
-                <%--<h5><c:out value="${hello_message}"/> ${user.firstName} ${user.lastName} [<a--%>
-                        <%--href="${abs_path}/controller?command=sign_out">${exit}</a>]<br/>--%>
-                <%--</h5>--%>
-            <%--</div>--%>
             <div class="col-md-5 text-white text-center">
 
                 <form action="/controller" method="post">

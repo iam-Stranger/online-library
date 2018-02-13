@@ -8,7 +8,7 @@ import by.loiko.library.controller.Router;
 import by.loiko.library.entity.Author;
 import by.loiko.library.entity.Book;
 import by.loiko.library.entity.Genre;
-import by.loiko.library.exception.ReceiverException;
+import by.loiko.library.receiver.ReceiverException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

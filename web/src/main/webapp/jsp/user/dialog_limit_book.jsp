@@ -33,7 +33,6 @@
                 </div>
             </div>
         </div>
-    </form>
 </div>
 
 <c:import url="${abs_path}/jsp/include/footer.jsp"/>

@@ -5,7 +5,7 @@ import by.loiko.library.command.PageConstant;
 import by.loiko.library.command.ParamConstant;
 import by.loiko.library.command.UrlConstant;
 import by.loiko.library.controller.Router;
-import by.loiko.library.exception.ReceiverException;
+import by.loiko.library.receiver.ReceiverException;
 
 import javax.servlet.http.HttpServletRequest;
 
