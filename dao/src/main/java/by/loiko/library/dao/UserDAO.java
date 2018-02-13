@@ -15,4 +15,5 @@ public interface UserDAO extends AbstractDAO<User> {
 
     boolean isUserPresentByEmail(String email) throws DAOException;
 
+    void changeUserPassword(long userId, String newPassword) throws DAOException;
 }

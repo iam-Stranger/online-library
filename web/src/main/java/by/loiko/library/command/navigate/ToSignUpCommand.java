@@ -2,7 +2,6 @@ package by.loiko.library.command.navigate;
 
 import by.loiko.library.command.Command;
 import by.loiko.library.command.PageConstant;
-import by.loiko.library.command.UrlConstant;
 import by.loiko.library.controller.Router;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,6 @@ public class ToSignUpCommand implements Command {
         Router router = new Router();
         router.setPagePath(PageConstant.SIGN_UP_FORM);
 
-        request.getSession().setAttribute("url", UrlConstant.SIGN_UP);
         return router;
     }
 }

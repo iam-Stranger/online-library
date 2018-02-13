@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletRequest;
  Author: Aliaksei Loika
  Date: 21.01.2018
  ***/
-public class ToFindBookPageCommand implements Command {
+public class ToCangePasswordCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
-        router.setPagePath(PageConstant.FIND_BOOK_FORM);
+        router.setPagePath(PageConstant.CHANGE_PASSWORD_FORM);
 
         return router;
     }

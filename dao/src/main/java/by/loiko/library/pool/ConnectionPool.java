@@ -27,7 +27,7 @@ public class ConnectionPool {
     private static ReentrantLock lock = new ReentrantLock();
     private BlockingQueue<ProxyConnection> queue;
 
-    private final int DEF_POOL_SIZE = 20;
+    private final static int POOL_SIZE = Integer.parseInt(ConfigurationManager.getProperty("pool.size")) ;
 
 
     private ConnectionPool() {
@@ -35,10 +35,10 @@ public class ConnectionPool {
             throw new RuntimeException("Reflection operations is not accessible");
         }
 
-        queue = new ArrayBlockingQueue<>(DEF_POOL_SIZE);
+        queue = new ArrayBlockingQueue<>(POOL_SIZE);
 
         try {
-            if (initConnectionPool(DEF_POOL_SIZE)) {
+            if (initConnectionPool(POOL_SIZE)) {
 
             } else {
 

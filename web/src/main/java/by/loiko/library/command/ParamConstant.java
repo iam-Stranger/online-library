@@ -12,6 +12,7 @@ public class ParamConstant {
 
     public static final String USER_OBJ_PARAM = "user";
     public static final String USER_ID_PARAM = "id";
+    public static final String USER_LIST_PARAM = "user_list";
 
     public static final String COUNT_POSSIBLE_BOOKS = "count_psb_books";
 

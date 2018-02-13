@@ -19,7 +19,15 @@ public enum FieldEnum {
     STATUS("0|1", "status", "Entity status is incorrect"),
     ORDER_TYPE("0|1", "order_type", "Order type is incorrect"),
     DATE_FROM("\\d{4}-\\d{2}-\\d{2}", "date_from", "DateFrom is incorrect"),
-    DATE_TO("\\d{4}-\\d{d}-\\d{2}", "date_to", "DateTo is incorrect")
+    DATE_TO("\\d{4}-\\d{d}-\\d{2}", "date_to", "DateTo is incorrect"),
+
+    FIRSTNAME("[A-ZА-ЯЁ]{1}[a-zа-яё]{2,20}", "firstname", "First name is incorrect"),
+    LASTNAME("[A-ZА-ЯЁ]{1}[a-zа-яё]{3,20}", "lastname", "Last name is incorrect"),
+    LOGIN("[a-zA-Z]{1}[a-zA-Z\\d]{3,19}", "login", "Login is incorrect"),
+    PASSWORD("[a-zA-Z0-9._*]{3,20}", "password", "Password is incorrect"),
+    OLD_PASSWORD("[a-zA-Z0-9._*]{3,20}", "old_password", "Old password is incorrect"),
+    EMAIL("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$", "email", "E-mail is incorrect"),
+    ROLE_ID("1|2|3", "role_id", "Role ID is incorrect"),
 
 
     ;

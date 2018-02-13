@@ -2,8 +2,6 @@ package by.loiko.library.command.navigate;
 
 import by.loiko.library.command.Command;
 import by.loiko.library.command.PageConstant;
-import by.loiko.library.command.ParamConstant;
-import by.loiko.library.command.UrlConstant;
 import by.loiko.library.controller.Router;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +16,6 @@ public class ToMainPageCommand implements Command {
         Router router = new Router();
         router.setPagePath(PageConstant.MAIN_PAGE);
 
-        request.getSession().setAttribute(ParamConstant.URL_PARAM, UrlConstant.MAIN_PAGE);
         return router;
     }
 }

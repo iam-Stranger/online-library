@@ -8,6 +8,7 @@ import by.loiko.library.exception.DAOException;
 import by.loiko.library.exception.ReceiverException;
 import by.loiko.library.receiver.BookOrderReceiver;
 import by.loiko.library.validator.EntityValidator;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +31,8 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
         try {
             ordersList = bookOrderDAO.findAllEntities();
         } catch (DAOException e) {
-            throw new ReceiverException("findAllBookOrdersAbs command wasn't executed: ", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findAllBookOrdersAbs command wasn't executed", e);
         }
 
         return ordersList;
@@ -43,7 +45,8 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
         try {
             ordersList = bookOrderDAO.findAllBookOrders();
         } catch (DAOException e) {
-            throw new ReceiverException("findAllBookOrders command wasn't executed: ", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findAllBookOrders command wasn't executed", e);
         }
 
         return ordersList;
@@ -63,7 +66,8 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
         try {
             ordersList = bookOrderDAO.findBookOrdersByUserId(userId);
         } catch (DAOException e) {
-            throw new ReceiverException("findBookOrdersByUser command wasn't executed: ", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findBookOrdersByUser command wasn't executed", e);
         }
 
         return ordersList;
@@ -94,6 +98,7 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
         try {
             bookOrderDAO.changeBookOrderStatusToIssued(bookOrderId, OrderTypeId, dateFrom);
         } catch (DAOException e) {
+            logger.log(Level.ERROR, e);
             throw new ReceiverException("changeBookOrderStatusToIssued command wasn't executed: ", e);
         }
 
@@ -113,6 +118,7 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
         try {
             bookOrderDAO.changeBookOrderStatusToCanceled(bookOrderId);
         } catch (DAOException e) {
+            logger.log(Level.ERROR, e);
             throw new ReceiverException("changeBookOrderStatusToCanceled command wasn't executed: ", e);
         }
 
@@ -134,6 +140,7 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
         try {
             bookOrderDAO.changeBookOrderStatusToReturned(bookOrderId, dateReturn);
         } catch (DAOException e) {
+            logger.log(Level.ERROR, e);
             throw new ReceiverException("changeBookOrderStatusToReturned command wasn't executed: ", e);
         }
 
@@ -152,6 +159,7 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
         try {
             count = bookOrderDAO.findCountCurrentBooksByUserId(userId);
         } catch (DAOException e) {
+            logger.log(Level.ERROR, e);
             throw new ReceiverException("findCountCurrentBooksByUser command wasn't executed: ", e);
         }
 
@@ -174,6 +182,7 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
         try{
            countExpiredBooks = bookOrderDAO.findCountExpiredBooksByUserIdAndDate(userId, currentDate);
         } catch (DAOException e) {
+            logger.log(Level.ERROR, e);
             throw new ReceiverException("checkNoDebtBooksByUser command wasn't executed: ", e);
         }
 
@@ -203,13 +212,13 @@ public class BookOrderReceiverImpl implements BookOrderReceiver {
             try{
                 bookOrderDAO.createNewOrderWithStatusOrdered(userId, bookIdList.get(i), currentDate, orderTypeList.get(i) );
             } catch (DAOException e) {
+                logger.log(Level.ERROR, e);
                 throw new ReceiverException("createNewUserOrders command wasn't executed: ", e);
             }
         }
     }
 
-    @Override
-    public String takeCurrentDate() {
+    private String takeCurrentDate() {
         return LocalDate.now().toString();
     }
 }

@@ -3,6 +3,9 @@ package by.loiko.library.dao;
 import by.loiko.library.entity.Entity;
 import by.loiko.library.exception.DAOException;
 import by.loiko.library.pool.ProxyConnection;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,7 +16,7 @@ import java.util.List;
  Date: 21.12.2017
  ***/
 public interface AbstractDAO<T extends Entity> {
-    // Logger ???
+    static Logger logger = LogManager.getLogger();
 
     void deleteEntityById(long id) throws DAOException;
     void addNewEntity(T entity) throws DAOException;
@@ -31,7 +34,7 @@ public interface AbstractDAO<T extends Entity> {
                 connection.close();
             }
         } catch (SQLException e) {
-            // log
+            logger.log(Level.ERROR, e.getMessage());
         }
     }
 
@@ -41,18 +44,8 @@ public interface AbstractDAO<T extends Entity> {
                 statement.close();
             }
         } catch (SQLException e) {
-            // log
+            logger.log(Level.ERROR, e.getMessage());
         }
-    }
-
-    default String createINExpression(List<Long> idList) {
-        StringBuilder expression = new StringBuilder().append(" AND id IN (");
-        for (int i = 0; i < idList.size() - 1; i++) {
-            expression.append("?, ");
-        }
-        expression.append("?)");
-
-        return expression.toString();
     }
 
 }

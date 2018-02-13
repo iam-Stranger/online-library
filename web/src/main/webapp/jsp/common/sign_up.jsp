@@ -86,7 +86,7 @@
                             <label class="col-form-label col-3" for="password"><fmt:message key="user.pass"/></label>
                             <div class="col-9">
                                 <input class="form-control" id="password" name="password" type="password"
-                                      value="${params['password']}" required="" pattern="[a-zA-Z0-9._*]{3,9}">
+                                      value="${params['password']}" required="" pattern="[a-zA-Z0-9._*]{3,20}">
                                 <span class="form-text small text-muted"><fmt:message key="tips.user.password"/></span>
                                 <span class="form-text small text-danger">${errors['password']}</span>
                             </div>
@@ -95,8 +95,8 @@
                         <div class="form-group row">
                             <label class="col-form-label col-3" for="confirm"><fmt:message key="user.confirm"/></label>
                             <div class="col-9">
-                                <input class="form-control" id="confirm" name="confirm" type="password"
-                                      value="${params['confirm']}" required="" pattern="[a-zA-Z0-9._*]{3,9}">
+                                <input class="form-control" id="confirm" type="password"
+                                      value="${params['confirm']}" required="" pattern="[a-zA-Z0-9._*]{3,20}">
                                 <%--<span class="form-text small text-muted"><fmt:message key="tips.user.password"/></span>--%>
                             </div>
                         </div>
@@ -111,7 +111,7 @@
     </form>
 </div>
 
-<%--<c:import url="${abs_path}/jsp/include/footer.jsp"/>--%>
+<c:import url="${abs_path}/jsp/include/footer.jsp"/>
 
 </body>
 </html>

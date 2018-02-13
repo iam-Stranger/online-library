@@ -21,7 +21,6 @@ public class ConnectionCreator {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         } catch (SQLException e) {
             throw new DAOException(e.getMessage());
-            /// DAOException ConnectionPoolException ????
         }
 
         return new ProxyConnection(connection);

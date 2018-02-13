@@ -13,12 +13,15 @@ public class PageConstant {
     public static final String SIGN_IN_FORM = "/jsp/common/login.jsp";
     public static final String SIGN_UP_FORM = "/jsp/common/sign_up.jsp";
     public static final String SIGN_UP_SUCCESS = "/jsp/common/sign_up_success.jsp";
+    public static final String CHANGE_PASSWORD_FORM = "/jsp/user/change_password.jsp";
 
     public static final String FIND_BOOK_FORM = "/jsp/user/find_book_page.jsp";
     public static final String EDIT_USER_FORM = "/jsp/admin/edit_user_page.jsp";
     public static final String EDIT_GENRE_FORM = "/jsp/librarian/edit_genre_page.jsp";
     public static final String EDIT_AUTHOR_FORM = "/jsp/librarian/edit_author_page.jsp";
     public static final String EDIT_BOOK_FORM = "/jsp/librarian/edit_book_page.jsp";
+    public static final String FIND_BY_GENRE_FORM = "/jsp/user/find_by_genre_page.jsp";
+    public static final String FIND_BY_AUTHOR_FORM = "/jsp/user/find_by_author_page.jsp";
 
     public static final String ADD_GENRE_FORM = "/jsp/librarian/add_genre_page.jsp";
     public static final String ADD_AUTHOR_FORM = "/jsp/librarian/add_author_page.jsp";

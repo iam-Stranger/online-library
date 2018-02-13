@@ -21,7 +21,7 @@ public class ShowAllBooksCommand implements Command {
         Router router = new Router();
 
         try {
-            List<Book> bookList = factory.getBookReceiver().findAllBooks();
+            List<Book> bookList = factory.getBookReceiver().findAllBooksAbs();
             request.setAttribute(ParamConstant.BOOK_LIST_PARAM, bookList);
             router.setPagePath(PageConstant.SHOW_ALL_BOOKS);
 

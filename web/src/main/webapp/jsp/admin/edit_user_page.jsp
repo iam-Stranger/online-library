@@ -53,9 +53,9 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-form-label col-3" for="role"><fmt:message key="user.role"/></label>
+                            <label class="col-form-label col-3" for="role_id"><fmt:message key="user.role"/></label>
                             <div class="col-9">
-                                <select id="role" name="role" class="form-control">
+                                <select id="role_id" name="role_id" class="form-control">
                                     <c:forEach var="i" begin="1" end="3">
                                         <c:choose>
                                             <c:when test="${i == user.roleId}">

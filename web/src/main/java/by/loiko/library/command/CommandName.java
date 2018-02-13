@@ -16,6 +16,7 @@ public enum CommandName {
 
     SIGN_IN(new SignInCommand(),1),
     SIGN_OUT(new SignOutCommand(),1),
+    CHANGE_USER_PASSWORD(new ChangeUserPasswordCommand(),1),
 
     SHOW_CURRENT_ORDER_LIST(new ShowCurrentOrderListCommand(),1),
     SHOW_ACTIVE_USER_ORDERS(new ShowActiveUserOrdersCommand(),1),
@@ -34,7 +35,13 @@ public enum CommandName {
     CREATE_ORDER(new CreateOrderCommand(),1),
 
     SHOW_FIND_BOOKS(new ShowFindBooksCommand(),1),
+    SHOW_FIND_BOOKS_BY_GENRE(new ShowFindBooksByGenreCommand(), 1),
+    SHOW_FIND_BOOKS_BY_AUTHOR(new ShowFindBooksByAuthorCommand(),1),
     SHOW_BOOK_INFO(new ShowBookInfoCommand(),1),
+    SHOW_AVAILABLE_BOOKS(new ShowAvailableBooksCommand(), 1),
+    SHOW_AVAILABLE_GENRES(new ShowAvailableGenresCommand(), 1),
+    SHOW_AVAILABLE_AUTHORS(new ShowAvailableAuthorsCommand(), 1),
+
     EDIT_BOOK_INFO(new EditBookInfoCommand(),2),
     SHOW_ALL_BOOKS(new ShowAllBooksCommand(),2),
     UPDATE_BOOK_INFO(new UpdateBookInfoCommand(),2),
@@ -71,6 +78,7 @@ public enum CommandName {
     TO_SIGN_UP_PAGE(new ToSignUpCommand(),1),
     TO_MAIN_PAGE(new ToMainPageCommand(),1),
     TO_SIGN_IN_PAGE(new ToSignInCommand(),1),
+    TO_CHANGE_PASSWORD(new ToCangePasswordCommand(),1),
 
 
     WRONG_COMMAND(new WrongCommand(),1);

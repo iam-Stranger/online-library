@@ -10,8 +10,11 @@ import by.loiko.library.entity.Genre;
 import by.loiko.library.exception.DAOException;
 import by.loiko.library.exception.ReceiverException;
 import by.loiko.library.receiver.BookReceiver;
-import by.loiko.library.validator.FieldEnum;
 import by.loiko.library.validator.EntityValidator;
+import by.loiko.library.validator.FieldEnum;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,21 +26,23 @@ import java.util.Map;
  Date: 29.12.2017
  ***/
 public class BookReceiverImpl implements BookReceiver {
+    private static Logger logger = LogManager.getLogger();
+
     private BookDAO bookDAO = DAOFactory.getInstance().getBookDAO();
     private AuthorDAO authorDAO = DAOFactory.getInstance().getAuthorDAO();
-    private EntityValidator validator = new EntityValidator();
 
     @Override
     public List<Book> findBookByTitle(String title) throws ReceiverException {
-        if ("".equals(title) || title == null) {
+        if (title == null) {
             throw new ReceiverException("Title of book is empty");
         }
 
-        ArrayList<Book> booksList;
+        List<Book> booksList;
         try {
             booksList = bookDAO.findBooksByTitle(title);
         } catch (DAOException e) {
-            throw new ReceiverException("findBooksByTitle command wasn't executed: ", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findBooksByTitle command wasn't executed", e);
         }
 
         if (booksList.isEmpty()) {
@@ -50,35 +55,88 @@ public class BookReceiverImpl implements BookReceiver {
     @Override
     public List<Book> findBooksByArrayOfId(String[] idTextArray) throws ReceiverException {
         if (idTextArray == null){
-            throw new ReceiverException("Wrong parameters in findBooksByArrayOfId method");
+            throw new ReceiverException("Wrong parameters");
         }
-        ArrayList<Long> idList = validator.validateArrayOfId(idTextArray);
+        EntityValidator entityValidator = new EntityValidator();
+        List<Long> idList = entityValidator.validateArrayOfId(idTextArray);
         if (idList.isEmpty()) {
-            throw new ReceiverException("Wrong parameters in findBooksByArrayOfId method");
+            throw new ReceiverException("Wrong parameters");
         }
 
-        List<Book> booksList;
+        List<Book> bookList;
         try {
-            booksList = bookDAO.findEntitiesByArrayOfId(idList);
+            bookList = bookDAO.findEntitiesByArrayOfId(idList);
         } catch (DAOException e) {
-            throw new ReceiverException("findBooksByArrayOfId command wasn't executed: ", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findBooksByArrayOfId command wasn't executed", e);
         }
 
-        if (booksList.isEmpty()) {
-            throw new ReceiverException("Books with this id wasn't found");
+        if (bookList.isEmpty()) {
+            throw new ReceiverException("Books wasn't found");
         }
 
-        return booksList;
+        return bookList;
     }
 
     @Override
-    public List<Book> findAllBooks() throws ReceiverException {
+    public List<Book> findBooksByGenreId(String id) throws ReceiverException {
+        long genreId;
+        EntityValidator entityValidator = new EntityValidator();
+        if (entityValidator.validateId(id)) {
+            genreId = Long.parseLong(id);
+        } else {
+            throw new ReceiverException("Wrong format ID");
+        }
+
+        List<Book> bookList;
+        try {
+            bookList = bookDAO.findBooksByGenreId(genreId);
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findBooksByGenreId command wasn't executed", e);
+        }
+
+        if (bookList.isEmpty()) {
+            throw new ReceiverException("Books wasn't found");
+        }
+
+        return bookList;
+    }
+
+    @Override
+    public List<Book> findBooksByAuthorId(String id) throws ReceiverException {
+        long authorId;
+        EntityValidator entityValidator = new EntityValidator();
+        if (entityValidator.validateId(id)) {
+            authorId = Long.parseLong(id);
+        } else {
+            throw new ReceiverException("Wrong format ID");
+        }
+
+        List<Book> bookList;
+        try {
+            bookList = bookDAO.findBooksByAuthorId(authorId);
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findBooksByAuthorId command wasn't executed", e);
+        }
+
+        if (bookList.isEmpty()) {
+            throw new ReceiverException("Books wasn't found");
+        }
+
+        return bookList;
+    }
+
+    @Override
+    public List<Book> findAllBooksAbs() throws ReceiverException {
         List<Book> bookList;
 
         try {
             bookList = bookDAO.findAllEntities();
         } catch (DAOException e) {
-            throw new ReceiverException("findAllBooks command wasn't executed:", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findAllBooks command wasn't executed", e);
         }
 
         return bookList;
@@ -87,7 +145,8 @@ public class BookReceiverImpl implements BookReceiver {
     @Override
     public Book findBookById(String id) throws ReceiverException {
         long bookId;
-        if (validator.validateId(id)) {
+        EntityValidator entityValidator = new EntityValidator();
+        if (entityValidator.validateId(id)) {
             bookId = Long.parseLong(id);
         } else {
             throw new ReceiverException("Wrong format ID");
@@ -103,13 +162,12 @@ public class BookReceiverImpl implements BookReceiver {
             if (book == null) {
                 throw new ReceiverException("Book with this id was not found");
             }
-
             book.setGenres(genreList);
             book.setAuthors(authorList);
         } catch (DAOException | NullPointerException e) {
-            throw new ReceiverException("findBookById command wasn't executed: ", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findBookById command wasn't executed", e);
         }
-
 
         return book;
     }
@@ -121,7 +179,8 @@ public class BookReceiverImpl implements BookReceiver {
             GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
             genreList = genreDAO.findAllEntities();
         } catch (DAOException e) {
-            throw new ReceiverException("findAllGenres command wasn't executed:", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findAllGenres command wasn't executed", e);
         }
         return genreList;
     }
@@ -133,7 +192,8 @@ public class BookReceiverImpl implements BookReceiver {
             GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
             genreList = genreDAO.findAllGenresAbs();
         } catch (DAOException e) {
-            throw new ReceiverException("findAllGenres command wasn't executed:", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findAllGenres command wasn't executed", e);
         }
         return genreList;
     }
@@ -141,12 +201,12 @@ public class BookReceiverImpl implements BookReceiver {
     @Override
     public List<Author> findAllAuthors() throws ReceiverException {
         List<Author> authorList;
-
         try {
             AuthorDAO authorDAO = DAOFactory.getInstance().getAuthorDAO();
             authorList = authorDAO.findAllEntities();
         } catch (DAOException e) {
-            throw new ReceiverException("findAllAuthors command wasn't executed:", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findAllAuthors command wasn't executed", e);
         }
 
         return authorList;
@@ -155,26 +215,62 @@ public class BookReceiverImpl implements BookReceiver {
     @Override
     public List<Author> findAllAuthorsAbs() throws ReceiverException {
         List<Author> authorList;
-
         try {
             AuthorDAO authorDAO = DAOFactory.getInstance().getAuthorDAO();
             authorList = authorDAO.findAllAuthorsAbs();
         } catch (DAOException e) {
-            throw new ReceiverException("findAllAuthors command wasn't executed:", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findAllAuthors command wasn't executed", e);
         }
 
         return authorList;
     }
 
     @Override
-    public List<Book> findAllBooksAbs() throws ReceiverException {
-        return null;
+    public List<Genre> findAllNotEmptyGenres() throws ReceiverException {
+        List<Genre> genreList;
+        try {
+            GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
+            genreList = genreDAO.findAllNotEmptyGenres();
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findAllNotEmptyGenres command wasn't executed", e);
+        }
+        return genreList;
+    }
+
+    @Override
+    public List<Author> findAllNotEmptyAuthors() throws ReceiverException {
+        List<Author> authorList;
+        try {
+            AuthorDAO authorDAO = DAOFactory.getInstance().getAuthorDAO();
+            authorList = authorDAO.findAllNotEmptyAuthors();
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findAllNotEmptyAuthors command wasn't executed", e);
+        }
+
+        return authorList;
+    }
+
+    @Override
+    public List<Book> findAllBooks() throws ReceiverException {
+        List<Book> bookList;
+        try {
+            bookList = bookDAO.findAllBooks();
+        } catch (DAOException e) {
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findAllBooks command wasn't executed", e);
+        }
+
+        return bookList;
     }
 
     @Override
     public Genre findGenreById(String id) throws ReceiverException {
         long genreId;
-        if (validator.validateId(id)) {
+        EntityValidator entityValidator = new EntityValidator();
+        if (entityValidator.validateId(id)) {
             genreId = Long.parseLong(id);
         } else {
             throw new ReceiverException("Wrong format ID");
@@ -185,10 +281,13 @@ public class BookReceiverImpl implements BookReceiver {
             GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
             genre = genreDAO.findEntityById(genreId);
         } catch (DAOException e) {
-            throw new ReceiverException("findGenreById command wasn't executed: ", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("findGenreById command wasn't executed", e);
         }
 
-        /// NULL genre
+        if (genre == null) {
+            throw new ReceiverException("Genre wasn't found");
+        }
 
         return genre;
     }
@@ -196,7 +295,8 @@ public class BookReceiverImpl implements BookReceiver {
     @Override
     public Author findAuthorById(String id) throws ReceiverException {
         long authorId;
-        if (validator.validateId(id)) {
+        EntityValidator entityValidator = new EntityValidator();
+        if (entityValidator.validateId(id)) {
             authorId = Long.parseLong(id);
         } else {
             throw new ReceiverException("Wrong format ID");
@@ -207,7 +307,12 @@ public class BookReceiverImpl implements BookReceiver {
             AuthorDAO authorDAO = DAOFactory.getInstance().getAuthorDAO();
             author = authorDAO.findEntityById(authorId);
         } catch (DAOException e) {
+            logger.log(Level.ERROR, e);
             throw new ReceiverException("findAuthorById command wasn't executed: ", e);
+        }
+
+        if (author == null) {
+            throw new ReceiverException("Author wasn't found");
         }
 
         return author;
@@ -216,7 +321,7 @@ public class BookReceiverImpl implements BookReceiver {
     @Override
     public Map<String, String> addNewBook(Map<String, String> paramsMap, String[] genres, String[] authors) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
-            throw new ReceiverException("AddBook command: data is empty ");
+            throw new ReceiverException("Data is empty ");
         }
 
         EntityValidator entityValidator = new EntityValidator();
@@ -226,7 +331,8 @@ public class BookReceiverImpl implements BookReceiver {
             try {
                 bookDAO.addNewEntity(buildBook(paramsMap, genres, authors));
             } catch (DAOException e) {
-                throw new ReceiverException("AddBook command wasn't executed: ", e);
+                logger.log(Level.ERROR, e);
+                throw new ReceiverException("AddBook command wasn't executed", e);
             }
         }
         return errorMap;
@@ -235,7 +341,7 @@ public class BookReceiverImpl implements BookReceiver {
     @Override
     public Map<String, String> addNewGenre(Map<String, String> paramsMap) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
-            throw new ReceiverException("AddGenre command: data is empty ");
+            throw new ReceiverException("Data is empty ");
         }
 
         EntityValidator entityValidator = new EntityValidator();
@@ -246,7 +352,8 @@ public class BookReceiverImpl implements BookReceiver {
                 GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
                 genreDAO.addNewEntity(buildGenre(paramsMap));
             } catch (DAOException e) {
-                throw new ReceiverException("AddGenre command wasn't executed: ", e);
+                logger.log(Level.ERROR, e);
+                throw new ReceiverException("AddGenre command wasn't executed", e);
             }
         }
 
@@ -256,7 +363,7 @@ public class BookReceiverImpl implements BookReceiver {
     @Override
     public Map<String, String> addNewAuthor(Map<String, String> paramsMap) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
-            throw new ReceiverException("AddAuthor command: data is empty ");
+            throw new ReceiverException("Data is empty");
         }
 
         EntityValidator entityValidator = new EntityValidator();
@@ -267,7 +374,8 @@ public class BookReceiverImpl implements BookReceiver {
                 AuthorDAO authorDAO = DAOFactory.getInstance().getAuthorDAO();
                 authorDAO.addNewEntity(buildAuthor(paramsMap));
             } catch (DAOException e) {
-                throw new ReceiverException("AddAuthor command wasn't executed: ", e);
+                logger.log(Level.ERROR, e);
+                throw new ReceiverException("AddAuthor command wasn't executed", e);
             }
         }
 
@@ -278,7 +386,8 @@ public class BookReceiverImpl implements BookReceiver {
     @Override
     public void deleteGenre(String id) throws ReceiverException {
         long genreId;
-        if (validator.validateId(id)) {
+        EntityValidator entityValidator = new EntityValidator();
+        if (entityValidator.validateId(id)) {
             genreId = Long.parseLong(id);
         } else {
             throw new ReceiverException("Wrong format ID");
@@ -288,14 +397,16 @@ public class BookReceiverImpl implements BookReceiver {
             GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
             genreDAO.deleteEntityById(genreId);
         } catch (DAOException e) {
-            throw new ReceiverException("deleteGenre command wasn't executed: ", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("deleteGenre command wasn't executed", e);
         }
     }
 
     @Override
     public void deleteAuthor(String id) throws ReceiverException {
         long authorId;
-        if (validator.validateId(id)) {
+        EntityValidator entityValidator = new EntityValidator();
+        if (entityValidator.validateId(id)) {
             authorId = Long.parseLong(id);
         } else {
             throw new ReceiverException("Wrong format ID");
@@ -304,14 +415,16 @@ public class BookReceiverImpl implements BookReceiver {
         try {
             authorDAO.deleteEntityById(authorId);
         } catch (DAOException e) {
-            throw new ReceiverException("deleteAuthor command wasn't executed: ", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("deleteAuthor command wasn't executed", e);
         }
     }
 
     @Override
     public void deleteBook(String id) throws ReceiverException {
         long bookId;
-        if (validator.validateId(id)) {
+        EntityValidator entityValidator = new EntityValidator();
+        if (entityValidator.validateId(id)) {
             bookId = Long.parseLong(id);
         } else {
             throw new ReceiverException("Wrong format ID");
@@ -320,14 +433,15 @@ public class BookReceiverImpl implements BookReceiver {
         try {
             bookDAO.deleteEntityById(bookId);
         } catch (DAOException e) {
-            throw new ReceiverException("deleteBook command wasn't executed: ", e);
+            logger.log(Level.ERROR, e);
+            throw new ReceiverException("deleteBook command wasn't executed", e);
         }
     }
 
     @Override
     public Map<String, String> updateGenreInfo(Map<String, String> paramsMap) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
-            throw new ReceiverException("UpdateGenre command: data is empty ");
+            throw new ReceiverException("Data is empty ");
         }
 
         EntityValidator entityValidator = new EntityValidator();
@@ -338,7 +452,8 @@ public class BookReceiverImpl implements BookReceiver {
                 GenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
                 genreDAO.updateEntity(buildGenre(paramsMap));
             } catch (DAOException e) {
-                throw new ReceiverException("UpdateGenre command wasn't executed: ", e);
+                logger.log(Level.ERROR, e);
+                throw new ReceiverException("UpdateGenre command wasn't executed", e);
             }
         }
 
@@ -348,7 +463,7 @@ public class BookReceiverImpl implements BookReceiver {
     @Override
     public Map<String, String> updateAuthorInfo(Map<String, String> paramsMap) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
-            throw new ReceiverException("UpdateAuthor command: data is empty ");
+            throw new ReceiverException("Data is empty ");
         }
 
         EntityValidator entityValidator = new EntityValidator();
@@ -358,7 +473,8 @@ public class BookReceiverImpl implements BookReceiver {
             try {
                 authorDAO.updateEntity(buildAuthor(paramsMap));
             } catch (DAOException e) {
-                throw new ReceiverException("UpdateAuthor command wasn't executed: ", e);
+                logger.log(Level.ERROR, e);
+                throw new ReceiverException("UpdateAuthor command wasn't executed", e);
             }
         }
 
@@ -368,7 +484,7 @@ public class BookReceiverImpl implements BookReceiver {
     @Override
     public Map<String, String> updateBookInfo(Map<String, String> paramsMap, String[] genres, String[] authors) throws ReceiverException {
         if (paramsMap == null || paramsMap.isEmpty()) {
-            throw new ReceiverException("UpdateBook command: data is empty ");
+            throw new ReceiverException("Data is empty ");
         }
 
         EntityValidator entityValidator = new EntityValidator();
@@ -379,6 +495,7 @@ public class BookReceiverImpl implements BookReceiver {
             try {
                 bookDAO.updateEntity(buildBook(paramsMap, genres, authors));
             } catch (DAOException e) {
+                logger.log(Level.ERROR, e);
                 throw new ReceiverException("UpdateBook command wasn't executed: ", e);
             }
         }

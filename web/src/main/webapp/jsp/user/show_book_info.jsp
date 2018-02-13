@@ -33,6 +33,23 @@
                         <td><fmt:message key="book.info.real_amount"/></td>
                         <td>${book.realAmount}</td>
                     </tr>
+                    <tr>
+                        <td><fmt:message key="book.info.genre"/></td>
+                        <td>
+                            <c:forEach var="genre" items="${book.genres}">
+                            ${genre.type}
+                            </c:forEach>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><fmt:message key="book.info.author"/></td>
+                        <td>
+                            <c:forEach var="author" items="${book.authors}">
+                                ${author.name}
+                            </c:forEach>
+                        </td>
+                    </tr>
+
                 </table>
             </div>
             <div class="card-footer text-right">

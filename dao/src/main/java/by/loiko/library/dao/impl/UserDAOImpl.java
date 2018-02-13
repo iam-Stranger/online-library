@@ -1,13 +1,11 @@
 package by.loiko.library.dao.impl;
 
+import by.loiko.library.creator.UserCreator;
 import by.loiko.library.dao.UserDAO;
 import by.loiko.library.entity.User;
 import by.loiko.library.exception.DAOException;
 import by.loiko.library.pool.ConnectionPool;
 import by.loiko.library.pool.ProxyConnection;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +18,7 @@ import java.util.List;
  Date: 21.12.2017
  ***/
 public class UserDAOImpl implements UserDAO {
-    private static Logger logger = LogManager.getLogger();
+    private UserCreator userCreator = new UserCreator();
 
     private final static String ADD_NEW_USER_SIGN_UP = "INSERT INTO user  (login, password, email, firstname, lastname) VALUES (?, ?, ?, ?, ?)";
 
@@ -31,6 +29,7 @@ public class UserDAOImpl implements UserDAO {
     private final static String FIND_USER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE deleted = 0 AND login = ? AND password = ?";
     private final static String DELETE_USER = "UPDATE user SET deleted = '1' WHERE id = ?";
     private final static String UPDATE_USER = "UPDATE user SET login = ?, email = ?, firstname = ?, lastname = ?, role_id = ?, deleted = ? WHERE id = ?";
+    private final static String CHANGE_PASSWORD = "UPDATE user SET password = ? WHERE id = ?";
 
     @Override
     public List<User> findAllEntities() throws DAOException {
@@ -43,10 +42,10 @@ public class UserDAOImpl implements UserDAO {
             statement = proxyConnection.prepareStatement(FIND_ALL_USERS);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                userList.add(buildUser(resultSet));
+                userList.add(userCreator.createUser(resultSet));
             }
         } catch (SQLException e) {
-            throw new DAOException("Error in findAllEntities method ", e);
+            throw new DAOException("Error in findAllEntities method " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -68,11 +67,11 @@ public class UserDAOImpl implements UserDAO {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                user = buildUser(resultSet);
+                user = userCreator.createUser(resultSet);
             }
 
         } catch (SQLException e) {
-            throw new DAOException("Error in findUserById method: ", e);
+            throw new DAOException("Error in findUserById method: " + e.getMessage(), e);
         }
 
         return user;
@@ -88,7 +87,7 @@ public class UserDAOImpl implements UserDAO {
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("Error in delUser method: ", e);
+            throw new DAOException("Error in delUser method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -110,8 +109,7 @@ public class UserDAOImpl implements UserDAO {
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            logger.log(Level.ERROR, e.getMessage());
-            throw new DAOException("Error in addNewUser method: ", e);
+            throw new DAOException("Error in addNewUser method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -137,16 +135,16 @@ public class UserDAOImpl implements UserDAO {
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new DAOException("Error in updateUser method: ", e);
-        }finally {
+            throw new DAOException("Error in updateUser method: " + e.getMessage(), e);
+        } finally {
             close(statement);
             releaseConnection(proxyConnection);
         }
     }
 
-        @Override
+    @Override
     public List<User> findEntitiesByArrayOfId(List<Long> idList) throws DAOException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -163,11 +161,11 @@ public class UserDAOImpl implements UserDAO {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                user = buildUser(resultSet);
+                user = userCreator.createUser(resultSet);
             }
 
         } catch (SQLException e) {
-            throw new DAOException("Error in findUserByLoginAndPassword method: ", e);
+            throw new DAOException("Error in findUserByLoginAndPassword method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -193,7 +191,7 @@ public class UserDAOImpl implements UserDAO {
             }
 
         } catch (SQLException e) {
-            throw new DAOException("Error in isUserPresentByLogin method: ", e);
+            throw new DAOException("Error in isUserPresentByLogin method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -216,7 +214,7 @@ public class UserDAOImpl implements UserDAO {
                 isPresent = true;
             }
         } catch (SQLException e) {
-            throw new DAOException("Error in isUserPresentByEmail method: ", e);
+            throw new DAOException("Error in isUserPresentByEmail method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -225,19 +223,23 @@ public class UserDAOImpl implements UserDAO {
         return isPresent;
     }
 
-    private User buildUser(ResultSet resultSet) throws SQLException {
-        User user = new User();
+    @Override
+    public void changeUserPassword(long userId, String newPassword) throws DAOException {
+        ProxyConnection proxyConnection = null;
+        PreparedStatement statement = null;
 
-        user.setId(resultSet.getLong("id"));
-        user.setLogin(resultSet.getString("login"));
-        // user.setPassword(resultSet.getString("password"));
-        user.setEmail(resultSet.getString("email"));
-        user.setFirstName(resultSet.getString("firstname"));
-        user.setLastName(resultSet.getString("lastname"));
-        user.setRoleId(resultSet.getInt("role_id"));
-        user.setIsDeleted(resultSet.getBoolean("deleted"));
-
-        return user;
+        try {
+            proxyConnection = ConnectionPool.getInstance().getConnection();
+            statement = proxyConnection.prepareStatement(CHANGE_PASSWORD);
+            statement.setString(1, newPassword);
+            statement.setLong(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Error in changeUserPassword method: " + e.getMessage(), e);
+        } finally {
+            close(statement);
+            releaseConnection(proxyConnection);
+        }
     }
 
 }

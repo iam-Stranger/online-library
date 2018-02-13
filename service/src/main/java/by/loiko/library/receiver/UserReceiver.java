@@ -17,6 +17,7 @@ public interface UserReceiver extends AbstractReceiver {
     User findUser(String login, String password) throws ReceiverException;
     User findUserById (String id) throws ReceiverException;
     Map<String, String> AddNewUser(Map<String, String> paramsMap) throws ReceiverException;
+    Map<String, String> changePassword(Map<String, String> paramsMap) throws ReceiverException;
 
     Map<String, String> updateUserInfo(Map<String, String> paramsMap) throws ReceiverException;
 

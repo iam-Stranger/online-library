@@ -48,7 +48,8 @@
                             </c:choose>
 
                                 <td>${loop.index+1}</td>
-                                <td>${book.title}</td>
+                                <td>${book.title}
+                                </td>
                                 <td class="c">${book.publishYear}</td>
                                 <td class="c"><a href="${abs_path}/controller?command=show_book_info&id=${book.id}" rel="modal:open"
                                        class="btn btn-sm btn-outline-primary"><i class="fas fa-info"></i></a></td>

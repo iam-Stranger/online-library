@@ -1,13 +1,11 @@
 package by.loiko.library.dao.impl;
 
+import by.loiko.library.creator.GenreCreator;
 import by.loiko.library.dao.GenreDAO;
 import by.loiko.library.entity.Genre;
 import by.loiko.library.exception.DAOException;
 import by.loiko.library.pool.ConnectionPool;
 import by.loiko.library.pool.ProxyConnection;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +19,7 @@ import java.util.List;
  Date: 31.01.2018
  ***/
 public class GenreDAOImpl implements GenreDAO {
-    private static Logger logger = LogManager.getLogger();
+    private GenreCreator genreCreator = new GenreCreator();
 
     private final static String FIND_ALL_GENRES = "SELECT * FROM genre WHERE deleted = 0 ORDER BY type";
     private final static String FIND_ALL_GENRES_ABS = "SELECT * FROM genre ORDER BY type";
@@ -29,6 +27,8 @@ public class GenreDAOImpl implements GenreDAO {
     private final static String ADD_NEW_GENRE = "INSERT INTO genre (type) VALUE (?)";
     private final static String UPDATE_GENRE = "UPDATE genre SET type = ? , deleted = ? WHERE id = ?";
     private final static String DELETE_GENRE = "UPDATE genre SET deleted = '1' WHERE id = ?";
+
+    private final static String FIND_ALL_NOT_EMPTY_GENRES = "SELECT genre_id as id, genre.type, count(*) FROM book_genres INNER JOIN genre WHERE genre_id =id GROUP BY genre_id ";
 
     private final static String FIND_GENRES_BY_BOOK_ID = "SELECT g.id, g.type, g.deleted FROM book_genres bg INNER JOIN genre g ON bg.genre_id = g.id WHERE book_id = ? AND deleted = 0";
 
@@ -42,7 +42,7 @@ public class GenreDAOImpl implements GenreDAO {
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("Error in delGenre method: ", e);
+            throw new DAOException("Error in delGenre method: "+e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -59,7 +59,7 @@ public class GenreDAOImpl implements GenreDAO {
             statement.setString(1, genre.getType());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("Error in AddGenre method: ", e);
+            throw new DAOException("Error in AddGenre method: "+e.getMessage(), e);
         }finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -79,7 +79,7 @@ public class GenreDAOImpl implements GenreDAO {
             statement.setLong(3, genre.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("Error in updateGenre method: ", e);
+            throw new DAOException("Error in updateGenre method: "+e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -100,10 +100,10 @@ public class GenreDAOImpl implements GenreDAO {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                genre = buildGenre(resultSet);
+                genre = genreCreator.createGenre(resultSet);
             }
         } catch (SQLException e) {
-            throw new DAOException("Error in findGenreById method: ", e);
+            throw new DAOException("Error in findGenreById method: "+e.getMessage(), e);
         }
         return genre;
     }
@@ -119,11 +119,10 @@ public class GenreDAOImpl implements GenreDAO {
             ResultSet resultSet = statement.executeQuery(FIND_ALL_GENRES);
 
             while (resultSet.next()) {
-                genreList.add(buildGenre(resultSet));
+                genreList.add(genreCreator.createGenre(resultSet));
             }
         } catch (SQLException e) {
-            logger.log(Level.ERROR, e);
-            throw new DAOException("Error in findAllGenres method: ", e);
+            throw new DAOException("Error in findAllGenres method: "+e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -149,10 +148,10 @@ public class GenreDAOImpl implements GenreDAO {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()){
-                genreList.add(buildGenre(resultSet));
+                genreList.add(genreCreator.createGenre(resultSet));
             }
         } catch (SQLException e) {
-            throw new DAOException("Error in findGenresByBookId method: ", e);
+            throw new DAOException("Error in findGenresByBookId method: "+e.getMessage(), e);
         }
         return genreList;
     }
@@ -168,11 +167,10 @@ public class GenreDAOImpl implements GenreDAO {
             ResultSet resultSet = statement.executeQuery(FIND_ALL_GENRES_ABS);
 
             while (resultSet.next()) {
-                genreList.add(buildGenre(resultSet));
+                genreList.add(genreCreator.createGenre(resultSet));
             }
         } catch (SQLException e) {
-            logger.log(Level.ERROR, e);
-            throw new DAOException("Error in findAllGenres method: ", e);
+            throw new DAOException("Error in findAllGenres method: "+e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -180,14 +178,26 @@ public class GenreDAOImpl implements GenreDAO {
         return genreList;
     }
 
+    @Override
+    public List<Genre> findAllNotEmptyGenres() throws DAOException {
+        List<Genre> genreList = new ArrayList<>();
+        ProxyConnection proxyConnection = null;
+        Statement statement = null;
+        try {
+            proxyConnection = ConnectionPool.getInstance().getConnection();
+            statement = proxyConnection.createStatement();
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_NOT_EMPTY_GENRES);
 
-    private Genre buildGenre(ResultSet resultSet) throws SQLException {
-        Genre genre = new Genre();
-
-        genre.setId(resultSet.getLong("id"));
-        genre.setType(resultSet.getString("type"));
-        genre.setIsDeleted(resultSet.getBoolean("deleted"));
-
-        return genre;
+            while (resultSet.next()) {
+                genreList.add(genreCreator.createGenre(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Error in findAllNotEmpty method: "+e.getMessage(), e);
+        } finally {
+            close(statement);
+            releaseConnection(proxyConnection);
+        }
+        return genreList;
     }
+
 }

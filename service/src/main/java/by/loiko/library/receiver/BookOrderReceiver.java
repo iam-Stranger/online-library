@@ -25,6 +25,4 @@ public interface BookOrderReceiver extends AbstractReceiver {
 
     void createNewUserOrders(User user, String[] orderTypes, String[] booksId) throws ReceiverException;
 
-    String takeCurrentDate();
-
 }

@@ -26,10 +26,10 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="search" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <fmt:message key="menu.find.group"/> </a>
                         <div class="dropdown-menu" aria-labelledby="search_menu">
-                            <a class="dropdown-item" href="#"> <fmt:message key="menu.find.all_books"/></a>
+                            <a class="dropdown-item" href="${abs_path}/controller?command=show_available_books"> <fmt:message key="menu.find.all_books"/></a>
                             <a class="dropdown-item" href="${abs_path}/controller?command=to_find_book_page"> <fmt:message key="menu.find.by_title"/></a>
-                            <a class="dropdown-item" href="#"> <fmt:message key="menu.find.by_author"/></a>
-                            <a class="dropdown-item" href="#"> <fmt:message key="menu.find.by_genre"/></a>
+                            <a class="dropdown-item" href="${abs_path}/controller?command=show_available_authors"> <fmt:message key="menu.find.by_author"/></a>
+                            <a class="dropdown-item" href="${abs_path}/controller?command=show_available_genres"> <fmt:message key="menu.find.by_genre"/></a>
                         </div>
                     </li>
 
@@ -75,6 +75,8 @@
                         <a class="nav-link dropdown-toggle text-white" href="#" id="user" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${sessionScope.user.firstName} ${sessionScope.user.lastName}</a>
                         <div class="dropdown-menu" aria-labelledby="user_menu">
                             <a class="dropdown-item"><b><fmt:message key="your_role"/> <fmt:message key="user.role.${user.roleId}"/></b></a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="${abs_path}/controller?command=to_change_password"><i class="fas fa-key"></i> <fmt:message key="user.change_password"/></a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="${abs_path}/controller?command=sign_out"><i class="fas fa-sign-out-alt"></i> <fmt:message key="menu.user.exit"/></a>
                         </div>

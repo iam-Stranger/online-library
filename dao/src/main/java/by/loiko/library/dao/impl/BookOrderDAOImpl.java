@@ -6,9 +6,6 @@ import by.loiko.library.entity.BookOrder;
 import by.loiko.library.exception.DAOException;
 import by.loiko.library.pool.ConnectionPool;
 import by.loiko.library.pool.ProxyConnection;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +19,7 @@ import java.util.List;
  Date: 26.01.2018
  ***/
 public class BookOrderDAOImpl implements BookOrderDAO {
-    private static Logger logger = LogManager.getLogger();
+    private BookOrderCreator bookOrderCreator = new BookOrderCreator();
 
     private static final String FIND_ALL_BOOK_ORDERS_ABS = "SELECT bo.id , u.id AS user_id, b.id AS book_id, b.title,  u.login, bo.date_from, bo.date_to, bo.date_return, bo.order_type_id, bo.status_id  " +
             "FROM book_orders bo INNER JOIN user u INNER JOIN book b ON bo.user_id = u.id AND bo.book_id = b.id";
@@ -48,8 +45,6 @@ public class BookOrderDAOImpl implements BookOrderDAO {
         List<BookOrder> ordersList = new ArrayList<>();
         ProxyConnection proxyconnection = null;
         Statement statement = null;
-
-        BookOrderCreator bookOrderCreator = new BookOrderCreator();
 
         try {
             proxyconnection = ConnectionPool.getInstance().getConnection();
@@ -77,8 +72,6 @@ public class BookOrderDAOImpl implements BookOrderDAO {
         ProxyConnection proxyconnection = null;
         Statement statement = null;
 
-        BookOrderCreator bookOrderCreator = new BookOrderCreator();
-
         try {
             proxyconnection = ConnectionPool.getInstance().getConnection();
             statement = proxyconnection.createStatement();
@@ -88,8 +81,7 @@ public class BookOrderDAOImpl implements BookOrderDAO {
                 ordersList.add(bookOrderCreator.createBookOrder(resultSet));
             }
         } catch (SQLException e) {
-            logger.log(Level.ERROR, e);
-            throw new DAOException("Error in findAllBookOrders method: ", e);
+            throw new DAOException("Error in findAllBookOrders method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyconnection);
@@ -104,8 +96,6 @@ public class BookOrderDAOImpl implements BookOrderDAO {
         ProxyConnection proxyconnection = null;
         PreparedStatement statement = null;
 
-        BookOrderCreator bookOrderCreator = new BookOrderCreator();
-
         try {
             proxyconnection = ConnectionPool.getInstance().getConnection();
             statement = proxyconnection.prepareStatement(FIND_BOOK_ORDERS_BY_USER_ID);
@@ -116,8 +106,7 @@ public class BookOrderDAOImpl implements BookOrderDAO {
                 ordersList.add(bookOrderCreator.createBookOrder(resultSet));
             }
         } catch (SQLException e) {
-            logger.log(Level.ERROR, e);
-            throw new DAOException("Error in findAllBookOrders method: ", e);
+            throw new DAOException("Error in findAllBookOrders method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyconnection);
@@ -140,8 +129,7 @@ public class BookOrderDAOImpl implements BookOrderDAO {
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            logger.log(Level.ERROR, e);
-            throw new DAOException("Error in changeBookOrderStatusToIssued method: ", e);
+            throw new DAOException("Error in changeBookOrderStatusToIssued method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -183,10 +171,9 @@ public class BookOrderDAOImpl implements BookOrderDAO {
                 proxyConnection.rollback();
                 proxyConnection.setAutoCommit(true);
             } catch (SQLException e1) {
-                throw new DAOException("Error in changeBookOrderStatusToCanceled method: ", e);
+                throw new DAOException("Error in changeBookOrderStatusToCanceled method: " + e.getMessage(), e);
             }
-            logger.log(Level.ERROR, e);
-            throw new DAOException("Error in changeBookOrderStatusToCanceled method: ", e);
+            throw new DAOException("Error in changeBookOrderStatusToCanceled method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -228,10 +215,9 @@ public class BookOrderDAOImpl implements BookOrderDAO {
                 proxyConnection.rollback();
                 proxyConnection.setAutoCommit(true);
             } catch (SQLException e1) {
-                throw new DAOException("Error in changeBookOrderStatusToReturned method: ", e);
+                throw new DAOException("Error in changeBookOrderStatusToReturned method: " + e.getMessage(), e);
             }
-            logger.log(Level.ERROR, e);
-            throw new DAOException("Error in changeBookOrderStatusToReturned method: ", e);
+            throw new DAOException("Error in changeBookOrderStatusToReturned method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -256,8 +242,7 @@ public class BookOrderDAOImpl implements BookOrderDAO {
             }
 
         } catch (SQLException e) {
-            logger.log(Level.ERROR, e);
-            throw new DAOException("Error in findCountCurrentBooksByUserId method: ", e);
+            throw new DAOException("Error in findCountCurrentBooksByUserId method: " + e.getMessage(), e);
         }
 
         return count;
@@ -281,8 +266,7 @@ public class BookOrderDAOImpl implements BookOrderDAO {
             }
 
         } catch (SQLException e) {
-            logger.log(Level.ERROR, e);
-            throw new DAOException("Error in findCountExpiredBooksByUserIdAndDate method: ", e);
+            throw new DAOException("Error in findCountExpiredBooksByUserIdAndDate method: " + e.getMessage(), e);
         }
 
         return count;
@@ -315,10 +299,9 @@ public class BookOrderDAOImpl implements BookOrderDAO {
                 proxyConnection.rollback();
                 proxyConnection.setAutoCommit(true);
             } catch (SQLException e1) {
-                throw new DAOException("Error in createNewOrderWithStatusOrdered method: ", e);
+                throw new DAOException("Error in createNewOrderWithStatusOrdered method: " + e.getMessage(), e);
             }
-            logger.log(Level.ERROR, e);
-            throw new DAOException("Error in createNewOrderWithStatusOrdered method: ", e);
+            throw new DAOException("Error in createNewOrderWithStatusOrdered method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -327,27 +310,27 @@ public class BookOrderDAOImpl implements BookOrderDAO {
 
     @Override
     public BookOrder findEntityById(long id) throws DAOException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteEntityById(long id) throws DAOException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void addNewEntity(BookOrder entity) throws DAOException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void updateEntity(BookOrder entity) throws DAOException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<BookOrder> findEntitiesByArrayOfId(List<Long> idList) throws DAOException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
 }

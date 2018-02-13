@@ -14,7 +14,6 @@
 
 <div class="container col-lg-4">
 
-    <form class="form" action="${abs_path}/controller" method="post">
         <div class="card shadow">
             <div class="card-block">
                 <h5 class="card-header"><fmt:message key="dialog.success"/></h5>
@@ -29,7 +28,6 @@
                 </div>
             </div>
         </div>
-    </form>
 </div>
 
 <c:import url="${abs_path}/jsp/include/footer.jsp"/>

@@ -15,4 +15,6 @@ public interface GenreDAO extends AbstractDAO<Genre> {
 
     List<Genre> findAllGenresAbs() throws DAOException;
 
+    List<Genre> findAllNotEmptyGenres() throws DAOException;
+
 }

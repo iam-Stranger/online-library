@@ -14,7 +14,6 @@
 
 <div class="container col-lg-4">
 
-    <form class="form" action="${abs_path}/controller" method="post">
         <div class="card shadow">
             <div class="card-block">
                 <h5 class="card-header"><fmt:message key="dialog.error"/></h5>
@@ -25,12 +24,14 @@
                     </fieldset>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="${abs_path}/controller?command=go_to_page" name="return" class="btn btn-primary">
+                    <%--<a href="${abs_path}/controller?command=go_to_page" name="return" class="btn btn-primary">--%>
+                        <%--<fmt:message key="button.dialog.back"/></a>--%>
+                    <a href="javascript:history.back()" name="return" class="btn btn-primary">
                         <fmt:message key="button.dialog.back"/></a>
                 </div>
             </div>
         </div>
-    </form>
+
 </div>
 
 <c:import url="${abs_path}/jsp/include/footer.jsp"/>

@@ -1,13 +1,11 @@
 package by.loiko.library.dao.impl;
 
+import by.loiko.library.creator.AuthorCreator;
 import by.loiko.library.dao.AuthorDAO;
 import by.loiko.library.entity.Author;
 import by.loiko.library.exception.DAOException;
 import by.loiko.library.pool.ConnectionPool;
 import by.loiko.library.pool.ProxyConnection;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,16 +19,16 @@ import java.util.List;
  Date: 31.01.2018
  ***/
 public class AuthorDAOImpl implements AuthorDAO {
-    private static Logger logger = LogManager.getLogger();
+    private AuthorCreator authorCreator = new AuthorCreator();
 
+    private final static String FIND_ALL_NOT_EMPTY_AUTHORS = "SELECT author_id AS id, author.name, count(*) FROM book_authors INNER JOIN author WHERE author_id = id GROUP BY author_id ";
+    private final static String FIND_AUTHORS_BY_BOOK_ID = "SELECT a.id, a.name, a.deleted FROM book_authors ba INNER JOIN author a ON ba.author_id = a.id WHERE book_id = ? AND deleted = 0";
     private static final String FIND_ALL_AUTHORS = "SELECT * FROM author WHERE deleted = 0 ORDER BY name";
     private static final String FIND_ALL_AUTHORS_ABS = "SELECT * FROM author ORDER BY name";
     private static final String FIND_AUTHOR_BY_ID = "SELECT * FROM author WHERE id = ?";
     private final static String ADD_NEW_AUTHOR = "INSERT INTO author (name) VALUE (?)";
     private final static String UPDATE_AUTHOR = "UPDATE author SET name = ? , deleted = ? WHERE id = ?";
     private final static String DELETE_AUTHOR = "UPDATE author SET deleted = '1' WHERE id = ?";
-
-    private final static String FIND_AUTHORS_BY_BOOK_ID = "SELECT a.id, a.name, a.deleted FROM book_authors ba INNER JOIN author a ON ba.author_id = a.id WHERE book_id = ? AND deleted = 0";
 
 
     @Override
@@ -43,7 +41,7 @@ public class AuthorDAOImpl implements AuthorDAO {
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("Error in delAuthor method: ", e);
+            throw new DAOException("Error in delAuthor method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -60,7 +58,7 @@ public class AuthorDAOImpl implements AuthorDAO {
             statement.setString(1, author.getName());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("Error in AddAuthor method: ", e);
+            throw new DAOException("Error in AddAuthor method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -80,7 +78,7 @@ public class AuthorDAOImpl implements AuthorDAO {
             statement.setLong(3, author.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("Error in updateAuthor method: ", e);
+            throw new DAOException("Error in updateAuthor method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -100,10 +98,10 @@ public class AuthorDAOImpl implements AuthorDAO {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                author = buildAuthor(resultSet);
+                author = authorCreator.createAuthor(resultSet);
             }
         } catch (SQLException e) {
-            throw new DAOException("Error in findGenreById method: ", e);
+            throw new DAOException("Error in findGenreById method: " + e.getMessage(), e);
         }
         return author;
     }
@@ -120,10 +118,10 @@ public class AuthorDAOImpl implements AuthorDAO {
             ResultSet resultSet = statement.executeQuery(FIND_ALL_AUTHORS);
 
             while (resultSet.next()) {
-                authorList.add(buildAuthor(resultSet));
+                authorList.add(authorCreator.createAuthor(resultSet));
             }
         } catch (SQLException e) {
-            throw new DAOException("Error in findAllAuthors method: ", e);
+            throw new DAOException("Error in findAllAuthors method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -149,11 +147,10 @@ public class AuthorDAOImpl implements AuthorDAO {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                authorList.add(buildAuthor(resultSet));
+                authorList.add(authorCreator.createAuthor(resultSet));
             }
         } catch (SQLException e) {
-            logger.log(Level.ERROR, e);
-            throw new DAOException("Error in findAuthorByBookId method: ", e);
+            throw new DAOException("Error in findAuthorByBookId method: " + e.getMessage(), e);
         }
 
         return authorList;
@@ -171,10 +168,10 @@ public class AuthorDAOImpl implements AuthorDAO {
             ResultSet resultSet = statement.executeQuery(FIND_ALL_AUTHORS_ABS);
 
             while (resultSet.next()) {
-                authorList.add(buildAuthor(resultSet));
+                authorList.add(authorCreator.createAuthor(resultSet));
             }
         } catch (SQLException e) {
-            throw new DAOException("Error in findAllAuthors method: ", e);
+            throw new DAOException("Error in findAllAuthors method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
@@ -182,13 +179,26 @@ public class AuthorDAOImpl implements AuthorDAO {
         return authorList;
     }
 
-    private Author buildAuthor(ResultSet resultSet) throws SQLException {
-        Author author = new Author();
+    @Override
+    public List<Author> findAllNotEmptyAuthors() throws DAOException {
+        List<Author> authorList = new ArrayList<>();
+        ProxyConnection proxyConnection = null;
+        Statement statement = null;
 
-        author.setId(resultSet.getLong("id"));
-        author.setName(resultSet.getString("name"));
-        author.setIsDeleted(resultSet.getBoolean("deleted"));
+        try {
+            proxyConnection = ConnectionPool.getInstance().getConnection();
+            statement = proxyConnection.createStatement();
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_NOT_EMPTY_AUTHORS);
 
-        return author;
+            while (resultSet.next()) {
+                authorList.add(authorCreator.createAuthor(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Error in findAllNotEmptyAuthors method: " + e.getMessage(), e);
+        } finally {
+            close(statement);
+            releaseConnection(proxyConnection);
+        }
+        return authorList;
     }
 }
