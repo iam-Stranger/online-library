@@ -3,7 +3,7 @@ package by.loiko.library.receiver.impl;
 import by.loiko.library.dao.DAOFactory;
 import by.loiko.library.dao.UserDAO;
 import by.loiko.library.entity.User;
-import by.loiko.library.exception.DAOException;
+import by.loiko.library.dao.DAOException;
 import by.loiko.library.receiver.ReceiverException;
 import by.loiko.library.receiver.UserReceiver;
 import by.loiko.library.util.PasswordEncoder;

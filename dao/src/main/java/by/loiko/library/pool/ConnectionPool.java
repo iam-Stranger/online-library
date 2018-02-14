@@ -1,6 +1,6 @@
 package by.loiko.library.pool;
 
-import by.loiko.library.exception.DAOException;
+import by.loiko.library.dao.DAOException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +27,10 @@ public class ConnectionPool {
     private static ReentrantLock lock = new ReentrantLock();
     private BlockingQueue<ProxyConnection> queue;
     private final static int POOL_SIZE = Integer.parseInt(ConfigurationManager.getProperty("pool.size"));
+
+
+    /// !!!! UNDER CONSTRUCTION !!!!
+    // переделываю, к защите будет красивый новый пулл.
 
 
     /**

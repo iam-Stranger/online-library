@@ -1,7 +1,6 @@
 package by.loiko.library.dao;
 
 import by.loiko.library.entity.User;
-import by.loiko.library.exception.DAOException;
 
 
 /***

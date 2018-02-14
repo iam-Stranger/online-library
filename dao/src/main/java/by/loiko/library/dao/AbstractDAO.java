@@ -1,7 +1,6 @@
 package by.loiko.library.dao;
 
 import by.loiko.library.entity.Entity;
-import by.loiko.library.exception.DAOException;
 import by.loiko.library.pool.ProxyConnection;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

@@ -1,7 +1,7 @@
 package by.loiko.library.creator;
 
 import by.loiko.library.entity.Genre;
-import by.loiko.library.exception.DAOException;
+import by.loiko.library.dao.DAOException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

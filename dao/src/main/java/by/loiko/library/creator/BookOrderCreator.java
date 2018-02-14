@@ -3,7 +3,7 @@ package by.loiko.library.creator;
 import by.loiko.library.entity.Book;
 import by.loiko.library.entity.BookOrder;
 import by.loiko.library.entity.User;
-import by.loiko.library.exception.DAOException;
+import by.loiko.library.dao.DAOException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

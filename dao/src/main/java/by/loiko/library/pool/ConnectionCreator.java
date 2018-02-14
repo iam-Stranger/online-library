@@ -1,6 +1,6 @@
 package by.loiko.library.pool;
 
-import by.loiko.library.exception.DAOException;
+import by.loiko.library.dao.DAOException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

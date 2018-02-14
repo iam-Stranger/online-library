@@ -3,7 +3,7 @@ package by.loiko.library.validator;
 import by.loiko.library.dao.DAOFactory;
 import by.loiko.library.dao.UserDAO;
 import by.loiko.library.entity.User;
-import by.loiko.library.exception.DAOException;
+import by.loiko.library.dao.DAOException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

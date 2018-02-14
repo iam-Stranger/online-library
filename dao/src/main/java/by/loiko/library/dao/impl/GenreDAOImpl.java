@@ -3,7 +3,7 @@ package by.loiko.library.dao.impl;
 import by.loiko.library.creator.GenreCreator;
 import by.loiko.library.dao.GenreDAO;
 import by.loiko.library.entity.Genre;
-import by.loiko.library.exception.DAOException;
+import by.loiko.library.dao.DAOException;
 import by.loiko.library.pool.ConnectionPool;
 import by.loiko.library.pool.ProxyConnection;
 

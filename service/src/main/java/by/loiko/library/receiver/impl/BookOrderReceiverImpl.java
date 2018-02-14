@@ -4,7 +4,7 @@ import by.loiko.library.dao.BookOrderDAO;
 import by.loiko.library.dao.DAOFactory;
 import by.loiko.library.entity.BookOrder;
 import by.loiko.library.entity.User;
-import by.loiko.library.exception.DAOException;
+import by.loiko.library.dao.DAOException;
 import by.loiko.library.receiver.ReceiverException;
 import by.loiko.library.receiver.BookOrderReceiver;
 import by.loiko.library.validator.EntityValidator;

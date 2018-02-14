@@ -2,12 +2,13 @@ package by.loiko.library.dao.impl;
 
 import by.loiko.library.creator.BookCreator;
 import by.loiko.library.dao.BookDAO;
+import by.loiko.library.dao.DAOException;
 import by.loiko.library.entity.Author;
 import by.loiko.library.entity.Book;
 import by.loiko.library.entity.Genre;
-import by.loiko.library.exception.DAOException;
 import by.loiko.library.pool.ConnectionPool;
 import by.loiko.library.pool.ProxyConnection;
+import org.apache.logging.log4j.Level;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -246,9 +247,9 @@ public class BookDAOImpl implements BookDAO {
         try {
             proxyConnection = ConnectionPool.getInstance().getConnection();
             statement = proxyConnection.prepareStatement(FIND_BOOKS_BY_TITLE);
-            statement.setString(1, "%" + title + "%");
+            statement.setString(1, '%' + title + '%');
             ResultSet resultSet = statement.executeQuery();
-
+            logger.log(Level.DEBUG, statement.toString());
             while (resultSet.next()) {
                 booksList.add(bookCreator.createBook(resultSet));
             }

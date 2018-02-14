@@ -7,7 +7,7 @@ import by.loiko.library.dao.GenreDAO;
 import by.loiko.library.entity.Author;
 import by.loiko.library.entity.Book;
 import by.loiko.library.entity.Genre;
-import by.loiko.library.exception.DAOException;
+import by.loiko.library.dao.DAOException;
 import by.loiko.library.receiver.ReceiverException;
 import by.loiko.library.receiver.BookReceiver;
 import by.loiko.library.validator.EntityValidator;
