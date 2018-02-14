@@ -81,6 +81,9 @@ public interface AbstractDAO<T extends Entity> {
     default void releaseConnection(ProxyConnection connection) {
         try {
             if (connection != null) {
+                if (!connection.getAutoCommit()) {
+                    connection.setAutoCommit(true);
+                }
                 connection.close();
             }
         } catch (SQLException e) {

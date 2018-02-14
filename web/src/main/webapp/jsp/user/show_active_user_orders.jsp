@@ -46,7 +46,7 @@
                                     </c:choose>
                                 </c:when>
                                 <c:when test="${order.statusId == 1}">
-                                    <form action="/controller" method="post">
+                                    <form action="/controller" method="get">
                                     <input type="hidden" name="command" value="dialog_cancel_book"/>
                                     <tr class="text-primary">
                                 </c:when>

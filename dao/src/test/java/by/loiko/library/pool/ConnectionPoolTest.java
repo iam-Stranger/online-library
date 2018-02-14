@@ -1,13 +1,16 @@
+/*
 package by.loiko.library.pool;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+*/
 /***
  Author: Aliaksei Loika
  Date: 13.02.2018
- ***/
+ ***//*
+
 public class ConnectionPoolTest {
 
     @BeforeMethod
@@ -40,4 +43,4 @@ public class ConnectionPoolTest {
     public void testClone() throws Exception {
         ConnectionPool.getInstance().clone();
     }
-}
+}*/

@@ -28,8 +28,8 @@ public class UpdateUserInfoCommand implements Command {
             errorMap = factory.getUserReceiver().updateUserInfo(paramsMap);
 
             if (errorMap.isEmpty()) {
-                router.setPagePath(UrlConstant.SHOW_ALL_USERS);
-                // add success  PAGE or message
+                request.getSession().setAttribute(ParamConstant.RETURN_PAGE_PARAM, UrlConstant.SHOW_ALL_USERS);
+                router.setPagePath(PageConstant.DIALOG_SUCCESS);
                 router.setRouteType(Router.RouteType.REDIRECT);
             } else {
                 String id = request.getParameter(ParamConstant.USER_ID_PARAM);

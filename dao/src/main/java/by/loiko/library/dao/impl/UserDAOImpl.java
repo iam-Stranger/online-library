@@ -23,8 +23,8 @@ public class UserDAOImpl implements UserDAO {
     private UserCreator userCreator = new UserCreator();
 
     private final static String ADD_NEW_USER_SIGN_UP = "INSERT INTO user  (login, password, email, firstname, lastname) VALUES (?, ?, ?, ?, ?)";
-    private final static String FIND_ID_BY_LOGIN = "SELECT id FROM user WHERE login = ?";
-    private final static String FIND_ID_BY_EMAIL = "SELECT id FROM user WHERE email = ?";
+    private final static String FIND_USER_BY_LOGIN = "SELECT * FROM user WHERE login = ?";
+    private final static String FIND_USER_BY_EMAIL = "SELECT * FROM user WHERE email = ?";
     private final static String FIND_ALL_USERS = "SELECT * FROM user";
     private final static String FIND_USER_BY_ID = "SELECT * FROM user WHERE id = ?";
     private final static String FIND_USER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE deleted = 0 AND login = ? AND password = ?";
@@ -77,7 +77,6 @@ public class UserDAOImpl implements UserDAO {
             if (resultSet.next()) {
                 user = userCreator.createUser(resultSet);
             }
-
         } catch (SQLException e) {
             throw new DAOException("Error in findUserById method: " + e.getMessage(), e);
         }
@@ -198,58 +197,58 @@ public class UserDAOImpl implements UserDAO {
     }
 
     /* (non-Javadoc)
-     * @see by.loiko.library.dao.UserDAO#isUserPresentByLogin(java.lang.String)
+     * @see by.loiko.library.dao.UserDAO#findUserByLogin(java.lang.String)
      */
     @Override
-    public boolean isUserPresentByLogin(String login) throws DAOException {
-        boolean isPresent = false;
+    public User findUserByLogin(String login) throws DAOException {
+       User user = null;
         ProxyConnection proxyConnection = null;
         PreparedStatement statement = null;
 
         try {
             proxyConnection = ConnectionPool.getInstance().getConnection();
-            statement = proxyConnection.prepareStatement(FIND_ID_BY_LOGIN);
+            statement = proxyConnection.prepareStatement(FIND_USER_BY_LOGIN);
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                isPresent = true;
+                user = userCreator.createUser(resultSet);
             }
 
         } catch (SQLException e) {
-            throw new DAOException("Error in isUserPresentByLogin method: " + e.getMessage(), e);
+            throw new DAOException("Error in findUserByLogin method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
         }
 
-        return isPresent;
+        return user;
     }
 
     /* (non-Javadoc)
-     * @see by.loiko.library.dao.UserDAO#isUserPresentByEmail(java.lang.String)
+     * @see by.loiko.library.dao.UserDAO#findUserByEmail(java.lang.String)
      */
     @Override
-    public boolean isUserPresentByEmail(String email) throws DAOException {
-        boolean isPresent = false;
+    public User findUserByEmail(String email) throws DAOException {
+       User user = null;
         ProxyConnection proxyConnection = null;
         PreparedStatement statement = null;
         try {
             proxyConnection = ConnectionPool.getInstance().getConnection();
-            statement = proxyConnection.prepareStatement(FIND_ID_BY_EMAIL);
+            statement = proxyConnection.prepareStatement(FIND_USER_BY_EMAIL);
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                isPresent = true;
+                user = userCreator.createUser(resultSet);
             }
         } catch (SQLException e) {
-            throw new DAOException("Error in isUserPresentByEmail method: " + e.getMessage(), e);
+            throw new DAOException("Error in findUserByEmail method: " + e.getMessage(), e);
         } finally {
             close(statement);
             releaseConnection(proxyConnection);
         }
 
-        return isPresent;
+        return user;
     }
 
     /* (non-Javadoc)

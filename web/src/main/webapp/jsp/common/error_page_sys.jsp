@@ -19,8 +19,9 @@
                 <h5 class="card-header"><fmt:message key="dialog.error"/></h5>
                 <div class="card-text m-2" style="padding: 5px">
                     <fieldset>
-                        <h6><i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #bd2130"></i>
-                            <c:out value="${sessionScope.message}"/></h6>
+                        <h3><i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #bd2130"></i>
+                            Error <%= response.getStatus() %>
+                        </h3>
                     </fieldset>
                 </div>
                 <div class="card-footer text-right">

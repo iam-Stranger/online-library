@@ -22,13 +22,13 @@ public class AuthorDAOImpl implements AuthorDAO {
     /* ResultSetCreator for Author objects */
     private AuthorCreator authorCreator = new AuthorCreator();
 
-    private final static String FIND_ALL_NOT_EMPTY_AUTHORS = "SELECT author_id AS id, author.name, count(*) FROM book_authors INNER JOIN author WHERE author_id = id GROUP BY author_id ";
-    private final static String FIND_AUTHORS_BY_BOOK_ID = "SELECT a.id, a.name, a.deleted FROM book_authors ba INNER JOIN author a ON ba.author_id = a.id WHERE book_id = ? AND deleted = 0";
+    private final static String FIND_ALL_NOT_EMPTY_AUTHORS = "SELECT author_id AS id, author.name, count(*) FROM book_authors INNER JOIN author WHERE author_id = id GROUP BY author_id ORDER BY author.name";
+    private final static String FIND_AUTHORS_BY_BOOK_ID = "SELECT a.id, a.name, a.deleted FROM book_authors ba INNER JOIN author a ON ba.author_id = a.id WHERE book_id = ? AND deleted = 0 ORDER BY a.name";
     /* MySQL query find all authors which not deleted  */
     private static final String FIND_ALL_AUTHORS = "SELECT * FROM author WHERE deleted = 0 ORDER BY name";
     /* MySQL query find ALL authors (and deleted) */
     private static final String FIND_ALL_AUTHORS_ABS = "SELECT * FROM author ORDER BY name";
-    private static final String FIND_AUTHOR_BY_ID = "SELECT * FROM author WHERE id = ?";
+    private static final String FIND_AUTHORS_BY_ID = "SELECT * FROM author WHERE id = ? ORDER BY name";
     private final static String ADD_NEW_AUTHOR = "INSERT INTO author (name) VALUE (?)";
     private final static String UPDATE_AUTHOR = "UPDATE author SET name = ? , deleted = ? WHERE id = ?";
     /* MySQL query change status author to deleted */
@@ -109,7 +109,7 @@ public class AuthorDAOImpl implements AuthorDAO {
 
         try {
             proxyConnection = ConnectionPool.getInstance().getConnection();
-            statement = proxyConnection.prepareStatement(FIND_AUTHOR_BY_ID);
+            statement = proxyConnection.prepareStatement(FIND_AUTHORS_BY_ID);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
 

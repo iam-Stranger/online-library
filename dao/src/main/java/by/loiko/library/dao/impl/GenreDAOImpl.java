@@ -32,8 +32,8 @@ public class GenreDAOImpl implements GenreDAO {
     private final static String UPDATE_GENRE = "UPDATE genre SET type = ? , deleted = ? WHERE id = ?";
     /* MySQL query change status Genre to deleted */
     private final static String DELETE_GENRE = "UPDATE genre SET deleted = '1' WHERE id = ?";
-    private final static String FIND_ALL_NOT_EMPTY_GENRES = "SELECT genre_id as id, genre.type, count(*) FROM book_genres INNER JOIN genre WHERE genre_id =id GROUP BY genre_id ";
-    private final static String FIND_GENRES_BY_BOOK_ID = "SELECT g.id, g.type, g.deleted FROM book_genres bg INNER JOIN genre g ON bg.genre_id = g.id WHERE book_id = ? AND deleted = 0";
+    private final static String FIND_ALL_NOT_EMPTY_GENRES = "SELECT genre_id as id, genre.type, count(*) FROM book_genres INNER JOIN genre WHERE genre_id =id GROUP BY genre_id ORDER BY type";
+    private final static String FIND_GENRES_BY_BOOK_ID = "SELECT g.id, g.type, g.deleted FROM book_genres bg INNER JOIN genre g ON bg.genre_id = g.id WHERE book_id = ? AND deleted = 0 ORDER BY type";
 
     /* (non-Javadoc)
      * @see by.loiko.library.dao.AbstractDAO#deleteEntityById(long)

@@ -24,19 +24,20 @@ public interface UserDAO extends AbstractDAO<User> {
      * Checks if user present by login.
      *
      * @param login the login
-     * @return true, if is user present by login
+     * @return the user or null
      * @throws DAOException the DAO exception
      */
-    boolean isUserPresentByLogin(String login) throws DAOException;
+
+    User findUserByLogin(String login) throws DAOException;
 
     /**
      * Checks if user present by email.
      *
      * @param email the email
-     * @return true, if is user present by email
+     * @return the user or null
      * @throws DAOException the DAO exception
      */
-    boolean isUserPresentByEmail(String email) throws DAOException;
+    User findUserByEmail(String email) throws DAOException;
 
     /**
      * Change user password.

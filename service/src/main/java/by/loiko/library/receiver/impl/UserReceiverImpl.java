@@ -169,7 +169,7 @@ public class UserReceiverImpl implements UserReceiver {
             throw new ReceiverException("Data is empty ");
         }
 
-        HashMap<String, String> errorMap = entityValidator.validateParams(paramsMap);
+        HashMap<String, String> errorMap = entityValidator.validateUpdatedUser(paramsMap);
 
         UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
 

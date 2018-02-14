@@ -156,7 +156,6 @@ public class BookOrderDAOImpl implements BookOrderDAO {
             releaseConnection(proxyConnection);
         }
 
-
     }
 
     /* (non-Javadoc)
@@ -189,11 +188,9 @@ public class BookOrderDAOImpl implements BookOrderDAO {
             statement.executeUpdate();
 
             proxyConnection.commit();
-            proxyConnection.setAutoCommit(true);
         } catch (SQLException e) {
             try {
                 proxyConnection.rollback();
-                proxyConnection.setAutoCommit(true);
             } catch (SQLException e1) {
                 throw new DAOException("Error in changeBookOrderStatusToCanceled method: " + e.getMessage(), e);
             }
@@ -236,11 +233,9 @@ public class BookOrderDAOImpl implements BookOrderDAO {
             statement.executeUpdate();
 
             proxyConnection.commit();
-            proxyConnection.setAutoCommit(true);
         } catch (SQLException e) {
             try {
                 proxyConnection.rollback();
-                proxyConnection.setAutoCommit(true);
             } catch (SQLException e1) {
                 throw new DAOException("Error in changeBookOrderStatusToReturned method: " + e.getMessage(), e);
             }
@@ -329,11 +324,9 @@ public class BookOrderDAOImpl implements BookOrderDAO {
             statement.executeUpdate();
 
             proxyConnection.commit();
-            proxyConnection.setAutoCommit(true);
         } catch (SQLException e) {
             try {
                 proxyConnection.rollback();
-                proxyConnection.setAutoCommit(true);
             } catch (SQLException e1) {
                 throw new DAOException("Error in createNewOrderWithStatusOrdered method: " + e.getMessage(), e);
             }
