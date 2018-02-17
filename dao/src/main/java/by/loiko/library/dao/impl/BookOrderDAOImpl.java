@@ -7,10 +7,7 @@ import by.loiko.library.dao.DAOException;
 import by.loiko.library.pool.ConnectionPool;
 import by.loiko.library.pool.ProxyConnection;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -169,6 +166,10 @@ public class BookOrderDAOImpl implements BookOrderDAO {
         try {
             proxyConnection = ConnectionPool.getInstance().getConnection();
             proxyConnection.setAutoCommit(false);
+            DatabaseMetaData metaData = proxyConnection.getMetaData();
+            if (metaData.supportsTransactionIsolationLevel(Connection.TRANSACTION_SERIALIZABLE)){
+                proxyConnection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            }
 
             statement = proxyConnection.prepareStatement(CHANGE_BOOK_ORDER_STATUS_TO_CANCELED);
             statement.setLong(1, id);
@@ -188,6 +189,7 @@ public class BookOrderDAOImpl implements BookOrderDAO {
             statement.executeUpdate();
 
             proxyConnection.commit();
+            proxyConnection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
         } catch (SQLException e) {
             try {
                 proxyConnection.rollback();
@@ -213,6 +215,10 @@ public class BookOrderDAOImpl implements BookOrderDAO {
         try {
             proxyConnection = ConnectionPool.getInstance().getConnection();
             proxyConnection.setAutoCommit(false);
+            DatabaseMetaData metaData = proxyConnection.getMetaData();
+            if (metaData.supportsTransactionIsolationLevel(Connection.TRANSACTION_SERIALIZABLE)){
+                proxyConnection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            }
 
             statement = proxyConnection.prepareStatement(CHANGE_BOOK_ORDER_STATUS_TO_RETURNED);
             statement.setString(1, dateReturn);
@@ -233,6 +239,7 @@ public class BookOrderDAOImpl implements BookOrderDAO {
             statement.executeUpdate();
 
             proxyConnection.commit();
+            proxyConnection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
         } catch (SQLException e) {
             try {
                 proxyConnection.rollback();
@@ -311,6 +318,10 @@ public class BookOrderDAOImpl implements BookOrderDAO {
         try {
             proxyConnection = ConnectionPool.getInstance().getConnection();
             proxyConnection.setAutoCommit(false);
+            DatabaseMetaData metaData = proxyConnection.getMetaData();
+            if (metaData.supportsTransactionIsolationLevel(Connection.TRANSACTION_SERIALIZABLE)){
+                proxyConnection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            }
 
             statement = proxyConnection.prepareStatement(ADD_NEW_ORDER_WITH_STATUS_ORDERED);
             statement.setLong(1, userId);
@@ -324,6 +335,7 @@ public class BookOrderDAOImpl implements BookOrderDAO {
             statement.executeUpdate();
 
             proxyConnection.commit();
+            proxyConnection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
         } catch (SQLException e) {
             try {
                 proxyConnection.rollback();

@@ -20,7 +20,7 @@ class ConnectionCreator {
     private final static String DB_URL = ConfigurationManager.getProperty("db.url");
 
     /**
-     * Gets the Proxyconnection.
+     * Creates new connection and returns ProxyConnection object
      *
      * @return the Proxyconnection
      * @throws DAOException the DAO exception
@@ -30,7 +30,7 @@ class ConnectionCreator {
         try {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
+            throw new DAOException(e);
         }
 
         return new ProxyConnection(connection);

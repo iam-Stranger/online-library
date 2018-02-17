@@ -10,10 +10,7 @@ import by.loiko.library.pool.ConnectionPool;
 import by.loiko.library.pool.ProxyConnection;
 import org.apache.logging.log4j.Level;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,6 +133,10 @@ public class BookDAOImpl implements BookDAO {
         try {
             proxyConnection = ConnectionPool.getInstance().getConnection();
             proxyConnection.setAutoCommit(false);
+            DatabaseMetaData metaData = proxyConnection.getMetaData();
+            if (metaData.supportsTransactionIsolationLevel(Connection.TRANSACTION_SERIALIZABLE)){
+                proxyConnection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            }
 
             statement = proxyConnection.prepareStatement(ADD_NEW_BOOK, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, book.getTitle());
@@ -164,6 +165,7 @@ public class BookDAOImpl implements BookDAO {
             }
 
             proxyConnection.commit();
+            proxyConnection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
         } catch (SQLException e) {
             try {
                 proxyConnection.rollback();
@@ -189,6 +191,10 @@ public class BookDAOImpl implements BookDAO {
         try {
             proxyConnection = ConnectionPool.getInstance().getConnection();
             proxyConnection.setAutoCommit(false);
+            DatabaseMetaData metaData = proxyConnection.getMetaData();
+            if (metaData.supportsTransactionIsolationLevel(Connection.TRANSACTION_SERIALIZABLE)){
+                proxyConnection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            }
 
             statement = proxyConnection.prepareStatement(UPDATE_BOOK);
             statement.setString(1, book.getTitle());
@@ -222,6 +228,7 @@ public class BookDAOImpl implements BookDAO {
             }
 
             proxyConnection.commit();
+            proxyConnection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
         } catch (SQLException e) {
             try {
                 proxyConnection.rollback();

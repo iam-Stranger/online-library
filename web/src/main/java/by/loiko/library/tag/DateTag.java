@@ -5,6 +5,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /***
  Author: Aliaksei Loika
@@ -15,12 +16,13 @@ public class DateTag extends TagSupport {
     @Override
     public int doStartTag() throws JspException {
 
-        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        String date = LocalDate.now().format(formatter);
 
         JspWriter out = pageContext.getOut();
 
         try {
-            out.write(date.toString());
+            out.write(date);
         } catch (IOException e) {
             e.printStackTrace();
         }

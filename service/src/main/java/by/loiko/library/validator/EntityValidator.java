@@ -153,10 +153,12 @@ public class EntityValidator {
             errorMap.put(FieldEnum.AUTHOR.getFieldName(), MULTISELECT_MSG);
         }
 
-        int realAmount = Integer.parseInt(paramsMap.get(FieldEnum.REAL_AMOUNT.getFieldName()));
-        int totalAmount = Integer.parseInt(paramsMap.get(FieldEnum.REAL_AMOUNT.getFieldName()));
-        if (realAmount > totalAmount) {
-            errorMap.put(FieldEnum.REAL_AMOUNT.getFieldName(), REAL_AMOUNT_MSG);
+        if  (errorMap.isEmpty()) {
+            int realAmount = Integer.parseInt(paramsMap.get(FieldEnum.REAL_AMOUNT.getFieldName()));
+            int totalAmount = Integer.parseInt(paramsMap.get(FieldEnum.TOTAL_AMOUNT.getFieldName()));
+            if (realAmount > totalAmount) {
+                errorMap.put(FieldEnum.REAL_AMOUNT.getFieldName(), REAL_AMOUNT_MSG);
+            }
         }
 
         return errorMap;

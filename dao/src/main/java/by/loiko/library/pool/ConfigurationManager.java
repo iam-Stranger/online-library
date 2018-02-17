@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
  Author: Aliaksei Loika
  Date: 14.12.2017
  ***/
-public class ConfigurationManager {
+class ConfigurationManager {
     private static Logger logger = LogManager.getLogger();
 
     /** The resource bundle. */

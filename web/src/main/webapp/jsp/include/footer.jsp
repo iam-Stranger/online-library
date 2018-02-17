@@ -16,9 +16,6 @@
         <div class="row">
             <div class="col-md-12 text-center"> Copyright Aliaksei Loika 2017-2018 EPAM</div>
         </div>
-        <%--<div class="row">--%>
-            <%--<div class="col-md-12 text-center text-muted"> Today is <ctg:date-tag/></div>--%>
-        <%--</div>--%>
     </div>
 </nav>
 

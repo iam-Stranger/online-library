@@ -28,11 +28,6 @@ public class ConnectionPool {
     private BlockingQueue<ProxyConnection> queue;
     private final static int POOL_SIZE = Integer.parseInt(ConfigurationManager.getProperty("pool.size"));
 
-
-    /// !!!! UNDER CONSTRUCTION !!!!
-    // переделываю, к защите будет красивый новый пулл.
-
-
     /**
      * Instantiates a new connection pool.
      */
@@ -42,15 +37,11 @@ public class ConnectionPool {
         }
 
         queue = new ArrayBlockingQueue<>(POOL_SIZE);
-
         try {
-            if (initConnectionPool(POOL_SIZE)) {
-
-            } else {
-
-            }
+            initConnectionPool(POOL_SIZE);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.ERROR, "Connection pool was not created: " + e.getMessage());
+            throw new RuntimeException("Connection pool was not created: " + e.getMessage(), e);
         }
 
     }
@@ -147,6 +138,15 @@ public class ConnectionPool {
             }
         }
 
+    }
+
+    /**
+     * return pool size
+     *
+     * @return  int pool size
+     */
+    public int getPoolSize() {
+        return queue.size();
     }
 
     /* (non-Javadoc)

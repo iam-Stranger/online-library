@@ -24,8 +24,10 @@ public class ProxyConnection implements Connection {
         this.connection = connection;
     }
 
-    /* (non-Javadoc)
-     * @see java.sql.Connection#close()
+    /**
+     * Release connection to ConnectionPool
+     *
+     * @throws SQLException the SQL exception
      */
     @Override
     public void close() throws SQLException {

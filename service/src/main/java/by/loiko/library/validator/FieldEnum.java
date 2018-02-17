@@ -17,11 +17,11 @@ public enum FieldEnum {
 
     REAL_AMOUNT("\\d+", "real_amount", "Real amount is incorrect"),
 
-    GENRE("[^-0]+\\d*", "genre", "Genre ID is incorrect"),
+    GENRE("^[1-9]+\\d*$", "genre", "Genre ID is incorrect"),
 
-    AUTHOR("[^-0]+\\d*", "author", "Author ID is incorrect"),
+    AUTHOR("^[1-9]+\\d*$", "author", "Author ID is incorrect"),
 
-    TYPE("[A-ZА-ЯЁ]{1}[A-ZА-ЯЁa-zа-яё\\s]{2,48}", "type", "Genre type is incorrect"),
+    TYPE("[A-ZА-ЯЁ]{1}[A-ZА-ЯЁa-zа-яё\\s.]{2,48}", "type", "Genre type is incorrect"),
 
     NAME("[A-ZА-ЯЁ]{1}[A-ZА-ЯЁa-zа-яё\\s.]{2,48}", "name", "Author name is incorrect"),
 
