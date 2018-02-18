@@ -1,21 +1,10 @@
-/*
 package by.loiko.library.pool;
 
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-*/
-/***
- Author: Aliaksei Loika
- Date: 13.02.2018
- ***//*
 
 public class ConnectionPoolTest {
-
-    @BeforeMethod
-    public void setUp() throws Exception {
-    }
 
     @Test
     public void testGetInstance() throws Exception {
@@ -23,16 +12,15 @@ public class ConnectionPoolTest {
     }
 
     @Test
-    public void getConnectionTest() throws Exception {
+    public void testGetConnection() throws Exception {
         ConnectionPool.getInstance().getConnection();
     }
 
     @Test
-    public void testGetConnection() throws Exception {
-    }
-
-    @Test
-    public void testReleaseConnection() throws Exception {
+    public void testInitConnection() throws Exception {
+        int actual = ConnectionPool.getInstance().getPoolSize();
+        int expected = 49;
+        Assert.assertEquals(actual, expected);
     }
 
     @Test
@@ -43,4 +31,4 @@ public class ConnectionPoolTest {
     public void testClone() throws Exception {
         ConnectionPool.getInstance().clone();
     }
-}*/
+}

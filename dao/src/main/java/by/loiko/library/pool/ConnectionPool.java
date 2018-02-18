@@ -96,10 +96,9 @@ public class ConnectionPool {
      * Inits the connection pool.
      *
      * @param size the size
-     * @return true, if successful
      * @throws SQLException the SQL exception
      */
-    private boolean initConnectionPool(int size) throws SQLException {
+    private void initConnectionPool(int size) throws SQLException {
         DriverManager.registerDriver(new com.mysql.jdbc.Driver());
         for (int i = 0; i < size; i++) {
             try {
@@ -109,7 +108,7 @@ public class ConnectionPool {
             }
         }
 
-        return queue.size() == size;
+        queue.size();
     }
 
     /**
