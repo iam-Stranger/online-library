@@ -2,7 +2,6 @@ package by.loiko.library.controller;
 
 import by.loiko.library.command.Command;
 import by.loiko.library.command.CommandProvider;
-import by.loiko.library.pool.ConnectionPool;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,7 +45,7 @@ public class Controller extends HttpServlet {
 
     @Override
     public void destroy() {
-        ConnectionPool.getInstance().destroyConnectionPool();
+        //ConnectionPool.getInstance().destroyConnectionPool();
     }
 
 }
